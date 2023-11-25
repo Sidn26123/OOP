@@ -42,3 +42,8 @@ Gộp
   git merge <ten branch>
 
 ```
+
+Cập nhật thay đổi từ master trên github sang máy local
+```
+  git pull origin master
+```
