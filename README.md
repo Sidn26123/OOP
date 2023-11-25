@@ -26,5 +26,13 @@ git checkout -b <ten branch moi>
 
 ```
 
+Cập từ từ local lên github
+
+```
+  git remote add origin https://github.com/Sidn26123/OOP (thêm url, tên origin)
+
+  
+```
+
 
 
