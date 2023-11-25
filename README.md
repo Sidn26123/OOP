@@ -13,7 +13,8 @@ git clone https://github.com/Sidn26123/OOP.git
 git clone -b <ten-branch> https://github.com/Sidn26123/OOP.git
 
 Tạo và chuyển sang branch mới
-"""git checkout -b <ten branch moi> """
+```
+git checkout -b <ten branch moi> ```
 
 
 
