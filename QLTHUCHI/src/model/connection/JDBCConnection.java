@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package model.connection;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
@@ -10,11 +7,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-/**
- *
- * @author LENOVO
- */
 public class JDBCConnection {
     public static Connection getJDBCConnection(){
         String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=QLCT;encrypt = true;trustServerCertificate=true";
