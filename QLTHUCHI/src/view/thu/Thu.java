@@ -346,6 +346,8 @@ public class Thu extends javax.swing.JFrame {
                 return;
             }
             LogO log = new LogO();
+            
+            
             log.setID_Type(Integer.parseInt(id_Type));
             log.setNote(ghichu);
             log.setPrice(tienthu);

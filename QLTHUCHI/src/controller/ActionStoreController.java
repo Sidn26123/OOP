@@ -1,16 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
-
 import java.util.Vector;
 
 import model.objects.ActionStore;
 import model.objects.ActionStores;
+import model.objects.LogsDB;
 import model.objects.Logs;
-
 
 public class ActionStoreController {
     private ActionStores actionStore;
@@ -143,14 +137,14 @@ public class ActionStoreController {
             }
         }
         Vector<Object[]> data = new Vector<Object[]>();
-        data = new Logs().getDataWithCondition(conditionForFilter, conditionForSort);
+        data = new LogsDB().getDataWithCondition(conditionForFilter, conditionForSort);
         // Transactions transactions = new Transactions();
         // transactions.vectorToTransactions(data);
         // return transactions;
         return data;
     }
-    public Transactions backupPreviousAction(){
-        Transactions transactions = new Transactions();
+    public Logs backupPreviousAction(){
+        Logs transactions = new Logs();
         if(this.actionStore.getSize() > 0){
             ActionStore actionStoreItem = this.actionStore.getActionStoreAt(this.actionStore.getSize() - 1);
             if(actionStoreItem.getTypeAction().equals("add")){
@@ -162,8 +156,8 @@ public class ActionStoreController {
         }
         return transactions;
     }
-    public Transactions backupNextAction(){
-        Transactions transactions = new Transactions();
+    public Logs backupNextAction(){
+        Logs transactions = new Logs();
         if(this.actionStore.getSize() > 0){
             ActionStore actionStoreItem = this.actionStore.getActionStoreAt(this.actionStore.getSize() - 1);
             if(actionStoreItem.getTypeAction().equals("add")){
@@ -176,4 +170,3 @@ public class ActionStoreController {
         return transactions;
     }
 }
-
