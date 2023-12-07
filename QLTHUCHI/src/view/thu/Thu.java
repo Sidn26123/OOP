@@ -326,9 +326,9 @@ public class Thu extends javax.swing.JFrame {
 
             String ghichu = text_ghichu.getText();
 
-            Double tienthu = 0.0;
+            int tienthu = 0;
             try {
-                tienthu = Double.valueOf(String.valueOf(text_tienthu.getText()));
+                tienthu = Integer.valueOf(String.valueOf(text_tienthu.getText()));
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(Thu.this, "Vụi lòng nhập đúng số tiền!", "Thông báo",JOptionPane.OK_OPTION);
             }
@@ -348,8 +348,8 @@ public class Thu extends javax.swing.JFrame {
             LogO log = new LogO();
             log.setID_Type(Integer.parseInt(id_Type));
             log.setNote(ghichu);
-            log.setPrice((tienthu));
-            log.setDatesString(date);
+            log.setPrice(tienthu);
+            log.setDateString(Utils.Utils.converDateToString(date, "dd/MM/yyyy"));
             try {
                 logController.addLog(log);
                 JOptionPane.showMessageDialog(Thu.this, "Thành Công","Thông báo", JOptionPane.OK_OPTION);

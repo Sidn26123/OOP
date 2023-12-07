@@ -66,6 +66,8 @@ public class LogO {
         return DateString;
     }
 
+    
+    
     public void setDateString(String DateString) {
         this.DateString = DateString;
     }
@@ -94,26 +96,7 @@ public class LogO {
         Object[] row = new Object[structureString.length];
         for (int i = 0; i < structureString.length; i++) {
             switch (structureString[i].toString()) {
-                // case "id":
-                //     row[i] = this.id;
-                //     break;
-                // case "date":
-                //     row[i] = this.date;
-                //     break;
-                // case "note":
-                //     row[i] = this.note;
-                //     break;
-                // case "amount":
-                //     row[i] = this.amount;
-                //     break;
-                // case "categoryId":
-                //     row[i] = this.categoryId;
-                //     break;
-                // case "accountId":
-                //     row[i] = this.accountId;
-                //     break;
-                // default:
-                //     break;
+
                 case "ID_Log":
                     row[i] = this.ID_Log;
                     break;
