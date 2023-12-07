@@ -10,14 +10,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
-import model.objects.Logs;
-
+import model.objects.LogO;
+import Utils.Utils;
 /**
  *
  * @author LENOVO
  */
 public class LogModel {
-    public void addLog(Logs log){
+    public void addLog(LogO log){
         Connection connection = JDBCConnection.getJDBCConnection();
         String sql = "insert into Log (ID_Type, Price, Note, Date) values(?,?,?,?)";
         try {
@@ -25,9 +25,10 @@ public class LogModel {
             preparedStatement.setInt(1, log.getID_Type());
             preparedStatement.setDouble(2, log.getPrice());
             preparedStatement.setString(3,log.getNote());
-            Date utilDate = log.getDatesString();
-            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-            preparedStatement.setDate(4, sqlDate);
+            String utilDate = Utils.convertToSqlDate(log.getDateString());
+//            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+           
+            preparedStatement.setString(4, utilDate);
             int rs = preparedStatement.executeUpdate();
             System.out.println(rs);
         } catch (SQLException e) {

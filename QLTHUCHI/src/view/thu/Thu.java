@@ -16,8 +16,8 @@ import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
-import model.objects.Logs;
-import model.objects.Types;
+import model.objects.LogO;
+import model.objects.TypeO;
 import view.calculator.Calculator;
 
 /**
@@ -58,12 +58,12 @@ public class Thu extends javax.swing.JFrame {
         
         
         typeController = new TypeController();
-        List<Types> types = typeController.getAllTypeExpenses();
+        List<TypeO> types = typeController.getAllTypeExpenses();
         int length = types.size();
         int rows = (int)length/4 + 1;
         panel_danhmuc.setLayout(new GridLayout(rows,4));
         
-        for(Types type:types){
+        for(TypeO type:types){
             ImageIcon icon;
             JToggleButton toggleButton;
             if(!(type.getIcon_Path() == null)){
@@ -345,7 +345,7 @@ public class Thu extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(Thu.this, "Vui lòng chọn một danh mục!","Thông báo", JOptionPane.OK_OPTION);
                 return;
             }
-            Logs log = new Logs();
+            LogO log = new LogO();
             log.setID_Type(Integer.parseInt(id_Type));
             log.setNote(ghichu);
             log.setPrice((tienthu));
