@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 public class JDBCConnection {
     public static Connection getJDBCConnection(){
 //<<<<<<< HEAD
-        String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=QLCT;encrypt = true;trustServerCertificate=true";
+        String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=QLTC;encrypt = true;trustServerCertificate=true";
         String user = "sa";
         String password = "sa";
 
