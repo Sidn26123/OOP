@@ -15,7 +15,7 @@ public class DanhMucThu {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-
+        //s
         try {
             connection = JDBCConnection.getJDBCConnection();
             String sql = "SELECT DanhMuc FROM DANHMUCTT";
