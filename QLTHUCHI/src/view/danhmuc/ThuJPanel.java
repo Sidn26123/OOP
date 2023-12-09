@@ -11,13 +11,14 @@ import controller.DanhMucThu;
  * @author phanh
  */
 public class ThuJPanel extends javax.swing.JPanel {
-
+     private final int ID_User;
     /**
      * Creates new form ThuJPanel
      */
-    public ThuJPanel() {
+    public ThuJPanel(int ID_User) {
+        this.ID_User = ID_User;
         initComponents();
-        DanhMucThu.populateDanhmucComboBox(Danhmuc);
+        DanhMucThu.populateDanhmucComboBox(Danhmuc,ID_User);
     }
 
     /**
@@ -86,7 +87,7 @@ public class ThuJPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ThemMucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ThemMucActionPerformed
-       DanhMucThu.themMucActionPerformed(Danhmuc);
+       DanhMucThu.themMucActionPerformed(Danhmuc,ID_User);
     }//GEN-LAST:event_ThemMucActionPerformed
 
     private void XoaMucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_XoaMucActionPerformed
@@ -94,7 +95,7 @@ public class ThuJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_XoaMucActionPerformed
     
     private void SuaMucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SuaMucActionPerformed
-       DanhMucThu.SuaMucActionPerformed(Danhmuc);
+       DanhMucThu.SuaMucActionPerformed(Danhmuc,ID_User);
     }//GEN-LAST:event_SuaMucActionPerformed
 
 

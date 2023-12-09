@@ -11,21 +11,23 @@ import javax.swing.JOptionPane;
 public class DanhMucThu {
     
      // lấy danh mục trong cơ sở dữ liệu để đưa ra jcombobox
-    public static void populateDanhmucComboBox(JComboBox<String> Danhmuc) {
+    public static void populateDanhmucComboBox(JComboBox<String> Danhmuc,int ID_User) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         //
         try {
             connection = JDBCConnection.getJDBCConnection();
-            String sql = "SELECT DanhMuc FROM DANHMUCTT";
+            String sql = "SELECT Name_Type FROM Type WHERE ID_User = ? AND Receipts_Or_expenses = 1 OR ID_User = -1";
             preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, ID_User);  // Thiết lập giá trị tham số
+
             resultSet = preparedStatement.executeQuery();
 
             Danhmuc.removeAllItems();
 
             while (resultSet.next()) {
-                String danhMuc = resultSet.getString("DanhMuc");
+                String danhMuc = resultSet.getString("Name_Type");
                 Danhmuc.addItem(danhMuc);
             }
         } catch (SQLException e) {
@@ -48,13 +50,13 @@ public class DanhMucThu {
     }
     
      //Thêm mục 
-    public static void themMucActionPerformed(JComboBox<String> Danhmuc) {
+    public static void themMucActionPerformed(JComboBox<String> Danhmuc,int ID_User) {
         String newCategory = JOptionPane.showInputDialog(Danhmuc, "Thêm danh mục mới:");
         if (newCategory != null && !newCategory.trim().isEmpty()) {
-            if (!isCategoryAlreadyExists(newCategory, Danhmuc)) {
+            if (!isCategoryAlreadyExists(newCategory, Danhmuc,ID_User)) {
                 Danhmuc.addItem(newCategory);
                 Danhmuc.setSelectedItem(newCategory);
-                saveCategoryToDatabase(newCategory,Danhmuc);
+                saveCategoryToDatabase(newCategory,Danhmuc,ID_User);
             } else {
                 JOptionPane.showMessageDialog(Danhmuc, "Danh mục đã tồn tại.", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
@@ -64,15 +66,17 @@ public class DanhMucThu {
     }
     
     // lưu danh mục khi thêm vào cơ sở dữ liệu
-    private static void saveCategoryToDatabase(String newCategory, JComboBox<String> Danhmuc) {
+    private static void saveCategoryToDatabase(String newCategory, JComboBox<String> Danhmuc,int ID_User) {
     Connection connection = null;
     PreparedStatement preparedStatement = null;
 
     try {
         connection = JDBCConnection.getJDBCConnection();
-        String sql = "INSERT INTO DANHMUCTT (DanhMuc) VALUES (?)";
+        String sql = "INSERT INTO Type (Name_Type, ID_User, Receipts_Or_expenses) VALUES (?, ?, 1)";
         preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, newCategory);
+        preparedStatement.setInt(2, ID_User);
+
         int rowsAffected = preparedStatement.executeUpdate();
 
         if (rowsAffected > 0) {
@@ -97,7 +101,7 @@ public class DanhMucThu {
 }
 
      // Ràng buộc kiểm tra khi thêm và sửa danh mục có trùng trong cơ sở dữ liêu hay không
-    private static boolean isCategoryAlreadyExists(String newCategory, JComboBox<String> Danhmuc) {
+    private static boolean isCategoryAlreadyExists(String newCategory, JComboBox<String> Danhmuc,int ID_User) {
         String[] categories = getCategories(Danhmuc);
         for (String category : categories) {
             if (category.equalsIgnoreCase(newCategory.trim())) {
@@ -109,9 +113,11 @@ public class DanhMucThu {
         ResultSet resultSet = null;
         try {
             connection = JDBCConnection.getJDBCConnection();
-            String sql = "SELECT COUNT(*) FROM DANHMUCTT WHERE UPPER(DanhMuc) = UPPER(?)";
+            //Receipts_Or_expenses = 1 Tương ứng với danh mục thu, ID_User = -1 để lấy danh mục thu có sẵn lưu trong db
+            String sql = "SELECT COUNT(*) FROM Type WHERE UPPER(Name_Type) = UPPER(?)and (ID_User = ? AND Receipts_Or_expenses = 1 OR ID_User = -1)";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, newCategory.trim());
+            preparedStatement.setInt(2, ID_User); 
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next() && resultSet.getInt(1) > 0) {
@@ -178,7 +184,7 @@ public class DanhMucThu {
 
     try {
         connection = JDBCConnection.getJDBCConnection();
-        String sql = "DELETE FROM DANHMUCTT WHERE DanhMuc=?";
+        String sql = "DELETE FROM Type WHERE Name_Type=?";
         preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, selectedCategory);
         int rowsAffected = preparedStatement.executeUpdate();
@@ -205,7 +211,7 @@ public class DanhMucThu {
 }
 
     //Sửa mục
-    public static void SuaMucActionPerformed(JComboBox<String> Danhmuc) {                                       
+    public static void SuaMucActionPerformed(JComboBox<String> Danhmuc,int ID_User) {                                       
 
     String selectedCategory = (String) Danhmuc.getSelectedItem();
     if (selectedCategory == null || selectedCategory.trim().isEmpty()) {
@@ -214,7 +220,7 @@ public class DanhMucThu {
     }
     String newCategory = JOptionPane.showInputDialog(Danhmuc, "Nhập tên danh mục mới:", selectedCategory);
     if (newCategory != null && !newCategory.trim().isEmpty()) {
-        if (!isCategoryAlreadyExists(newCategory,Danhmuc)) {
+        if (!isCategoryAlreadyExists(newCategory,Danhmuc,ID_User)) {
             Danhmuc.removeItem(selectedCategory);
             Danhmuc.addItem(newCategory);
             Danhmuc.setSelectedItem(newCategory);
@@ -234,7 +240,7 @@ public class DanhMucThu {
 
     try {
         connection = JDBCConnection.getJDBCConnection();
-        String sql = "UPDATE DANHMUCTT SET DanhMuc=? WHERE DanhMuc=?";
+        String sql = "UPDATE Type SET Name_Type=? WHERE Name_Type=?";
         preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, newCategory);
         preparedStatement.setString(2, oldCategory);
@@ -260,12 +266,5 @@ public class DanhMucThu {
             e.printStackTrace();
         }
     }
-}
-    
-  
-    
-    
-    
-    
-    
+}  
 }
