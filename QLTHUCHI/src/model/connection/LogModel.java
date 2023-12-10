@@ -19,7 +19,7 @@ import Utils.Utils;
 public class LogModel {
     public void addLog(LogO log){
         Connection connection = JDBCConnection.getJDBCConnection();
-        String sql = "insert into Log (ID_Type, Price, Note, Date) values(?,?,?,?)";
+        String sql = "insert into Log (ID_Type, Price, Note, Date, User_ID) values(?,?,?,?,?)";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, log.getID_Type());
@@ -29,6 +29,7 @@ public class LogModel {
 //            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
            
             preparedStatement.setString(4, utilDate);
+            preparedStatement.setInt(5,log.getUser_ID());
             int rs = preparedStatement.executeUpdate();
             System.out.println(rs);
         } catch (SQLException e) {
