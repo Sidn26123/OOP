@@ -18,7 +18,7 @@ public class DanhMucChi {
         //
         try {
             connection = JDBCConnection.getJDBCConnection();
-            String sql = "SELECT Name_Type FROM Type WHERE (ID_User = ? OR ID_User = -2) and (Receipts_Or_expenses = 0)";
+            String sql = "SELECT Name_Type FROM Type WHERE (ID_User = ? OR ID_User = -2) and (Receipts_Or_expenses = 1)";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, ID_User);  // Thiết lập giá trị tham số
 
@@ -72,7 +72,7 @@ public class DanhMucChi {
 
     try {
         connection = JDBCConnection.getJDBCConnection();
-        String sql = "INSERT INTO Type (Name_Type, ID_User, Receipts_Or_expenses) VALUES (?, ?, 0)";
+        String sql = "INSERT INTO Type (Name_Type, ID_User, Receipts_Or_expenses) VALUES (?, ?, 1)";
         preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, newCategory);
         preparedStatement.setInt(2, ID_User);
@@ -114,7 +114,7 @@ public class DanhMucChi {
         try {
             connection = JDBCConnection.getJDBCConnection();
                                             //Receipts_Or_expenses = 0 Tương ứng với danh mục chi, ID_User = -2 để lấy danh mục chi có sẵn lưu trong db
-            String sql = "SELECT COUNT(*) FROM Type WHERE UPPER(Name_Type) = UPPER(?) and ((ID_User = ? OR ID_User = -2) and (Receipts_Or_expenses = 0))";
+            String sql = "SELECT COUNT(*) FROM Type WHERE UPPER(Name_Type) = UPPER(?) and ((ID_User = ? OR ID_User = -2) and (Receipts_Or_expenses = 1))";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, newCategory.trim());
              preparedStatement.setInt(2, ID_User);

@@ -14,11 +14,13 @@ import java.util.Enumeration;
 import java.util.List;
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
 import model.objects.LogO;
 import model.objects.TypeO;
 import view.calculator.Calculator;
+import view.danhmuc.ThuJPanel;
 
 /**
  *
@@ -307,7 +309,15 @@ public class Thu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void button_chinhsua1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_chinhsua1ActionPerformed
-        // TODO add your handling code here:
+        
+    int userID = 1;
+    ThuJPanel thuJPanel = new ThuJPanel(userID);
+    JFrame newFrame = new JFrame("Chỉnh sửa");
+    newFrame.getContentPane().add(thuJPanel);
+    newFrame.setSize(330, 150);
+    newFrame.setLocationRelativeTo(null);
+    newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    newFrame.setVisible(true);// TODO add your handling code here:
     }//GEN-LAST:event_button_chinhsua1ActionPerformed
 
     private void text_ghichuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_ghichuActionPerformed
@@ -370,13 +380,13 @@ public class Thu extends javax.swing.JFrame {
         
     }//GEN-LAST:event_button_calculatorActionPerformed
 
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Thu(1).setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new Thu(1).setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
