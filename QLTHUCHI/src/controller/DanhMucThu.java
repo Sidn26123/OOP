@@ -18,7 +18,7 @@ public class DanhMucThu {
         //
         try {
             connection = JDBCConnection.getJDBCConnection();
-            String sql = "SELECT Name_Type FROM Type WHERE ID_User = ? AND Receipts_Or_expenses = 1 OR ID_User = -1";
+            String sql = "SELECT Name_Type FROM Type WHERE (ID_User = ? OR ID_User = -1) and (Receipts_Or_expenses = 1)";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, ID_User);  // Thiết lập giá trị tham số
 
@@ -114,7 +114,7 @@ public class DanhMucThu {
         try {
             connection = JDBCConnection.getJDBCConnection();
             //Receipts_Or_expenses = 1 Tương ứng với danh mục thu, ID_User = -1 để lấy danh mục thu có sẵn lưu trong db
-            String sql = "SELECT COUNT(*) FROM Type WHERE UPPER(Name_Type) = UPPER(?)and (ID_User = ? AND Receipts_Or_expenses = 1 OR ID_User = -1)";
+            String sql = "SELECT COUNT(*) FROM Type WHERE UPPER(Name_Type) = UPPER(?)and ((ID_User = ? OR ID_User = -1) and (Receipts_Or_expenses = 1))";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, newCategory.trim());
             preparedStatement.setInt(2, ID_User); 
