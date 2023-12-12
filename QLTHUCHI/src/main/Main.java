@@ -8,9 +8,6 @@ public class Main {
                 LoginFrame.setVisible(true);
                 LoginFrame.pack();
                 LoginFrame.setLocationRelativeTo(null);
-//                new Login().setVisible(true);
-
-//                new Login().setVisible(true);
             }
         });
     }
