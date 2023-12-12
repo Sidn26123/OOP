@@ -1,15 +1,18 @@
 
 package main;
 
+import LoginSignup.View.Login;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import view.thu.Test;
+import view.calendar.Calendars;
+import view.family.Family;
 import view.thu.Thu;
 
 public class MainBoard extends javax.swing.JFrame {
     private int id_user;
     JPanel panel_thu;
-    JPanel testJPanel;
+    JPanel panel_calendar;
+    JPanel panel_family;
     
     public MainBoard(int id_user) {
         this.id_user = id_user;
@@ -29,6 +32,7 @@ public class MainBoard extends javax.swing.JFrame {
         button_chart = new javax.swing.JButton();
         button_calendar = new javax.swing.JButton();
         button_dotted = new javax.swing.JButton();
+        button_family = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,10 +68,27 @@ public class MainBoard extends javax.swing.JFrame {
         });
 
         button_chart.setPreferredSize(new java.awt.Dimension(48, 48));
+        button_chart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_chartActionPerformed(evt);
+            }
+        });
 
         button_calendar.setPreferredSize(new java.awt.Dimension(48, 48));
+        button_calendar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_calendarActionPerformed(evt);
+            }
+        });
 
         button_dotted.setPreferredSize(new java.awt.Dimension(48, 48));
+
+        button_family.setPreferredSize(new java.awt.Dimension(48, 48));
+        button_family.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_familyActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -83,7 +104,8 @@ public class MainBoard extends javax.swing.JFrame {
                             .addComponent(button_thu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(button_chart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(button_calendar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(button_dotted, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(button_dotted, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(button_family, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(13, 13, 13)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(panel_parent, javax.swing.GroupLayout.PREFERRED_SIZE, 632, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -94,15 +116,17 @@ public class MainBoard extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(button_thu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
-                .addComponent(button_chi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addComponent(button_chart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
+                .addComponent(button_chi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addComponent(button_chart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
                 .addComponent(button_calendar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addGap(18, 18, 18)
+                .addComponent(button_family, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
                 .addComponent(button_dotted, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                 .addComponent(button_logout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(48, 48, 48))
             .addComponent(panel_parent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -116,7 +140,7 @@ public class MainBoard extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
         );
 
         pack();
@@ -124,7 +148,10 @@ public class MainBoard extends javax.swing.JFrame {
 
     private void button_logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_logoutActionPerformed
         this.setVisible(false);
-//        new Login().setVisible(true);
+        Login LoginFrame = new Login();
+        LoginFrame.setVisible(true);
+        LoginFrame.pack();
+        LoginFrame.setLocationRelativeTo(null);
     }//GEN-LAST:event_button_logoutActionPerformed
 
     private void button_thuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_thuActionPerformed
@@ -137,37 +164,57 @@ public class MainBoard extends javax.swing.JFrame {
     private void button_chiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_chiActionPerformed
         
     }//GEN-LAST:event_button_chiActionPerformed
+
+    private void button_chartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_chartActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_button_chartActionPerformed
+
+    private void button_calendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_calendarActionPerformed
+        panel_parent.removeAll();
+        panel_parent.add(panel_calendar);
+        panel_parent.repaint();
+        panel_parent.revalidate();
+    }//GEN-LAST:event_button_calendarActionPerformed
+
+    private void button_familyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_familyActionPerformed
+        panel_parent.removeAll();
+        panel_parent.add(panel_family);
+        panel_parent.repaint();
+        panel_parent.revalidate();
+    }//GEN-LAST:event_button_familyActionPerformed
     
     private void setDefaultThings(){
         panel_thu = new JPanel();
         Thu thu = new Thu(id_user);
         panel_thu.add(thu.getContentPane());
+        
+        panel_calendar = new JPanel();
+        Calendars calendar = new Calendars(id_user);
+        panel_calendar.add(calendar);
+        
+        panel_family = new JPanel();
+        Family family = new Family(id_user);
+        panel_family.add(family.getContentPane());
+        
         panel_parent.add(panel_thu);
 
         
-        button_thu.setIcon(new ImageIcon("src\\source\\img\\Thu_Chi\\icons8-get-revenue-48.png"));
+        button_thu.setIcon(new ImageIcon("src\\source\\img\\Thu_Chi\\icons8-coin-wallet-48.png"));
         button_thu.setSelected(true);
         
-        button_chi.setIcon(new ImageIcon("src\\source\\img\\Thu_Chi\\icons8-donate-48.png"));
+        button_chi.setIcon(new ImageIcon("src\\source\\img\\Thu_Chi\\icons8-money-transfer-48.png"));
         button_chart.setIcon(new ImageIcon("src\\source\\img\\Thu_Chi\\icons8-chart-48.png"));
         button_calendar.setIcon(new ImageIcon("src\\source\\img\\Thu_Chi\\icons8-calendar-48.png"));
         button_dotted.setIcon(new ImageIcon("src\\source\\img\\Thu_Chi\\icons8-more-48.png"));
+        button_family.setIcon(new ImageIcon("src\\source\\img\\Thu_Chi\\icons8-house-48.png"));
     }
-
-    public static void main(String args[]) {
-
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainBoard(1).setVisible(true);
-            }
-        });
-    }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button_calendar;
     private javax.swing.JButton button_chart;
     private javax.swing.JButton button_chi;
     private javax.swing.JButton button_dotted;
+    private javax.swing.JButton button_family;
     private javax.swing.JButton button_logout;
     private javax.swing.JButton button_thu;
     private javax.swing.JPanel jPanel1;
