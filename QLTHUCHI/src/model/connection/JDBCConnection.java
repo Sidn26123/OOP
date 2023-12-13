@@ -7,21 +7,22 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import Utils.ConfigFile;
 public class JDBCConnection {
     public static Connection getJDBCConnection(){
-<<<<<<< HEAD
+        ConfigFile c = new ConfigFile();
 //<<<<<<< HEAD
-        String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=QLTHUCHI;encrypt = true;trustServerCertificate=true";
-        String user = "sa";
-        String password = "123456789";
-
-=======
-        if (false){
+////<<<<<<< HEAD
+//        String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=QLTHUCHI;encrypt = true;trustServerCertificate=true";
+//        String user = "sa";
+//        String password = "123456789";
+//
+//=======
+        if (c.getDB() == "SQLServer"){
         String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=QLTHUCHI;encrypt = true;trustServerCertificate=true";
         String user = "sa";
         String password = "123456789";
    
->>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
         try {
             Connection connection = DriverManager.getConnection(url,user, password);
             System.out.println("Connect successful");

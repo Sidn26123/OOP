@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,22 +8,17 @@ import java.util.Vector;
 import model.objects.ActionStore;
 import model.objects.LogO;
 import model.objects.Logs;
+import model.objects.LogsDB;
 /**
  *
  * @author sidac
  */
-=======
-package controllers;
 import java.util.Vector;
 
-import com.mysql.cj.util.Util;
+//import com.mysql.cj.util.Util;
 
 import Utils.Utils;
-import models.ActionStore;
-import models.LogO;
-import models.Logs;
-import models.LogsDB;
->>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
+
 public class LogsController {
     private Logs logs;
     public LogsController(){
@@ -108,8 +102,6 @@ public class LogsController {
         }
         return data;
     }
-<<<<<<< HEAD
-=======
     public void filter(Vector<Object[]> conditionsForFilter, Vector<Object[]> conditionsForSort){
         Logs logs = new Logs();
         for (Object[] item : conditionsForFilter){
@@ -154,7 +146,7 @@ public class LogsController {
             }
         }
         Vector<Object[]> data = new Vector<Object[]>();
-        data = new LogsDB().getDataWithCondition(conditionForFilter, conditionForSort);
+            data = new LogsDB().getDataWithCondition(conditionForFilter, conditionForSort);
         for (Object[] item : data){
             logs.addLog(new LogO((int)item[0], (int)item[1], (int)item[2], (String)item[3], (String)item[4]));
         }
@@ -165,5 +157,4 @@ public class LogsController {
         this.logs = logs;
 
     }
->>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
 }

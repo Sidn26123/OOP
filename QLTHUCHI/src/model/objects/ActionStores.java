@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model.objects;
 
 /**
@@ -22,42 +16,40 @@ import model.objects.TypeO;
 import model.objects.LogO;
 import model.objects.LogsDB;
 
-public class ActionStores {
-    private int indexOfActionStore; //index hiện tại của action
-    private Vector<ActionStore> actionStore; //lưu các hành động thêm, xóa, sửa vào đây
-    
-    public ActionStores() {
-        this.indexOfActionStore = -1;
-        this.actionStore = new Vector<>();
-    }
+//public class ActionStores {
+//    private int indexOfActionStore; //index hiện tại của action
+//    private Vector<ActionStore> actionStore; //lưu các hành động thêm, xóa, sửa vào đây
+//    
+//    public ActionStores() {
+//        this.indexOfActionStore = -1;
+//        this.actionStore = new Vector<>();
+//    }
+//
+//    public ActionStore getActionStoreAt(int index) {
+//        return this.actionStore.get(index);
+//    }
+//    
+//
+//    public int getSize(){
+//        return this.actionStore.size();
+//    }
+//
+//    public int getIndexOfActionStore() {
+//        return indexOfActionStore;
+//    }
+//
+//    public void setIndexOfActionStore(int indexOfActionStore) {
+//        this.indexOfActionStore = indexOfActionStore;
+//    }
+//
+//    public Vector<ActionStore> getActionStore() {
+//        return actionStore;
+//    }
+//
+//    public ActionStore getLastActionStore(){
+//        if(this.actionStore.size() > 0){
+//            return this.actionStore.get(this.actionStore.size() - 1);
 
-    public ActionStore getActionStoreAt(int index) {
-        return this.actionStore.get(index);
-    }
-    
-
-    public int getSize(){
-        return this.actionStore.size();
-    }
-
-    public int getIndexOfActionStore() {
-        return indexOfActionStore;
-    }
-
-    public void setIndexOfActionStore(int indexOfActionStore) {
-        this.indexOfActionStore = indexOfActionStore;
-    }
-
-    public Vector<ActionStore> getActionStore() {
-        return actionStore;
-    }
-
-    public ActionStore getLastActionStore(){
-        if(this.actionStore.size() > 0){
-            return this.actionStore.get(this.actionStore.size() - 1);
-=======
-package models;
-import java.util.Vector;
 
 public class ActionStores {
     private Vector<ActionStore> actionStores; //lưu các hành động thêm, xóa, sửa vào đây
@@ -102,29 +94,11 @@ public class ActionStores {
     public ActionStore getLastAction(){
         if(this.actionStores.size() > 0){
             return this.actionStores.get(this.actionStores.size() - 1);
->>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
         }
         return null;
     }
     
-<<<<<<< HEAD
-    public void addTransaction(LogO logO){
-        ActionStore actionStoreItem = new ActionStore(logO, "add", this.actionStore.size());
-        this.actionStore.add(actionStoreItem);
-        this.indexOfActionStore = this.actionStore.size() - 1;
-    }
 
-    public void deleteTransaction(LogO logO){
-        ActionStore actionStoreItem = new ActionStore(logO, "delete", this.actionStore.size());
-        this.actionStore.add(actionStoreItem);
-        this.indexOfActionStore = this.actionStore.size() - 1;
-    }
-
-    public void updateTransaction(LogO logO){
-        ActionStore actionStoreItem = new ActionStore(logO, "update", this.actionStore.size());
-        this.actionStore.add(actionStoreItem);
-        this.indexOfActionStore = this.actionStore.size() - 1;
-=======
     public void addAction(ActionStore actionStoreItem){
         this.actionStores.add(actionStoreItem);
         this.indexOfActionStores = this.actionStores.size();
@@ -155,15 +129,11 @@ public class ActionStores {
         this.actionStores.addElement(actionStoresItem);
         this.indexOfActionStores = this.actionStores.size() - 1;
 
->>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
     }
 
 
 
-<<<<<<< HEAD
 
-
-=======
     /**
      * Xóa action tại index
      * @param index
@@ -267,5 +237,4 @@ public class ActionStores {
             System.out.println("ID: "+ this.actionStores.get(i).getData().getID() + " Amount: " + this.actionStores.get(i).getData().getPrice() + " Type: " + this.actionStores.get(i).getTypeAction() + " Index: " + this.actionStores.get(i).getIndex());
         }
     }
->>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
 }

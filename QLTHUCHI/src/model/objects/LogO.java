@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -10,11 +9,7 @@ import java.util.Date;
  *
  * @author LENOVO
  */
-=======
-package models;
-import java.util.Date;
 
->>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
 public class LogO {
     private int ID_Log;
     private int ID_Type;
@@ -72,11 +67,7 @@ public class LogO {
         return DateString;
     }
 
-<<<<<<< HEAD
-    
-    
-=======
->>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
+
     public void setDateString(String DateString) {
         this.DateString = DateString;
     }
@@ -96,23 +87,14 @@ public class LogO {
     public void setGroup_ID(int Group_ID) {
         this.Group_ID = Group_ID;
     }
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
     public Object[] toArray() {
         return new Object[] {ID_Log, ID_Type, Price, Note, DateString};
     }
 
-<<<<<<< HEAD
-    public Object[] toRowTable(Object[] structureString){
-        Object[] row = new Object[structureString.length];
-        for (int i = 0; i < structureString.length; i++) {
-            switch (structureString[i].toString()) {
 
-=======
-        public Object[] toRowTable(Object[] structureString){
+
+    public Object[] toRowTable(Object[] structureString){
         Object[] row = new Object[structureString.length];
         for (int i = 0; i < structureString.length; i++) {
             switch (structureString[i].toString()) {
@@ -136,7 +118,6 @@ public class LogO {
                 //     break;
                 // default:
                 //     break;
->>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
                 case "ID_Log":
                     row[i] = this.ID_Log;
                     break;

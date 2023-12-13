@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -10,9 +9,6 @@ package model.objects;
  *
  * @author sidac
  */
-public class Types {
-=======
-package models;
 import java.sql.Connection;
 import Utils.Utils;
 import Utils.MyJDBCFuncLib;
@@ -57,7 +53,6 @@ public class Types {
     //         e.printStackTrace();
     //     }
     // }
->>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
     
     public void clearData(){
         String sql = "DELETE FROM Category";

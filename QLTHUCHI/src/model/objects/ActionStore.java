@@ -1,30 +1,6 @@
-<<<<<<< HEAD
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package model.objects;
 
-
-
-public class ActionStore {
-        private LogO typeData;
-        private String typeAction; // "add" or "delete" or "update"
-        private int index; //các hành động được thực hiện nhiều cái trong 1 lần (xóa nhiều item) thì sẽ có cùng index
-        public ActionStore(LogO typeData, String typeAction, int index) {
-            this.typeData = typeData;
-            this.typeAction = typeAction;
-            this.index = index;
-        }
-        public LogO getTypeData() {
-            return typeData;
-        }
-
-        public void setTypeData(LogO typeData) {
-            this.typeData = typeData;
-=======
-package models;
 
 
 public class ActionStore {
@@ -57,7 +33,6 @@ public class ActionStore {
 
         public void setData(LogO data) {
             this.data = data;
->>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
         }
 
         public String getTypeAction() {
@@ -76,7 +51,6 @@ public class ActionStore {
             this.index = index;
         }
 
-<<<<<<< HEAD
         // public int getID(){
         //     return this.typeData.getID_Type();
         // }
@@ -95,7 +69,6 @@ public class ActionStore {
 
         // public int isReceiptsOrExpenses(){
         //     return this.typeData.isReceipts_Or_Expenses();
-=======
         public int getIndexInTable() {
             return indexInTable;
         }
@@ -121,7 +94,6 @@ public class ActionStore {
 
         // public int isReceiptsOrExpenses(){
         //     return this.data.isReceipts_Or_Expenses();
->>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
         // }
 
 
