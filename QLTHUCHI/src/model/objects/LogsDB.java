@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,6 +10,9 @@ package model.objects;
  *
  * @author sidac
  */
+=======
+package models;
+>>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,6 +21,7 @@ import java.sql.SQLException;
 import javax.swing.plaf.nimbus.State;
 import Utils.Utils;
 import java.sql.Date;
+<<<<<<< HEAD
 //import model.JDBCConnection;
 import java.sql.Statement;
 import java.util.List;
@@ -26,12 +31,28 @@ public class LogsDB {
     public Connection getConnection(){
         JDBCConnection myJDBCFuncLib = new JDBCConnection();
         return myJDBCFuncLib.getJDBCConnection();
+=======
+
+import Utils.ConfigFile;
+import Utils.MyJDBCFuncLib;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Vector;
+public class LogsDB {
+    private ConfigFile configFile = new ConfigFile();
+    private boolean isMySQL = configFile.getDB() == "MySQL" ? true : false;
+    public Connection getConnection(){
+        MyJDBCFuncLib myJDBCFuncLib = new MyJDBCFuncLib();
+        return myJDBCFuncLib.getConnection();
+>>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
     }
 
     //create table
     public void createTable(){
         Connection con = getConnection();
         String createTableSQL = "CREATE TABLE Log (" +
+<<<<<<< HEAD
         "id INT AUTO_INCREMENT PRIMARY KEY," +
         "category_id INT," +  // Thêm trường category_id để tham chiếu đến bảng Category
         "FOREIGN KEY (category_id) REFERENCES Category(id)," +  // Đặt đúng vị trí của dấu đóng ngoặc
@@ -39,6 +60,16 @@ public class LogsDB {
         "note NVARCHAR(255)," +
         "date DATE,"+ 
         "date_created DATETIME DEFAULT CURRENT_TIMESTAMP);";
+=======
+            "id INT PRIMARY KEY " + (isMySQL ? "AUTO_INCREMENT" : "IDENTITY(1,1)") + "," +
+            "category_id INT," +
+            "FOREIGN KEY (category_id) REFERENCES Category(id)," +
+            "amount INT," +
+            "note NVARCHAR(255)," +
+            "date " + (isMySQL ? "DATE" : "DATETIME") + "," +
+            "date_created " + (isMySQL ? "DATETIME DEFAULT CURRENT_TIMESTAMP" : "DATETIME DEFAULT GETDATE()") + ");";
+
+>>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
         try(PreparedStatement ps = con.prepareStatement(createTableSQL)){
             ps.executeUpdate();
         }
@@ -155,9 +186,23 @@ public class LogsDB {
     }
     public Object[][] getData(String date, int id){
         Connection con = getConnection();
+<<<<<<< HEAD
         String countSql = "SELECT COUNT(*) AS row_count FROM Log "+
                         "WHERE date = '"+Utils.convertToSqlDate(date)+"' " +
                         "AND category_id = " + id;
+=======
+        String countSql = "";
+        if (id == -1){
+            countSql = "SELECT COUNT(*) AS row_count FROM Log "+
+                        "WHERE date = '"+Utils.convertToSqlDate(date);
+        }
+        else{
+            countSql = "SELECT COUNT(*) AS row_count FROM Log "+
+                        "WHERE date = '"+Utils.convertToSqlDate(date)+"' " +
+                        "AND category_id = " + id;
+        }
+
+>>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
         int rowCount = 0;
         try (PreparedStatement countStatement = con.prepareStatement(countSql)) {
             try (ResultSet countResult = countStatement.executeQuery()) {
@@ -243,6 +288,56 @@ public class LogsDB {
 
         return ans;
     }
+<<<<<<< HEAD
+=======
+    
+    public Vector<LogO> getDataOfMode(String date, int mode){
+        Connection con = getConnection();
+        String countSql = "SELECT COUNT(*) AS row_count FROM Log "+
+                        "WHERE date = '"+Utils.convertToSqlDate(date)+"' " +
+                        "AND type = '" + mode + "'";
+        int rowCount = 0;
+        try (PreparedStatement countStatement = con.prepareStatement(countSql)) {
+            try (ResultSet countResult = countStatement.executeQuery()) {
+                if (countResult.next()) {
+                    rowCount = countResult.getInt("row_count");
+                }
+            }
+        }
+        catch(Exception e){
+            ;
+        }
+        // Object[][] ans = new Object[rowCount][5];
+        Vector<LogO> ans = new Vector<LogO>();
+        String sql = "SELECT * FROM Log "+
+                        "WHERE date = '"+Utils.convertToSqlDate(date)+"' " +
+                        "AND type = '" + mode + "'";
+        int i = 0;
+        try(PreparedStatement ps = con.prepareStatement(sql)){
+            try (ResultSet rs = ps.executeQuery()){
+                while (rs.next()){
+                    // s += "ID: " + rs.getInt("id") +", cateID: " + rs.getInt("category_id") + ", Amount: " + rs.getInt("amount") +
+                    //                     ", Note: " + rs.getString("note") + ", Date Created: " + rs.getString("date_created") + "\n";
+                    // ans[i][0] = rs.getInt("id");
+                    // ans[i][1] = rs.getInt("category_id");
+                    // ans[i][2] = rs.getInt("amount");
+                    // ans[i][3] = rs.getString("note");
+                    // ans[i][4] = rs.getString("date_created");
+
+                    // i++;
+                    ans.add(new LogO(rs.getInt("id"), rs.getInt("category_id"), rs.getInt("amount"), rs.getString("note"), rs.getString("date")));
+                }
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        String s = "";
+
+        return ans;
+    }
+    
+>>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
     /**
      * Lọc transaction theo các điều kiện và sắp xếp theo các điều kiện
      * @param conditions Vector<String>
@@ -273,9 +368,16 @@ public class LogsDB {
             }
         }
 
+<<<<<<< HEAD
         String sql = "SELECT * FROM Log "+ whereString + " " + orderString;
         System.out.println(sql);
         try(PreparedStatement ps = con.prepareStatement(sql)){
+=======
+        String sql = "SELECT * FROM Log ? ?";
+        try(PreparedStatement ps = con.prepareStatement(sql)){
+            ps.setString(1, whereString);
+            ps.setString(2, orderString);
+>>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
             try (ResultSet rs = ps.executeQuery()){
                 ans = new Vector<Object[]>();
                 while (rs.next()){
@@ -285,7 +387,10 @@ public class LogsDB {
                     item[2] = rs.getInt("amount");
                     item[3] = rs.getString("note");
                     item[4] = rs.getString("date_created");
+<<<<<<< HEAD
                     System.out.println(item[5]);
+=======
+>>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
                     ans.add(item);
                 }
             }
@@ -371,10 +476,19 @@ public class LogsDB {
         String sqlDate = Utils.convertToSqlDate(date);
         Connection con = getConnection();
         String sql = "SELECT SUM(amount) FROM Log " +
+<<<<<<< HEAD
                     "WHERE amount > 0 AND date = '"+sqlDate +"' " +
                     "AND category_id = " + item +
                     " GROUP BY DATE(date)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
+=======
+                    "WHERE amount > 0 AND date = '?' " +
+                    "AND category_id = ? " +
+                    " GROUP BY DATE(date)";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, sqlDate);
+            ps.setInt(2, item);
+>>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
             try (ResultSet rs = ps.executeQuery()) {
                 // Lặp qua kết quả nếu có
                 while (rs.next()) {
@@ -399,8 +513,17 @@ public class LogsDB {
     public Object[] getFirstItemInCateWithTypeSum(String date, int type){
         String sqlDate = Utils.convertToSqlDate(date);
         Connection con = getConnection();
+<<<<<<< HEAD
         String preSql = "SELECT id FROM Category WHERE type = '"+ type +"' LIMIT 1";
 
+=======
+        String preSql;
+        if (isMySQL) {
+            preSql = "SELECT id FROM Category WHERE type = ? LIMIT 1";
+        } else {
+            preSql = "SELECT TOP 1 id FROM Category WHERE type = ?";
+        }
+>>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
         ResultSet rs1 = null;
         int firstCateID = 0;
         Object[] ans = new Object[2];
@@ -413,6 +536,10 @@ public class LogsDB {
         //     e.printStackTrace();
         // }
         try (PreparedStatement ps = con.prepareStatement(preSql)) {
+<<<<<<< HEAD
+=======
+            ps.setInt(1, type);
+>>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
             try (ResultSet rs = ps.executeQuery()) {
                 // Lặp qua kết quả nếu có
                 while (rs.next()) {
@@ -488,11 +615,20 @@ public class LogsDB {
         String sql = "SELECT SUM(T.amount), C.type, T.date " +
         "FROM Log T " +
         "INNER JOIN Category C ON C.id = T.category_id " +
+<<<<<<< HEAD
         "WHERE T.date >= '" + startDate + "' AND T.date <= '" + endDate + "' " + 
+=======
+        "WHERE T.date >= '?' AND T.date <= '?' " + 
+>>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
         "GROUP BY C.type, T.date" + 
         " ORDER BY T.date";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
+<<<<<<< HEAD
+=======
+            ps.setString(1, startDate);
+            ps.setString(2, endDate);
+>>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
             try (ResultSet rs = ps.executeQuery()) {
                 while(rs.next()){
                     double sumAmount = rs.getInt(1);
@@ -502,16 +638,22 @@ public class LogsDB {
                     rawData[i][1] = type;
                     rawData[i][2] = Utils.convertSqlDateToString(curDate);
                     endRawDataDate = rawData[i][2].toString(); //Lấy ngày cuối cùng trong rawData (được cập nhật lần cuối thì đó là ngày cuối)
+<<<<<<< HEAD
                     // System.out.println("i: " + i + " type: " + type + " sum: " + sumAmount + " date: " + Utils.convertSqlDateToString(curDate));
+=======
+>>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
                     i++;
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+<<<<<<< HEAD
         // for (Object[] item : rawData) {
         //     System.out.println("Amount: "  + item[0].toString() + " type: " + item[1].toString() + " " + item[2]);
         // }
+=======
+>>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
 
         Object[][] ans = new Object[n][3]; //ans có dạng 1 mảng, mỗi ptu có dạng [tổng thu, tổng chi, ngày (dd/MM/yyyy)]
         for (i=0; i < n; i++){
@@ -523,7 +665,10 @@ public class LogsDB {
         String curDate = Utils.getDateFormattedWithOffset(dateStartInput, "d", 0);
         boolean flag = true; //Đánh dấu cho việc hết data trong mảng rawData, flag = false khi hết data
         for (int j = 0; j<n; j++){
+<<<<<<< HEAD
             // System.out.println("j: " + j + " ind: " + ind + " curDate: " + curDate + " rawData[ind][2]: " + rawData[ind][2]);
+=======
+>>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
             curDate = Utils.getDateFormattedWithOffset(dateStartInput, "d", j);
             //Nếu bắt đầu gặp null
             if (!flag || rawData[ind][2] == null){
@@ -534,8 +679,11 @@ public class LogsDB {
             }
             else{
                 int diff = Utils.calDateDiffBetweenToDate(curDate,(String)rawData[ind][2],  "dd/MM/yyyy"); //Số ngày giữa 2 ngày curDate và rawData ở ind
+<<<<<<< HEAD
                 // System.out.println("diff: " + diff + " curDate: " + curDate + " rawData[ind][2]: " + rawData[ind][2]);
                 // System.out.println("Amount: "  + rawData[ind][0].toString() + " type: " + rawData[ind][1].toString() + " " + rawData[ind][2]);
+=======
+>>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
                 if (diff == 0 ){
                     
                     ans[j][(int)rawData[ind][1]] = (int)rawData[ind][0]; //ans[j][type] = rawData[sum]
@@ -558,7 +706,11 @@ public class LogsDB {
                 }
             }
         }
+<<<<<<< HEAD
             ans[n-1][(int)rawData[ind][1]] = (int)rawData[ind][0]; //Đảm bảo item cuối cùng không bị bỏ sót vì ind++ và j thì = n-1 => không lấy đc phần tử ind++;
+=======
+            // ans[n-1][(int)rawData[ind][1]] = (int)rawData[ind][0]; //Đảm bảo item cuối cùng không bị bỏ sót vì ind++ và j thì = n-1 => không lấy đc phần tử ind++;
+>>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
 
     // for (Object[] item : ans) {
     //     System.out.println(item[0].toString() + " " + item[1].toString() + " " + item[2]);
@@ -566,6 +718,17 @@ public class LogsDB {
     return ans;
 
     }
+<<<<<<< HEAD
+=======
+
+    public Object[][] getDatasOfMonth(int month, int year){
+        String startDate = ("01/"+month+"/"+year);
+        LocalDate curDate = LocalDate.now();
+        String endDate = (Utils.getLastDateOfMonth(month, year));
+        return this.getGeneralInfoOfDates(startDate, endDate);
+    }
+
+>>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
     public void deleteData(int id){
         Connection con = getConnection();
         String sql = "DELETE FROM Log WHERE id = " + id;
@@ -576,19 +739,38 @@ public class LogsDB {
             e.printStackTrace();
         }
     }
+<<<<<<< HEAD
     public void deleteDatas(Vector<Integer> idList){
+=======
+
+    public void deleteDatas(Vector<Integer> idList){
+        if (idList.size() == 0){
+            return;
+        }
+>>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
         Connection con = getConnection();
         String deleteStringId = "";
         for (int i = 0; i < idList.size(); i++) {
             deleteStringId += idList.get(i);
+<<<<<<< HEAD
             if (i == idList.size() - 1){
                 break;
             }
+=======
+            if (i == idList.size()){
+                break;
+            }
+            //Nếu không phải phần tử cuối thì thêm dấu phẩy để phân cách
+>>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
             if (i != idList.size() - 1){
                 deleteStringId += ", ";
             }
         }
+<<<<<<< HEAD
         String sql = "DELETE FROM Log WHERE id IN (" + deleteStringId + ")";
+=======
+        String sql = "DELETE FROM Log WHERE id IN ( " + deleteStringId + " )";
+>>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
         try(PreparedStatement ps = con.prepareStatement(sql)){
             ps.executeUpdate();
         }
@@ -670,7 +852,18 @@ public class LogsDB {
 
     public int getLastId(){
         Connection con = getConnection();
+<<<<<<< HEAD
         String sql = "SELECT id FROM Log ORDER BY id DESC LIMIT 1";
+=======
+        String sql = "";
+        if (isMySQL){
+            sql = "SELECT id FROM Log ORDER BY id DESC LIMIT 1";
+        }
+        else{
+            sql = "SELECT TOP 1 id FROM Log ORDER BY id DESC";
+
+        }
+>>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
         try(PreparedStatement ps = con.prepareStatement(sql)){
             try (ResultSet rs = ps.executeQuery()){
                 while (rs.next()){
@@ -683,4 +876,132 @@ public class LogsDB {
         }
         return 0;
     }
+<<<<<<< HEAD
+=======
+
+    /**
+     * Lấy tổng theo date của các category trong idList, theo khoảng cách giữa các time\
+     * cho column chart
+     * @param dateStart
+     * @param dateEnd
+     * @param idList
+     * @param divideNum số đoạn giữa start - end time (ví dụ 12 thì chia dateEnd - dateStart / 12)
+     * @return
+     */
+    public Object[][] getCategoriesAmount(String dateStart, String dateEnd, int[] idList, int divideNum){
+        Object[][] ans = new Object[idList.length][3];
+        Connection con = getConnection();
+        if (divideNum == 0){
+            divideNum = 1;
+        }
+        String sql = "";
+        ConfigFile config = new ConfigFile();
+        String[][] timeRange = Utils.allocateTimeIntervals(dateStart, dateEnd, divideNum);
+        if (config.getDB() == "MySQL"){
+            sql = "SELECT SUM(amount), category_id, type FROM Log " +
+                    "INNER JOIN Category AS C ON Log.category_id = C.id " +
+                    "WHERE C.id = ? AND date >= ? AND date <= ? "+
+                    "GROUP BY DATE(date)";
+        }
+        else if (config.getDB() == "SQLServer"){
+            String caseString = "CASE";
+            for (int i = 0; i < timeRange.length; i++) {
+                caseString += " WHEN date BETWEEN '" + timeRange[i][0] + "' AND '" + timeRange[i][1] + "' THEN " + (i+1);
+            }
+            caseString += " ELSE " + (timeRange.length + 1) + " END AS Nhom";
+            
+            sql = "SELECT Nhom AS GroupNumber, COALESCE(SUM(amount), 0) AS TongAmount " +
+                    "FROM (" +
+                    "    SELECT date, amount, " +
+                    caseString +
+                    "    FROM Logs " +
+                    "    WHERE date BETWEEN ? AND ? " +
+                    ") AS NhomCacNgay " +
+                    "GROUP BY Nhom;";
+        }
+        try(PreparedStatement ps = con.prepareStatement(sql)){
+            for (int i = 0; i < idList.length; i++) {
+                ps.setString(1, Utils.convertToSqlDate(dateStart));
+                ps.setString(2, Utils.convertToSqlDate(dateEnd));
+                try (ResultSet rs = ps.executeQuery()){
+                    while (rs.next()){
+                        int index = rs.getInt("GroupNumber");
+                        ans[index][0] = timeRange[index][0]; //Ngày bắt đầu của khoảng thời gian
+                        ans[index][1] = timeRange[index][1]; //Ngày kết thúc của khoảng thời gian
+                        ans[index][2] = rs.getInt("TongAmount");
+                    }
+                }
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return ans;
+    }
+
+    public Object[][] getProportionData(String dateStart, String dateEndString, int type){
+        Object[][] ans = null;
+        String sql = "";
+        
+        //type = -1 là lấy tỉ trọng của type, còn khác -1 tức lấy tỉ trọng các item trong đó
+        if (type != -1){
+            if (configFile.getDB() == "SQLServer"){
+                sql = "SELECT SUM(amount), category_id FROM Log " +
+                        "INNER JOIN Category AS C ON Log.category_id = C.id " +
+                        "WHERE date >= ? AND date <= ?  C.type = ?"+
+                        "GROUP BY category_id";
+            }
+            else if (configFile.getDB() == "MySQL"){
+                sql = "SELECT SUM(amount), category_id FROM Log " +
+                        "INNER JOIN Category AS C ON Log.category_id = C.id " +
+                        "WHERE date >= ? AND date <= ?  C.type = ?"+
+                        "GROUP BY category_id";
+            }
+        
+        }
+        else{
+            if (configFile.getDB() == "SQLServer"){
+                sql = "SELECT SUM(amount), type FROM Log " +
+                        "INNER JOIN Category AS C ON Log.category_id = C.id " +
+                        "WHERE date >= ? AND date <= ? "+
+                        "GROUP BY type";
+            }
+            else if (configFile.getDB() == "MySQL"){
+                sql = "SELECT type, SUM(amount) FROM Log " +
+                        "INNER JOIN Category AS C ON Log.category_id = C.id " +
+                        "WHERE date >= ? AND date <= ? "+
+                        "GROUP BY type";
+            }
+        }
+        Connection con = getConnection();
+        try ( PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, Utils.convertToSqlDate(dateStart));
+            ps.setString(2, Utils.convertToSqlDate(dateEndString));
+            //Nếu type != -1 thì mới có tham số thứ 3 để set câu query
+            if (type != -1){
+                ps.setInt(3, type);
+            }
+            try (ResultSet rs = ps.executeQuery()) {
+                int rowCount = 0;
+                while (rs.next()) {
+                    rowCount++;
+                }
+                ans = new Object[rowCount][2];
+                rs.beforeFirst();
+                int i = 0;
+                while (rs.next()) {
+                    ans[i][0] = rs.getInt(1);
+                    ans[i][1] = rs.getInt(2);
+                    i++;
+                }
+                return ans;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return ans;
+    }
+
+>>>>>>> 0f18cb3521e2502f23fddfc7e1eceb9367e98437
 }
