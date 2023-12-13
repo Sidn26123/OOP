@@ -1,79 +1,91 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package model.objects;
-
-import java.util.Date;
-
-/**
- *
- * @author LENOVO
- */
+package models;
+import java.util.Vector;
 public class Logs {
-    private int ID_Log;
-    private int ID_Type;
-    private double Price;
-    private String Note;
-    private Date DatesString;
-    private int User_ID;
-    private int Group_ID;
+    private Vector<LogO> logs;
 
-    public int getID_Log() {
-        return ID_Log;
+    public Logs() {
+        this.logs = new Vector<LogO>();
     }
 
-    public void setID_Log(int ID_Log) {
-        this.ID_Log = ID_Log;
+    public Logs(Vector<LogO> logs) {
+        this.logs = logs;
     }
 
-    public int getID_Type() {
-        return ID_Type;
+    public Vector<LogO> getLogs() {
+        return logs;
     }
 
-    public void setID_Type(int ID_Type) {
-        this.ID_Type = ID_Type;
+    public void setLogs(Vector<LogO> logs) {
+        this.logs = logs;
     }
 
-    public double getPrice() {
-        return Price;
+    public int getSize(){
+        return this.logs.size();
     }
 
-    public void setPrice(double Price) {
-        this.Price = Price;
+    public LogO getLogAt(int index){
+        return this.logs.get(index);
     }
 
-    public String getNote() {
-        return Note;
+    public LogO getLog(int id){
+        for(int i = 0; i < this.logs.size(); i++){
+            if (this.logs.get(i).getID() == id){
+                return this.logs.get(i);
+            }
+        }
+        return null;
     }
 
-    public void setNote(String Note) {
-        this.Note = Note;
+    public void addLog(LogO log){
+        this.logs.add(log);
     }
 
-    public Date getDatesString() {
-        return DatesString;
+    public void addLogAt(LogO log, int index){
+        this.logs.add(index, log);
     }
 
-    public void setDatesString(Date DatesString) {
-        this.DatesString = DatesString;
+    public void removeLogAt(int index){
+        if (index < this.logs.size() && index >= 0){
+            this.logs.remove(index);
+        }
     }
 
-    public int getUser_ID() {
-        return User_ID;
+    public void removeLogWithId(int id){
+        for(int i = 0; i < this.logs.size(); i++){
+            if (this.logs.get(i).getID() == id){
+                this.logs.remove(i);
+                break;
+            }
+        }
     }
 
-    public void setUser_ID(int User_ID) {
-        this.User_ID = User_ID;
+    public void removeAfterIndex(int index){
+        for(int i = this.logs.size() - 1; i > index; i--){
+            this.logs.remove(i);
+        }
     }
 
-    public int getGroup_ID() {
-        return Group_ID;
+    public void removeBeforeIndex(int index){
+        for(int i = 0; i < index; i++){
+            this.logs.remove(0);
+        }
     }
 
-    public void setGroup_ID(int Group_ID) {
-        this.Group_ID = Group_ID;
+    public void setLogAt(LogO log, int index){
+        this.logs.set(index, log);
     }
-    
-    
+
+    public void clear(){
+        this.logs.clear();
+    }
+
+    public void removeLog(LogO log){
+        this.logs.remove(log);
+    }
+
+    public void removeLog(int index){
+        if (index >= 0 && index < this.logs.size()){
+            this.logs.remove(index);
+        }
+    }
 }
