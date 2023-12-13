@@ -1,4 +1,4 @@
-package charts.barChart;
+package charts.chart.BarChart;
 
 public class ModelChart {
 

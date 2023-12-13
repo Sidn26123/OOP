@@ -1,9 +1,9 @@
-package charts.barChart;
+package charts.chart.BarChart;
 
-import chart.barChart.blankChart.BlankPlotChart;
-import chart.barChart.blankChart.BlankPlotChatRender;
-import chart.barChart.blankChart.SeriesSize;
-import java.awt.Color;import java.awt.Color;
+import charts.chart.BarChart.BlankPlotChart;
+import charts.chart.BarChart.BlankPlotChatRender;
+import charts.chart.BarChart.SeriesSize;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +87,7 @@ public class Chart extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        blankPlotChart = new chart.barChart.blankChart.BlankPlotChart();
+        blankPlotChart = new charts.chart.BarChart.BlankPlotChart();
         panelLegend = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -110,7 +110,7 @@ public class Chart extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(blankPlotChart, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
+                .addComponent(blankPlotChart, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addComponent(panelLegend, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -118,7 +118,7 @@ public class Chart extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private chart.barChart.blankChart.BlankPlotChart blankPlotChart;
+    private charts.chart.BarChart.BlankPlotChart blankPlotChart;
     private javax.swing.JPanel panelLegend;
     // End of variables declaration//GEN-END:variables
 }

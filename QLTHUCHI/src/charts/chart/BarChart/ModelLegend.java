@@ -1,5 +1,4 @@
-package charts.barChart;
-
+package charts.chart.BarChart;
 import java.awt.Color;
 
 public class ModelLegend {

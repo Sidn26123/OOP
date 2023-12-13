@@ -1,4 +1,4 @@
-package charts.barChart;
+package charts.chart.BarChart;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
