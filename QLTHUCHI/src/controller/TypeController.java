@@ -21,4 +21,10 @@ public class TypeController {
     public List<TypeO> getAllTypeExpenses(){
         return typeDao.getAllTypeExpenses();
     }
+    public List<TypeO> getAllTypeReceipt(){
+        return typeDao.getAllTypeReceipt();
+    }
+    public TypeO findTypeByID_Type(int id_type){
+        return typeDao.findTypebyID(id_type);
+    }
 }

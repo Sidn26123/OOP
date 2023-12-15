@@ -1,6 +1,8 @@
-package view.thu;
+package view.family;
 
+import LoginSignup.Model.User;
 import com.formdev.flatlaf.FlatLightLaf;
+import controller.FamilyController;
 import controller.LogController;
 import controller.TypeController;
 import java.awt.Color;
@@ -8,14 +10,20 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
+import java.awt.Toolkit;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.JToggleButton;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import model.objects.LogO;
 import model.objects.TypeO;
 import view.calculator.Calculator;
@@ -25,13 +33,18 @@ import view.danhmuc.ThuJPanel;
  *
  * @author LENOVO
  */
-public class Thu extends javax.swing.JFrame {
+public class AddLogGroup extends javax.swing.JFrame {
 
     TypeController typeController;
     LogController logController;
     private int id_user;
+    private Family family;
+    private DefaultTableModel tblModel = new DefaultTableModel();
+    FamilyController familyController = new FamilyController();
+    public List<List<String>> UserChoce = new ArrayList<>();
     
-    public Thu(int id_user) {
+    public AddLogGroup(int id_user, Family family) {
+        this.family = family;
         this.id_user = id_user;
         FlatLightLaf.setup();
         initComponents();
@@ -41,28 +54,54 @@ public class Thu extends javax.swing.JFrame {
     }
     
     
+    private void fillTableDs_NguoiChi() {
+        List<User> users = familyController.getUsersGroup(id_user);
+
+        tblModel.setRowCount(0);
+        for (User user: users) {
+            String id_user_choce = String.valueOf(user.getID());
+            tblModel.addRow(new String[]{id_user_choce,user.getName(), user.getEmailAddress()});
+        }
+        tblModel.fireTableDataChanged();
+        table_ds_nguoiChi.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+    }
+    
     public void update_valueCalculator(double value){
         text_tienthu.setText(String.valueOf(value));
     }
     
     private void setDefaultThings(){
-        dialog_dsThu.setSize(500,500);
-        dialog_dsThu.setLocationRelativeTo(null);
-        dialog_dsThu.setTitle("Danh sách thu");
+        dialog_dsNguoiChi.setSize(500,500);
+        dialog_dsNguoiChi.setLocationRelativeTo(null);
+        dialog_dsNguoiChi.setTitle("Danh sách người chi");
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
         button_save.setIcon(new ImageIcon("src\\source\\img\\Thu_Chi\\icons8-pencil-64.png"));
         logController = new LogController();
         jDateChooser1.setDate(Calendar.getInstance().getTime());
         this.setLocationRelativeTo(null);
         button_calculator.setIcon(new ImageIcon("src\\source\\img\\Thu_Chi\\icons8-calculator-64.png"));
+        initTable();
+        fillTableDs_NguoiChi();
+        TableColumn column1 = table_ds_nguoiChi.getColumnModel().getColumn(0);
+        column1.setPreferredWidth(0);
+        TableColumn column2 = table_ds_nguoiChi.getColumnModel().getColumn(1);
+        column2.setPreferredWidth(180);
+        TableColumn column3 = table_ds_nguoiChi.getColumnModel().getColumn(2);
+        column3.setPreferredWidth(180);
+    }
+    
+    private void initTable() {
+        String[] header = new String[]{"ID","Họ và Tên", "Email"};
+        tblModel.setColumnIdentifiers(header);
+        table_ds_nguoiChi.setModel(tblModel);
+        table_ds_nguoiChi.getTableHeader().setFont(new Font("Times New Roman",Font.PLAIN, 18));
     }
     
     private void setPanelDanhMuc(){
-        
-        
-        
+
         typeController = new TypeController();
-        List<TypeO> types = typeController.getAllTypeExpenses();
+        List<TypeO> types = typeController.getAllTypeReceipt();
         int length = types.size();
         int rows = (int)length/3 + 1;
         panel_danhmuc.setLayout(new GridLayout(rows,3));
@@ -96,12 +135,15 @@ public class Thu extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
-        dialog_dsThu = new javax.swing.JDialog();
+        dialog_dsNguoiChi = new javax.swing.JDialog();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        table_ds_nguoiChi = new javax.swing.JTable();
+        button_add = new javax.swing.JButton();
+        button_save_ds = new javax.swing.JButton();
+        box_ls = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        button_delete_ds = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -117,36 +159,24 @@ public class Thu extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         panel_danhmuc = new javax.swing.JPanel();
         button_chinhsua1 = new javax.swing.JButton();
-        button_danh_sach_thu = new javax.swing.JButton();
+        button_dsNguoiChi = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
-        dialog_dsThu.setModal(true);
-
-        jButton1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        jButton1.setText("Xóa");
-
-        jButton2.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        jButton2.setText("Tất cả");
+        dialog_dsNguoiChi.setModal(true);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
-                .addContainerGap())
+            .addGap(0, 56, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jButton1)
-                .addComponent(jButton2))
+            .addGap(0, 39, Short.MAX_VALUE)
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        table_ds_nguoiChi.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        table_ds_nguoiChi.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -157,22 +187,82 @@ public class Thu extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(table_ds_nguoiChi);
 
-        javax.swing.GroupLayout dialog_dsThuLayout = new javax.swing.GroupLayout(dialog_dsThu.getContentPane());
-        dialog_dsThu.getContentPane().setLayout(dialog_dsThuLayout);
-        dialog_dsThuLayout.setHorizontalGroup(
-            dialog_dsThuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
-        );
-        dialog_dsThuLayout.setVerticalGroup(
-            dialog_dsThuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(dialog_dsThuLayout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        button_add.setBackground(new java.awt.Color(0, 255, 255));
+        button_add.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        button_add.setForeground(new java.awt.Color(255, 255, 255));
+        button_add.setText("Thêm");
+        button_add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_addActionPerformed(evt);
+            }
+        });
+
+        button_save_ds.setBackground(new java.awt.Color(255, 255, 0));
+        button_save_ds.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        button_save_ds.setForeground(new java.awt.Color(255, 255, 255));
+        button_save_ds.setText("Lưu");
+        button_save_ds.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_save_dsActionPerformed(evt);
+            }
+        });
+
+        box_ls.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+
+        jLabel2.setFont(new java.awt.Font("Segoe Script", 0, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 255, 255));
+        jLabel2.setText("Danh Sách");
+
+        button_delete_ds.setBackground(new java.awt.Color(255, 51, 51));
+        button_delete_ds.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        button_delete_ds.setForeground(new java.awt.Color(255, 255, 255));
+        button_delete_ds.setText("Xóa");
+        button_delete_ds.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_delete_dsActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout dialog_dsNguoiChiLayout = new javax.swing.GroupLayout(dialog_dsNguoiChi.getContentPane());
+        dialog_dsNguoiChi.getContentPane().setLayout(dialog_dsNguoiChiLayout);
+        dialog_dsNguoiChiLayout.setHorizontalGroup(
+            dialog_dsNguoiChiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dialog_dsNguoiChiLayout.createSequentialGroup()
+                .addGap(143, 143, 143)
+                .addComponent(jLabel2)
+                .addGap(82, 82, 82)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dialog_dsNguoiChiLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(button_add)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(button_save_ds)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(button_delete_ds)
+                .addGap(11, 11, 11))
+            .addGroup(dialog_dsNguoiChiLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(box_ls, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        dialog_dsNguoiChiLayout.setVerticalGroup(
+            dialog_dsNguoiChiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dialog_dsNguoiChiLayout.createSequentialGroup()
+                .addGroup(dialog_dsNguoiChiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(3, 3, 3)
+                .addComponent(box_ls, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addGroup(dialog_dsNguoiChiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(button_save_ds)
+                    .addComponent(button_add)
+                    .addComponent(button_delete_ds))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -267,19 +357,19 @@ public class Thu extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(panel_danhmuc);
 
-        button_danh_sach_thu.setBackground(new java.awt.Color(51, 255, 255));
-        button_danh_sach_thu.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
-        button_danh_sach_thu.setForeground(new java.awt.Color(255, 255, 255));
-        button_danh_sach_thu.setText("Danh sách thu");
-        button_danh_sach_thu.addActionListener(new java.awt.event.ActionListener() {
+        button_dsNguoiChi.setBackground(new java.awt.Color(51, 255, 255));
+        button_dsNguoiChi.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        button_dsNguoiChi.setForeground(new java.awt.Color(255, 255, 255));
+        button_dsNguoiChi.setText("Người Chi");
+        button_dsNguoiChi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_danh_sach_thuActionPerformed(evt);
+                button_dsNguoiChiActionPerformed(evt);
             }
         });
 
         jLabel1.setFont(new java.awt.Font("Segoe Script", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 255, 255));
-        jLabel1.setText("THU");
+        jLabel1.setText("Your Group");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -300,7 +390,7 @@ public class Thu extends javax.swing.JFrame {
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGap(149, 149, 149)
+                                .addGap(82, 82, 82)
                                 .addComponent(jLabel1)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(button_save, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -310,7 +400,7 @@ public class Thu extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(button_danh_sach_thu)
+                            .addComponent(button_dsNguoiChi)
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addComponent(text_tienthu, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -352,7 +442,7 @@ public class Thu extends javax.swing.JFrame {
                 .addGap(51, 51, 51)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(button_danh_sach_thu))
+                    .addComponent(button_dsNguoiChi))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -399,12 +489,12 @@ public class Thu extends javax.swing.JFrame {
 
     private void button_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_saveActionPerformed
         
-        int choice_addLog = JOptionPane.showConfirmDialog(Thu.this, "Bạn có chắc muốn thêm vào không!", "Thông báo",JOptionPane.YES_NO_OPTION);
+        int choice_addLog = JOptionPane.showConfirmDialog(AddLogGroup.this, "Bạn có chắc muốn thêm vào không!", "Thông báo",JOptionPane.YES_NO_OPTION);
         if(choice_addLog == JOptionPane.YES_OPTION){
             Date date = jDateChooser1.getDate();
         
             if(date == null){
-                JOptionPane.showMessageDialog(Thu.this, "Vui lòng nhập đúng định dạng ngày!","Thông báo", JOptionPane.OK_OPTION);
+                JOptionPane.showMessageDialog(AddLogGroup.this, "Vui lòng nhập đúng định dạng ngày!","Thông báo", JOptionPane.OK_OPTION);
             }
 
             String ghichu = text_ghichu.getText();
@@ -413,7 +503,7 @@ public class Thu extends javax.swing.JFrame {
             try {
                 tienthu = Integer.valueOf(String.valueOf(text_tienthu.getText()));
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(Thu.this, "Vụi lòng nhập đúng số tiền!", "Thông báo",JOptionPane.OK_OPTION);
+                JOptionPane.showMessageDialog(AddLogGroup.this, "Vụi lòng nhập đúng số tiền!", "Thông báo",JOptionPane.OK_OPTION);
             }
             String id_Type = "";
 
@@ -425,58 +515,103 @@ public class Thu extends javax.swing.JFrame {
                 }
             }
             if(id_Type.equals("")){
-                JOptionPane.showMessageDialog(Thu.this, "Vui lòng chọn một danh mục!","Thông báo", JOptionPane.OK_OPTION);
+                JOptionPane.showMessageDialog(AddLogGroup.this, "Vui lòng chọn một danh mục!","Thông báo", JOptionPane.OK_OPTION);
+                return;
+            }
+            
+            if(UserChoce.isEmpty()){
+                JOptionPane.showMessageDialog(AddLogGroup.this, "Vui lòng chọn người chi!", "Thông báo", JOptionPane.OK_OPTION);
                 return;
             }
             LogO log = new LogO();
             
+            log.setGroup_ID(familyController.getID_Group(id_user));
             log.setUser_ID(id_user);
             log.setID_Type(Integer.parseInt(id_Type));
             log.setNote(ghichu);
             log.setPrice(tienthu);
             log.setDateString(Utils.Utils.converDateToString(date, "dd/MM/yyyy"));
             try {
-                logController.addLog(log);
-                JOptionPane.showMessageDialog(Thu.this, "Thành Công","Thông báo", JOptionPane.OK_OPTION);
+                logController.addLogGroup(log);
+                int id_log = logController.getID_Log();
+                familyController.addLogGroup(UserChoce, id_log);
+                JOptionPane.showMessageDialog(AddLogGroup.this, "Thành Công","Thông báo", JOptionPane.OK_OPTION);
             } catch (HeadlessException e) {
-                JOptionPane.showMessageDialog(Thu.this, "Thất bại","Thông báo", JOptionPane.OK_OPTION);
+                JOptionPane.showMessageDialog(AddLogGroup.this, "Thất bại","Thông báo", JOptionPane.OK_OPTION);
             }
         }
         
-        
+        family.fillTable();
         
     }//GEN-LAST:event_button_saveActionPerformed
 
     private void button_calculatorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_calculatorActionPerformed
-        Calculator calculator = new Calculator(this);
+        Calculator_family calculator = new Calculator_family(this);
         calculator.setVisible(true);
         
     }//GEN-LAST:event_button_calculatorActionPerformed
 
-    private void button_danh_sach_thuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_danh_sach_thuActionPerformed
-        dialog_dsThu.setVisible(true);
-    }//GEN-LAST:event_button_danh_sach_thuActionPerformed
+    private void button_dsNguoiChiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_dsNguoiChiActionPerformed
+        dialog_dsNguoiChi.setSize(425, 325);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        dialog_dsNguoiChi.setLocation(dim.width/2-dialog_dsNguoiChi.getSize().width/2 + 530, dim.height/2-dialog_dsNguoiChi.getSize().height/2 - 110);
+        dialog_dsNguoiChi.setVisible(true);
+    }//GEN-LAST:event_button_dsNguoiChiActionPerformed
+
+    private void button_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_addActionPerformed
+        int row = table_ds_nguoiChi.getSelectedRow();
+        if(row >= 0){
+            String name = table_ds_nguoiChi.getValueAt(row, 1).toString();
+            String id_user_choice = table_ds_nguoiChi.getValueAt(row, 0).toString();
+            List<String> tmp = new ArrayList<>();
+            tmp.add(id_user_choice);
+            tmp.add(name);
+            if(!UserChoce.contains(tmp)){
+                UserChoce.add(tmp);
+                box_ls.addItem(name);
+            }
+        }
+    }//GEN-LAST:event_button_addActionPerformed
+
+    private void button_save_dsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_save_dsActionPerformed
+        family.getLsNguoiChi(UserChoce);
+    }//GEN-LAST:event_button_save_dsActionPerformed
+
+    private void button_delete_dsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_delete_dsActionPerformed
+        try {
+            String user = box_ls.getSelectedItem().toString();
+            int position = box_ls.getSelectedIndex();
+            UserChoce.remove(position);
+            box_ls.removeItemAt(box_ls.getSelectedIndex());
+            box_ls.updateUI();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(AddLogGroup.this, "Vui lòng chọn một người để xóa","Thông báo", JOptionPane.OK_OPTION);
+        }
+    }//GEN-LAST:event_button_delete_dsActionPerformed
 
 //    public static void main(String args[]) {
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {
-//                new Thu(1).setVisible(true);
+//                new AddLogGroup(13, new Family(13)).setVisible(true);
 //            }
 //        });
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> box_ls;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton button_add;
     private javax.swing.JButton button_calculator;
     private javax.swing.JButton button_chinhsua1;
-    private javax.swing.JButton button_danh_sach_thu;
+    private javax.swing.JButton button_delete_ds;
+    private javax.swing.JButton button_dsNguoiChi;
     private javax.swing.JButton button_save;
-    private javax.swing.JDialog dialog_dsThu;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton button_save_ds;
+    private javax.swing.JDialog dialog_dsNguoiChi;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -486,8 +621,8 @@ public class Thu extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JPanel panel_danhmuc;
+    private javax.swing.JTable table_ds_nguoiChi;
     private javax.swing.JTextField text_ghichu;
     private javax.swing.JTextField text_tienthu;
     // End of variables declaration//GEN-END:variables

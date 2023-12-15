@@ -35,6 +35,7 @@ public class MainBoard extends javax.swing.JFrame {
         button_family = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1000, 650));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(730, 588));
@@ -51,6 +52,8 @@ public class MainBoard extends javax.swing.JFrame {
             }
         });
 
+        panel_parent.setAutoscrolls(true);
+        panel_parent.setPreferredSize(new java.awt.Dimension(800, 650));
         panel_parent.setLayout(new java.awt.CardLayout());
 
         button_thu.setPreferredSize(new java.awt.Dimension(48, 48));
@@ -108,8 +111,8 @@ public class MainBoard extends javax.swing.JFrame {
                             .addComponent(button_family, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(13, 13, 13)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(panel_parent, javax.swing.GroupLayout.PREFERRED_SIZE, 632, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(panel_parent, javax.swing.GroupLayout.DEFAULT_SIZE, 900, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -136,7 +139,7 @@ public class MainBoard extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -192,9 +195,11 @@ public class MainBoard extends javax.swing.JFrame {
         Calendars calendar = new Calendars(id_user);
         panel_calendar.add(calendar);
         
+        
         panel_family = new JPanel();
         Family family = new Family(id_user);
         panel_family.add(family.getContentPane());
+        panel_family.setSize(750, 615);
         
         panel_parent.add(panel_thu);
 
