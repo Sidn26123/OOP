@@ -3,11 +3,14 @@ package main;
 
 import LoginSignup.Model.JDBCConnection;
 import LoginSignup.View.Login;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import view.calendar.Calendars;
 import view.family.Family;
@@ -179,7 +182,23 @@ public class MainBoard extends javax.swing.JFrame {
     private void button_chartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_chartActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_button_chartActionPerformed
-
+    
+    public JPanel getPanel_parent(){
+        return this.panel_parent;
+    }
+    public JPanel getPanelFamily(){
+        return this.panel_family;
+    }
+    public void appear_panel_family(){
+        Family family = new Family(id_user);
+        panel_family.removeAll();
+        panel_family.add(family.getContentPane());
+        panel_parent.removeAll();
+        panel_parent.add(panel_family);
+        panel_parent.repaint();
+        panel_parent.revalidate();
+    }
+    
     private void button_calendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_calendarActionPerformed
         panel_parent.removeAll();
         panel_parent.add(panel_calendar);
@@ -209,6 +228,7 @@ public class MainBoard extends javax.swing.JFrame {
             }
         }    
     private void button_familyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_familyActionPerformed
+        
         check_Group_ID(id_user);
     }//GEN-LAST:event_button_familyActionPerformed
     
@@ -221,14 +241,12 @@ public class MainBoard extends javax.swing.JFrame {
         Calendars calendar = new Calendars(id_user);
         panel_calendar.add(calendar);
         
-        
         panel_family = new JPanel();
         Family family = new Family(id_user);
         panel_family.add(family.getContentPane());
-        panel_family.setSize(750, 615);
         
         panel_None_family = new JPanel();
-        None_Family none_family = new None_Family(id_user);
+        None_Family none_family = new None_Family(id_user, this);
         panel_None_family.add(none_family.getContentPane());       
         
         panel_parent.add(panel_thu);

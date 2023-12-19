@@ -123,7 +123,6 @@ public class Family extends javax.swing.JFrame {
     public void fillTable(Calendar c) {
         int month = c.get(Calendar.MONTH) + 1;
         int year = c.get(Calendar.YEAR);
-        System.out.println(month + " " + year);
         List<LogO> LogsGroup = logController.getLogGroup(familyController.getID_Group(id_user), month, year);
         tblModel.setRowCount(0);
         for (LogO log : LogsGroup) {
