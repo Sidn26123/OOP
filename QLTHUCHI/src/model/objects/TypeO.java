@@ -11,7 +11,7 @@ package model.objects;
 public class TypeO {
     private int ID_Type;
     private int ID_User;
-    private boolean Receipts_Or_Expenses;
+    private int Receipts_Or_Expenses;
     private String Name_Type;
     private String Icon_Path;
     private String Color;
@@ -33,11 +33,11 @@ public class TypeO {
         this.ID_User = ID_Log;
     }
 
-    public boolean isReceipts_Or_Expenses() {
+    public int isReceipts_Or_Expenses() {
         return Receipts_Or_Expenses;
     }
 
-    public void setReceipts_Or_Expenses(boolean Receipts_Or_Expenses) {
+    public void setReceipts_Or_Expenses(int Receipts_Or_Expenses) {
         this.Receipts_Or_Expenses = Receipts_Or_Expenses;
     }
 
