@@ -1,17 +1,25 @@
 
 package main;
 
+import LoginSignup.Model.JDBCConnection;
 import LoginSignup.View.Login;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import view.calendar.Calendars;
 import view.family.Family;
+import view.family.None_Family;
 import view.thu.Thu;
 
 public class MainBoard extends javax.swing.JFrame {
+    JDBCConnection connect = new JDBCConnection();
     private int id_user;
     JPanel panel_thu;
     JPanel panel_calendar;
+    JPanel panel_None_family;
     JPanel panel_family;
     
     public MainBoard(int id_user) {
@@ -178,12 +186,30 @@ public class MainBoard extends javax.swing.JFrame {
         panel_parent.repaint();
         panel_parent.revalidate();
     }//GEN-LAST:event_button_calendarActionPerformed
-
+    public void check_Group_ID(int ID){       
+        String sql = "SELECT Group_ID FROM [User] WHERE ID = ?";
+        try (Connection con = connect.getJDBCConnection();
+        PreparedStatement ps = con.prepareStatement(sql)) {
+        ps.setInt(1, id_user);
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                String groupID = rs.getString("Group_ID");
+                panel_parent.removeAll();
+                if (groupID != null) {
+                    panel_parent.add(panel_family);
+                } else {
+                    panel_parent.add(panel_None_family);
+                }
+                    panel_parent.repaint();
+                    panel_parent.revalidate();
+            }
+        }
+        } catch (Exception e) {
+            e.printStackTrace();
+            }
+        }    
     private void button_familyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_familyActionPerformed
-        panel_parent.removeAll();
-        panel_parent.add(panel_family);
-        panel_parent.repaint();
-        panel_parent.revalidate();
+        check_Group_ID(id_user);
     }//GEN-LAST:event_button_familyActionPerformed
     
     private void setDefaultThings(){
@@ -200,6 +226,10 @@ public class MainBoard extends javax.swing.JFrame {
         Family family = new Family(id_user);
         panel_family.add(family.getContentPane());
         panel_family.setSize(750, 615);
+        
+        panel_None_family = new JPanel();
+        None_Family none_family = new None_Family(id_user);
+        panel_None_family.add(none_family.getContentPane());       
         
         panel_parent.add(panel_thu);
 
