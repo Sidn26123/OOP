@@ -58,13 +58,15 @@ public class LogModel {
         }
     }
     
-    public List<LogO> getAllLogGroup(int id_group){
+    public List<LogO> getAllLogGroup(int id_group,int month, int year){
         List<LogO> logsGroup = new ArrayList<>();
         Connection connection = JDBCConnection.getJDBCConnection();
-        String sql = "select * from Log where Group_ID = ?";
+        String sql = "select * from Log where Group_ID = ? and MONTH(Log.Date) = ? and YEAR(Log.Date) = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id_group);
+            preparedStatement.setInt(2, month);
+            preparedStatement.setInt(3, year);
             ResultSet rs = preparedStatement.executeQuery();
             while(rs.next()){
                 LogO log = new LogO();

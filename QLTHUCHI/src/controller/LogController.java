@@ -16,8 +16,8 @@ public class LogController {
     public void addLogGroup(LogO log){
         logDao.addLogGroup(log);
     }
-    public List<LogO> getLogGroup(int id_group){
-        return logDao.getAllLogGroup(id_group);
+    public List<LogO> getLogGroup(int id_group, int month, int year){
+        return logDao.getAllLogGroup(id_group, month, year);
     }
     public int getID_Log(){
         return logDao.getID_Log();

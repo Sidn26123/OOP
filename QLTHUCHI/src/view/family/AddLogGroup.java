@@ -535,13 +535,19 @@ public class AddLogGroup extends javax.swing.JFrame {
                 logController.addLogGroup(log);
                 int id_log = logController.getID_Log();
                 familyController.addLogGroup(UserChoce, id_log);
+                Calendar c = Calendar.getInstance();
+                String stringDate = Utils.Utils.converDateToString(date, "dd/MM/yyyy");
+                c.set(Calendar.MONTH, Integer.parseInt(stringDate.split("/")[1])-1);
+                c.set(Calendar.YEAR, Integer.parseInt(stringDate.split("/")[2]));
+                System.out.println(( "add log"+stringDate.split("/")[1]) + " " + (stringDate.split("/")[2]));
+                family.setTextLabelDate(c);
+                family.fillTable(c);
                 JOptionPane.showMessageDialog(AddLogGroup.this, "Thành Công","Thông báo", JOptionPane.OK_OPTION);
             } catch (HeadlessException e) {
                 JOptionPane.showMessageDialog(AddLogGroup.this, "Thất bại","Thông báo", JOptionPane.OK_OPTION);
             }
         }
         
-        family.fillTable();
         
     }//GEN-LAST:event_button_saveActionPerformed
 
@@ -575,6 +581,7 @@ public class AddLogGroup extends javax.swing.JFrame {
 
     private void button_save_dsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_save_dsActionPerformed
         family.getLsNguoiChi(UserChoce);
+        JOptionPane.showMessageDialog(this, "Lưu thành công","Thông báo", JOptionPane.OK_OPTION);
     }//GEN-LAST:event_button_save_dsActionPerformed
 
     private void button_delete_dsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_delete_dsActionPerformed
