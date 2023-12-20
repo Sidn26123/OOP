@@ -1,55 +1,5 @@
-package model.objects;
-
-/**
- *
- * @author sidac
- */
-import java.util.ArrayList;
-import java.util.List;
+package models;
 import java.util.Vector;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import model.objects.Types;
-import model.objects.TypeO;
-// import models.ActionStore;
-import model.objects.LogO;
-import model.objects.LogsDB;
-
-//public class ActionStores {
-//    private int indexOfActionStore; //index hiện tại của action
-//    private Vector<ActionStore> actionStore; //lưu các hành động thêm, xóa, sửa vào đây
-//    
-//    public ActionStores() {
-//        this.indexOfActionStore = -1;
-//        this.actionStore = new Vector<>();
-//    }
-//
-//    public ActionStore getActionStoreAt(int index) {
-//        return this.actionStore.get(index);
-//    }
-//    
-//
-//    public int getSize(){
-//        return this.actionStore.size();
-//    }
-//
-//    public int getIndexOfActionStore() {
-//        return indexOfActionStore;
-//    }
-//
-//    public void setIndexOfActionStore(int indexOfActionStore) {
-//        this.indexOfActionStore = indexOfActionStore;
-//    }
-//
-//    public Vector<ActionStore> getActionStore() {
-//        return actionStore;
-//    }
-//
-//    public ActionStore getLastActionStore(){
-//        if(this.actionStore.size() > 0){
-//            return this.actionStore.get(this.actionStore.size() - 1);
-
 
 public class ActionStores {
     private Vector<ActionStore> actionStores; //lưu các hành động thêm, xóa, sửa vào đây
@@ -57,7 +7,7 @@ public class ActionStores {
 
     public ActionStores() {
         this.actionStores = new Vector<>();
-        this.indexOfActionStores = 0;
+        this.indexOfActionStores = -1;
     }
 
     public ActionStore getActionItemAt(int index) {
@@ -98,10 +48,10 @@ public class ActionStores {
         return null;
     }
     
-
     public void addAction(ActionStore actionStoreItem){
+        // System.out.println("Add action: " + actionStoreItem.getData().getID() + " " + actionStoreItem.getTypeAction() + " " + actionStoreItem.getIndex());
         this.actionStores.add(actionStoreItem);
-        this.indexOfActionStores = this.actionStores.size();
+        this.indexOfActionStores = this.actionStores.size()-1;
     }
     /**
      * Thêm action vào actionStores, thêm data + typeOfAction vào cuối vector
@@ -130,7 +80,6 @@ public class ActionStores {
         this.indexOfActionStores = this.actionStores.size() - 1;
 
     }
-
 
 
 
@@ -205,7 +154,8 @@ public class ActionStores {
     }
 
     public ActionStore getCurActionStoreItem(){
-        if (this.indexOfActionStores >= 0 && this.indexOfActionStores < this.actionStores.size()){
+        System.out.println("Index: " + this.indexOfActionStores);
+        if (isIndexOfActionStoreValid() && this.indexOfActionStores >= 0){
             return this.actionStores.get(this.indexOfActionStores);
         }
         return null;
@@ -222,13 +172,11 @@ public class ActionStores {
     }
     
     public void decreaseIndexOfActionStore(){
-        if (isIndexOfActionStoreValid()){
-            this.indexOfActionStores--;
-        }
+        this.indexOfActionStores--;
     }
 
     public boolean isIndexOfActionStoreValid(){
-        return this.indexOfActionStores >= -1 && this.indexOfActionStores <= this.actionStores.size();
+        return this.indexOfActionStores >= -1 && this.indexOfActionStores < this.actionStores.size();
     }
 
     public void printData(){

@@ -1,6 +1,4 @@
-
-package model.objects;
-
+package models;
 
 
 public class ActionStore {
@@ -51,24 +49,6 @@ public class ActionStore {
             this.index = index;
         }
 
-        // public int getID(){
-        //     return this.typeData.getID_Type();
-        // }
-
-        // public String getName(){
-        //     return this.typeData.getName_Type();
-        // }
-        
-        // public String getIconPath(){
-        //     return this.typeData.getIcon_Path();
-        // }
-
-        // public String getColor(){
-        //     return this.typeData.getColor();
-        // }
-
-        // public int isReceiptsOrExpenses(){
-        //     return this.typeData.isReceipts_Or_Expenses();
         public int getIndexInTable() {
             return indexInTable;
         }
