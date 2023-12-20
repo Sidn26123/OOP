@@ -9,15 +9,15 @@ import javax.swing.JPanel;
 import main.MainBoard;
 public class None_Family extends javax.swing.JFrame {
     private int id_user;
-    private MainBoard mainBoard;
-     public None_Family(int id_user, MainBoard mainBoard) {
+    public None_Family(int id_user) {
         this.id_user = id_user;
-        this.mainBoard = mainBoard;
         initComponents();
     }
     JDBCConnection connect = new JDBCConnection();
-    public void check_Group_ID(int ID) {
-    }
+
+//    private None_Family(int i) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+//    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -124,50 +124,50 @@ public class None_Family extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             Connection con = connect.getJDBCConnection();
-            String sqlGetNextID = "SELECT MAX(Group_ID) + 1 AS NextID FROM [User]";
-            PreparedStatement psGetNextID = con.prepareStatement(sqlGetNextID);
-            ResultSet rs = psGetNextID.executeQuery();
-            int nextID = 1; // Giá trị mặc định nếu không có bản ghi nào trong bảng
-            if (rs.next()) {
-                nextID = rs.getInt("NextID");
-            }
-            
-        String groupName = null;
-        do {
-            // Hiển thị hộp thoại nhập tên nhóm
-            groupName = JOptionPane.showInputDialog(this, "Nhập tên nhóm (group_name):");
-
-            if (groupName == null || groupName.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Tên nhóm không được để trống !", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            } else if (!check_Group_Name_Ton_Tai(groupName)) {
-                JOptionPane.showMessageDialog(this, "Tên nhóm đã tồn tại !", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            }
-        } while (groupName == null || groupName.isEmpty() || !check_Group_Name_Ton_Tai(groupName));
-
-    
-            String sqlUpdateGroupID = "UPDATE [User] SET Group_ID = ? WHERE ID=?";
-            PreparedStatement psUpdateGroupID = con.prepareStatement(sqlUpdateGroupID);
-
-            psUpdateGroupID.setInt(1, nextID);
-            psUpdateGroupID.setInt(2, id_user);
-
-            int n = psUpdateGroupID.executeUpdate();
+            String groupName = null;
+            do {
+                groupName = JOptionPane.showInputDialog(this, "Nhập tên nhóm (group_name):");
+                if (groupName == null) {
+                    return;
+                } else if (groupName.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Tên nhóm không được để trống !", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                } else if (!check_Group_Name_Ton_Tai(groupName)) {
+                    JOptionPane.showMessageDialog(this, "Tên nhóm đã tồn tại !", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                }
+            } while (groupName.isEmpty() || !check_Group_Name_Ton_Tai(groupName));
+            if (groupName != null) {
+            String sqlUpdateGroupUser = "INSERT INTO Group_User (Host_ID, Name_Group) VALUES ( ?, ?)";
+            PreparedStatement psUpdateGroupUser = con.prepareStatement(sqlUpdateGroupUser);
+            psUpdateGroupUser.setInt(1, id_user);
+            psUpdateGroupUser.setString(2, groupName);
+            int n = psUpdateGroupUser.executeUpdate();
             if (n > 0) {
-                String sqlUpdateGroupUser = "INSERT INTO Group_User (ID_Group, Host_ID, Name_Group) VALUES (?, ?, ?)";
-                PreparedStatement psUpdateGroupUser = con.prepareStatement(sqlUpdateGroupUser);
-                psUpdateGroupUser.setInt(1, nextID);
-                psUpdateGroupUser.setInt(2, id_user);
-                psUpdateGroupUser.setString(3, groupName);
-                int m = psUpdateGroupUser.executeUpdate();
+                int groupid = 0;
+                String sql= "Select ID_Group from Group_User WHERE Host_ID=?";
+                    try (PreparedStatement ps = con.prepareStatement(sql)) {
+                        ps.setInt(1, id_user);
+                        try (ResultSet rs = ps.executeQuery()) {
+                            if (rs.next()) {
+                               groupid = rs.getInt("ID_Group");
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                String sqlUpdateGroupID = "UPDATE [User] SET Group_ID = ? WHERE ID=?";
+                PreparedStatement psUpdateGroupID = con.prepareStatement(sqlUpdateGroupID);
+                psUpdateGroupID.setInt(1, groupid);
+                psUpdateGroupID.setInt(2, id_user);
+                int m = psUpdateGroupID.executeUpdate();
                 if (m > 0) {
-                    JOptionPane.showMessageDialog(this, "Cập nhật thông tin nhóm thành công Với Group_ID: " + nextID);
-                    check_Group_ID(id_user);    
+                    JOptionPane.showMessageDialog(this, "Cập nhật thông tin nhóm thành công Với Group_ID: " + groupid);
                 } else {
                     JOptionPane.showMessageDialog(this, "Không thành công khi cập nhật Group_User.", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Không thành công khi cập nhật Group_ID.", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
+        }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Lỗi: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
@@ -191,31 +191,28 @@ public class None_Family extends javax.swing.JFrame {
             return false;
         }
     }
+    private boolean check_number(String str) {
+        return str.matches("\\d*\\.?\\d+");
+    }
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
     try {
-            Connection con = connect.getJDBCConnection();
+        Connection con = connect.getJDBCConnection();
         int groupid = 0;
-        do {
-            String input = JOptionPane.showInputDialog(this, "Nhập ID Group (group_id):");
-
-            try {
-                groupid = Integer.parseInt(input);
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Vui lòng nhập một số nguyên.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            }
-
-            if (groupid <= 0) {
-                JOptionPane.showMessageDialog(this, "ID Group không hợp lệ.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            }
-        } while (groupid <= 0);
-
-        if (!check_Group_ID_Ton_Tai(String.valueOf(groupid))) {
-            JOptionPane.showMessageDialog(this, "ID_Group Không tồn tại!", "Thử lại !", JOptionPane.ERROR_MESSAGE);
+        String input = JOptionPane.showInputDialog(this, "Nhập ID Group (group_id):");
+        if (input == null) {
             return;
         }
+        if (check_number(input)) {
+            JOptionPane.showMessageDialog(this, "ID Group không hợp lệ.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;}
+        groupid = Integer.parseInt(input);
+        if (!check_Group_ID_Ton_Tai(String.valueOf(groupid))) {
+            JOptionPane.showMessageDialog(this, "ID_Group không tồn tại!", "Thử lại!", JOptionPane.ERROR_MESSAGE);
+            return;
+            }
         String sqlUpdateGroupID = "UPDATE [User] SET Group_ID = ? WHERE ID=?";
             PreparedStatement psUpdateGroupID = con.prepareStatement(sqlUpdateGroupID);
-
             psUpdateGroupID.setInt(1, groupid);
             psUpdateGroupID.setInt(2, id_user);
 
@@ -223,7 +220,6 @@ public class None_Family extends javax.swing.JFrame {
             System.out.println(n);
             if (n > 0) {
                     JOptionPane.showMessageDialog(this, "Cập nhật thông tin nhóm thành công Với Group_ID: " + groupid);
-                    mainBoard.appear_panel_family();
                 } else {
                     JOptionPane.showMessageDialog(this, "Không thành công khi cập nhật Group_User.", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }
@@ -233,13 +229,13 @@ public class None_Family extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-//    public static void main(String args[]) {
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new None_Family( 1).setVisible(true);
-//            }
-//        });
-//    }
+    public static void main(String args[]) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new None_Family( 13).setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

@@ -9,10 +9,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 public class JDBCConnection {
     public static Connection getJDBCConnection(){
-//<<<<<<< HEAD
         String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=QLTHUCHI;encrypt = true;trustServerCertificate=true";
         String user = "sa";
-        String password = "123456789";
+        String password = "sa";
 
         try {
             Connection connection = DriverManager.getConnection(url,user, password);
