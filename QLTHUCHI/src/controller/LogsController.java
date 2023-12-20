@@ -1,13 +1,13 @@
-package controllers;
+package controller;
 import java.util.Vector;
 
-import com.mysql.cj.util.Util;
+//import com.mysql.cj.util.Util;
 
 import Utils.Utils;
-import models.ActionStore;
-import models.LogO;
-import models.Logs;
-import models.LogsDB;
+import model.objects.ActionStore;
+import model.objects.LogO;
+import model.objects.Logs;
+import model.objects.LogsDB;
 public class LogsController {
     private Logs logs;
     public LogsController(){

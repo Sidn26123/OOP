@@ -7,7 +7,7 @@ package controller;
 
 import java.util.List;
 import model.connection.TypeModel;
-import model.objects.Types;
+import model.objects.TypeO;
 
 /**
  *
@@ -18,7 +18,7 @@ public class TypeController {
     public TypeController(){
         typeDao = new TypeModel();
     }
-    public List<Types> getAllTypeExpenses(){
+    public List<TypeO> getAllTypeExpenses(){
         return typeDao.getAllTypeExpenses();
     }
 }

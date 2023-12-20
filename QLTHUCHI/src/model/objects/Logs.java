@@ -1,4 +1,4 @@
-package models;
+package model.objects;
 import java.util.Vector;
 public class Logs {
     private Vector<LogO> logs;

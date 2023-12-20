@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
@@ -16,8 +17,8 @@ import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
-import model.objects.Logs;
-import model.objects.Types;
+import model.objects.LogO;
+import model.objects.TypeO;
 import view.calculator.Calculator;
 
 /**
@@ -58,12 +59,12 @@ public class Thu extends javax.swing.JFrame {
         
         
         typeController = new TypeController();
-        List<Types> types = typeController.getAllTypeExpenses();
+        List<TypeO> types = typeController.getAllTypeExpenses();
         int length = types.size();
         int rows = (int)length/4 + 1;
         panel_danhmuc.setLayout(new GridLayout(rows,4));
         
-        for(Types type:types){
+        for(TypeO type:types){
             ImageIcon icon;
             JToggleButton toggleButton;
             if(!(type.getIcon_Path() == null)){
@@ -319,16 +320,19 @@ public class Thu extends javax.swing.JFrame {
         int choice_addLog = JOptionPane.showConfirmDialog(Thu.this, "Bạn có chắc muốn thêm vào không!", "Thông báo",JOptionPane.YES_NO_OPTION);
         if(choice_addLog == JOptionPane.YES_OPTION){
             Date date = jDateChooser1.getDate();
-        
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        // Chuyển đối tượng Date thành chuỗi theo định dạng
+        String formattedDate = dateFormat.format(date);
             if(date == null){
                 JOptionPane.showMessageDialog(Thu.this, "Vui lòng nhập đúng định dạng ngày!","Thông báo", JOptionPane.OK_OPTION);
             }
 
             String ghichu = text_ghichu.getText();
 
-            Double tienthu = 0.0;
+            int tienthu = 0;
             try {
-                tienthu = Double.valueOf(String.valueOf(text_tienthu.getText()));
+                tienthu = Integer.valueOf(String.valueOf(text_tienthu.getText()));
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(Thu.this, "Vụi lòng nhập đúng số tiền!", "Thông báo",JOptionPane.OK_OPTION);
             }
@@ -345,11 +349,11 @@ public class Thu extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(Thu.this, "Vui lòng chọn một danh mục!","Thông báo", JOptionPane.OK_OPTION);
                 return;
             }
-            Logs log = new Logs();
+            LogO log = new LogO();
             log.setID_Type(Integer.parseInt(id_Type));
             log.setNote(ghichu);
             log.setPrice((tienthu));
-            log.setDatesString(date);
+            log.setDateString(formattedDate);
             try {
                 logController.addLog(log);
                 JOptionPane.showMessageDialog(Thu.this, "Thành Công","Thông báo", JOptionPane.OK_OPTION);

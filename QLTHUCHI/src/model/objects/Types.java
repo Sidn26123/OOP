@@ -1,4 +1,4 @@
-package models;
+package model.objects;
 import java.sql.Connection;
 import Utils.Utils;
 import Utils.MyJDBCFuncLib;

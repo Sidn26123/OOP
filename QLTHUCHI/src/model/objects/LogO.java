@@ -1,4 +1,4 @@
-package models;
+package model.objects;
 import java.util.Date;
 
 public class LogO {
