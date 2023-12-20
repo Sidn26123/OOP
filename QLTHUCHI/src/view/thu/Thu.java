@@ -58,9 +58,6 @@ public class Thu extends javax.swing.JFrame {
     }
     
     private void setPanelDanhMuc(){
-        
-        
-        
         typeController = new TypeController();
         List<TypeO> types = typeController.getAllTypeExpenses();
         int length = types.size();
