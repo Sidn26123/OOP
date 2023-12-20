@@ -33,7 +33,7 @@ public class FamilyModel {
                         rs.getString("Name"),
                         rs.getInt("Group_ID"),
                         rs.getString("EmailAddress"),
-                        rs.getDouble("Receipt"),
+                        rs.getDouble("Receipts"),
                         rs.getDouble("Expenses")
                 );
                 usersGroup.add(user);

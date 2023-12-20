@@ -106,7 +106,7 @@ public class LogModel {
         User user = new User();
         Connection connection = JDBCConnection.getJDBCConnection();
         String sql = """
-                     select ID,Name, u.Group_ID, Receipt, Expenses
+                     select ID,Name, u.Group_ID, Receipts, Expenses
                      from [dbo].[User] as u
                      join [dbo].[Log] as l
                      on u.ID = l.User_ID
@@ -120,7 +120,7 @@ public class LogModel {
                 user.setID(rs.getInt("ID"));
                 user.setName(rs.getString("Name"));
                 user.setGroup_ID(rs.getInt("Group_ID"));
-                user.setReceipts(rs.getDouble("Receipt"));
+                user.setReceipts(rs.getDouble("Receipts"));
                 user.setExpenses(rs.getDouble("Expenses"));
                 
             }
