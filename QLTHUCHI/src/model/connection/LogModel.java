@@ -10,8 +10,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+
 import model.objects.LogO;
 import Utils.Utils;
+
+//import model.objects.Logs;
+
 /**
  *
  * @author LENOVO
@@ -30,6 +34,7 @@ public class LogModel {
            
             preparedStatement.setString(4, utilDate);
             preparedStatement.setInt(5,log.getUser_ID());
+
             int rs = preparedStatement.executeUpdate();
             System.out.println(rs);
         } catch (SQLException e) {

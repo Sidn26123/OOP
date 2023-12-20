@@ -1,4 +1,4 @@
-package models;
+package model.objects;
 
 public class Transaction {
     private int id;

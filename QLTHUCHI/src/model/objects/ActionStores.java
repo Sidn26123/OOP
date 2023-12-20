@@ -1,4 +1,4 @@
-package models;
+package model.objects;
 import java.util.Vector;
 
 public class ActionStores {

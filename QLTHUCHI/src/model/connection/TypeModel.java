@@ -26,6 +26,7 @@ public class TypeModel {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet rs = preparedStatement.executeQuery();
             while(rs.next()){
+
                 TypeO type = new TypeO();
                 type.setID_Type(rs.getInt("ID_Type"));
                 type.setID_User(rs.getInt("ID_User"));

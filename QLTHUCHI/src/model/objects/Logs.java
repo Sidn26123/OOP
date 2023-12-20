@@ -1,14 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model.objects;
-
-/**
- *
- * @author sidac
- */
 import java.util.Vector;
 public class Logs {
     private Vector<LogO> logs;
@@ -33,52 +23,21 @@ public class Logs {
         return this.logs.size();
     }
 
+    /**
+     * Trả về log tại index, nếu index âm thì bắt đầu từ cuối đến đầu
+     * @param index
+     * @return LogO
+     */
     public LogO getLogAt(int index){
+        if (index >= this.logs.size() || index < -this.logs.size()){
+            return null;
+        }
+        if (index < 0){
+            return this.logs.get(this.logs.size() + index );
+        }
         return this.logs.get(index);
     }
 
-//<<<<<<< HEAD
-//    public void addLog(LogO log){
-//        this.logs.add(log);
-//    }
-//
-//    public void addLogAt(LogO log, int index){
-//        this.logs.add(index, log);
-//    }
-//
-//    public void removeLogAt(int index){
-//        this.logs.remove(index);
-//    }
-//
-//    public void removeAfterIndex(int index){
-//        for(int i = this.logs.size() - 1; i > index; i--){
-//            this.logs.remove(i);
-//        }
-//    }
-//
-//    public void removeBeforeIndex(int index){
-//        for(int i = 0; i < index; i++){
-//            this.logs.remove(0);
-//        }
-//    }
-//
-//    public void setLogAt(LogO log, int index){
-//        this.logs.set(index, log);
-//    }
-//
-//    public void clear(){
-//        this.logs.clear();
-//    }
-//
-//    public void removeLog(LogO log){
-//        this.logs.remove(log);
-//    }
-//
-//    public void removeLog(LogO log, int index){
-//        this.logs.remove(index);
-//    }
-//}
-//=======
     public LogO getLog(int id){
         for(int i = 0; i < this.logs.size(); i++){
             if (this.logs.get(i).getID() == id){

@@ -1,12 +1,12 @@
-package controllers;
+package controller;
 import java.util.Vector;
 
-import models.ActionStore;
-import models.ActionStores;
-import models.LogO;
-import models.LogsDB;
-import models.Transactions;
-import models.Logs;
+import model.objects.ActionStore;
+import model.objects.ActionStores;
+import model.objects.LogO;
+import model.objects.LogsDB;
+import model.objects.Transactions;
+import model.objects.Logs;
 
 public class ActionStoreController {
     private ActionStores actionStore;

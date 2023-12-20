@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
@@ -385,7 +386,10 @@ public class Thu extends javax.swing.JFrame {
         int choice_addLog = JOptionPane.showConfirmDialog(Thu.this, "Bạn có chắc muốn thêm vào không!", "Thông báo",JOptionPane.YES_NO_OPTION);
         if(choice_addLog == JOptionPane.YES_OPTION){
             Date date = jDateChooser1.getDate();
-        
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        // Chuyển đối tượng Date thành chuỗi theo định dạng
+        String formattedDate = dateFormat.format(date);
             if(date == null){
                 JOptionPane.showMessageDialog(Thu.this, "Vui lòng nhập đúng định dạng ngày!","Thông báo", JOptionPane.OK_OPTION);
             }
@@ -418,6 +422,10 @@ public class Thu extends javax.swing.JFrame {
             log.setNote(ghichu);
             log.setPrice(tienthu);
             log.setDateString(Utils.Utils.converDateToString(date, "dd/MM/yyyy"));
+//            log.setID_Type(Integer.parseInt(id_Type));
+//            log.setNote(ghichu);
+//            log.setPrice((tienthu));
+//            log.setDateString(formattedDate);
             try {
                 logController.addLog(log);
                 JOptionPane.showMessageDialog(Thu.this, "Thành Công","Thông báo", JOptionPane.OK_OPTION);
