@@ -307,12 +307,12 @@ public class SignUp extends javax.swing.JFrame {
                 return;
             }
             String fullName = txtName.getText().trim();
-            if (check_letter(fullName)) {
+            if (check_number(fullName)) {
                 JOptionPane.showMessageDialog(this, "Họ và tên không được chứa chữ số !", "Thử lại !", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             String PhoneNumber = txtphone.getText().trim();
-            if (check_number(PhoneNumber)) {
+            if (check_letter(PhoneNumber)) {
                 JOptionPane.showMessageDialog(this, "Số Điện Thoại phải bao gồm các chữ số !", "Thử lại !", JOptionPane.ERROR_MESSAGE);
                 return;
             }

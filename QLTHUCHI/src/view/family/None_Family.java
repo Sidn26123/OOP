@@ -25,8 +25,8 @@ public class None_Family extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        TaoGroup = new javax.swing.JButton();
+        TimGroup = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -39,19 +39,19 @@ public class None_Family extends javax.swing.JFrame {
         jLabel2.setText("jLabel2");
         jLabel2.setPreferredSize(new java.awt.Dimension(350, 350));
 
-        jButton1.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
-        jButton1.setText("Tạo Mới Mã Hộ Gia Đình");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        TaoGroup.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        TaoGroup.setText("Tạo Mới Mã Hộ Gia Đình");
+        TaoGroup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                TaoGroupActionPerformed(evt);
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
-        jButton2.setText("Tìm Mã Hộ Gia Đình");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        TimGroup.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        TimGroup.setText("Tìm Mã Hộ Gia Đình");
+        TimGroup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                TimGroupActionPerformed(evt);
             }
         });
 
@@ -61,9 +61,9 @@ public class None_Family extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addComponent(jButton1)
+                .addComponent(TaoGroup)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
+                .addComponent(TimGroup)
                 .addGap(23, 23, 23))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(37, Short.MAX_VALUE)
@@ -77,8 +77,8 @@ public class None_Family extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(140, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(TaoGroup)
+                    .addComponent(TimGroup))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(32, 32, 32)
@@ -107,10 +107,8 @@ public class None_Family extends javax.swing.JFrame {
         try {
             Connection con = connect.getJDBCConnection();
             String sql = "SELECT * FROM Group_User WHERE Name_Group=?";
-
             try (PreparedStatement ps = con.prepareStatement(sql)) {
                 ps.setString(1, groupname);
-
                 try (ResultSet rs = ps.executeQuery()) {
                     return rs.next();
                 }
@@ -121,58 +119,62 @@ public class None_Family extends javax.swing.JFrame {
             return false;
         }
     }
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void TaoGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TaoGroupActionPerformed
         try {
             Connection con = connect.getJDBCConnection();
-            String groupName = null;
+            String groupName;
             do {
                 groupName = JOptionPane.showInputDialog(this, "Nhập tên nhóm (group_name):");
                 if (groupName == null) {
                     return;
                 } else if (groupName.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Tên nhóm không được để trống !", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                } else if (!check_Group_Name_Ton_Tai(groupName)) {
+                } else if (check_Group_Name_Ton_Tai(groupName)) {
                     JOptionPane.showMessageDialog(this, "Tên nhóm đã tồn tại !", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }
-            } while (groupName.isEmpty() || !check_Group_Name_Ton_Tai(groupName));
-            if (groupName != null) {
-            String sqlUpdateGroupUser = "INSERT INTO Group_User (Host_ID, Name_Group) VALUES ( ?, ?)";
-            PreparedStatement psUpdateGroupUser = con.prepareStatement(sqlUpdateGroupUser);
-            psUpdateGroupUser.setInt(1, id_user);
-            psUpdateGroupUser.setString(2, groupName);
-            int n = psUpdateGroupUser.executeUpdate();
-            if (n > 0) {
-                int groupid = 0;
-                String sql= "Select ID_Group from Group_User WHERE Host_ID=?";
-                    try (PreparedStatement ps = con.prepareStatement(sql)) {
-                        ps.setInt(1, id_user);
-                        try (ResultSet rs = ps.executeQuery()) {
-                            if (rs.next()) {
-                               groupid = rs.getInt("ID_Group");
+            } while (groupName.isEmpty() || check_Group_Name_Ton_Tai(groupName));
+                String sqlUpdateGroupUser = "INSERT INTO Group_User (Host_ID, Name_Group) VALUES (?, ?)";
+                try (PreparedStatement psUpdateGroupUser = con.prepareStatement(sqlUpdateGroupUser)) {
+                    psUpdateGroupUser.setInt(1, id_user);
+                    psUpdateGroupUser.setString(2, groupName);
+                    int n = psUpdateGroupUser.executeUpdate();
+
+                    if (n > 0) {
+                        int groupid = 0;
+                        String sql = "Select ID_Group from Group_User WHERE Host_ID=?";
+                        try (PreparedStatement ps = con.prepareStatement(sql)) {
+                            ps.setInt(1, id_user);
+                            try (ResultSet rs = ps.executeQuery()) {
+                                if (rs.next()) {
+                                    groupid = rs.getInt("ID_Group");
+                                }
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        String sqlUpdateGroupID = "UPDATE [User] SET Group_ID = ? WHERE ID=?";
+                        try (PreparedStatement psUpdateGroupID = con.prepareStatement(sqlUpdateGroupID)) {
+                            psUpdateGroupID.setInt(1, groupid);
+                            psUpdateGroupID.setInt(2, id_user);
+                            int m = psUpdateGroupID.executeUpdate();
+
+                            if (m > 0) {
+                                JOptionPane.showMessageDialog(this, "Tạo nhóm thành công Với Group_ID: " + groupid);
+                                setVisible(false);
+                            } else {
+                                JOptionPane.showMessageDialog(this, "Không thành công khi cập nhật Group_User.", "Lỗi", JOptionPane.ERROR_MESSAGE);
                             }
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Không thành công khi cập nhật Group_ID.", "Lỗi", JOptionPane.ERROR_MESSAGE);
                     }
-                String sqlUpdateGroupID = "UPDATE [User] SET Group_ID = ? WHERE ID=?";
-                PreparedStatement psUpdateGroupID = con.prepareStatement(sqlUpdateGroupID);
-                psUpdateGroupID.setInt(1, groupid);
-                psUpdateGroupID.setInt(2, id_user);
-                int m = psUpdateGroupID.executeUpdate();
-                if (m > 0) {
-                    JOptionPane.showMessageDialog(this, "Cập nhật thông tin nhóm thành công Với Group_ID: " + groupid);
-                } else {
-                    JOptionPane.showMessageDialog(this, "Không thành công khi cập nhật Group_User.", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }
-            } else {
-                JOptionPane.showMessageDialog(this, "Không thành công khi cập nhật Group_ID.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            }
-        }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Lỗi: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_TaoGroupActionPerformed
     public boolean check_Group_ID_Ton_Tai(String groupID) {
         try {
             Connection con = connect.getJDBCConnection();
@@ -195,7 +197,7 @@ public class None_Family extends javax.swing.JFrame {
         return str.matches("\\d*\\.?\\d+");
     }
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void TimGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TimGroupActionPerformed
     try {
         Connection con = connect.getJDBCConnection();
         int groupid = 0;
@@ -227,7 +229,7 @@ public class None_Family extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Lỗi: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_TimGroupActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -238,8 +240,8 @@ public class None_Family extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton TaoGroup;
+    private javax.swing.JButton TimGroup;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
