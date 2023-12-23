@@ -1,15 +1,16 @@
 
 package main;
 
+import LoginSignup.View.Login;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import view.thu.Test;
+import view.calendar.Calendars;
 import view.thu.Thu;
 
 public class MainBoard extends javax.swing.JFrame {
     private int id_user;
     JPanel panel_thu;
-    JPanel testJPanel;
+    JPanel panel_calendar;
     
     public MainBoard(int id_user) {
         this.id_user = id_user;
@@ -64,8 +65,18 @@ public class MainBoard extends javax.swing.JFrame {
         });
 
         button_chart.setPreferredSize(new java.awt.Dimension(48, 48));
+        button_chart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_chartActionPerformed(evt);
+            }
+        });
 
         button_calendar.setPreferredSize(new java.awt.Dimension(48, 48));
+        button_calendar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_calendarActionPerformed(evt);
+            }
+        });
 
         button_dotted.setPreferredSize(new java.awt.Dimension(48, 48));
 
@@ -124,7 +135,7 @@ public class MainBoard extends javax.swing.JFrame {
 
     private void button_logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_logoutActionPerformed
         this.setVisible(false);
-//        new Login().setVisible(true);
+        new Login().setVisible(true);
     }//GEN-LAST:event_button_logoutActionPerformed
 
     private void button_thuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_thuActionPerformed
@@ -137,11 +148,28 @@ public class MainBoard extends javax.swing.JFrame {
     private void button_chiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_chiActionPerformed
         
     }//GEN-LAST:event_button_chiActionPerformed
+
+    private void button_chartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_chartActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_button_chartActionPerformed
+
+    private void button_calendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_calendarActionPerformed
+        panel_parent.removeAll();
+        panel_parent.add(panel_calendar);
+        panel_parent.repaint();
+        panel_parent.revalidate();
+    }//GEN-LAST:event_button_calendarActionPerformed
     
     private void setDefaultThings(){
         panel_thu = new JPanel();
         Thu thu = new Thu(id_user);
         panel_thu.add(thu.getContentPane());
+        
+        panel_calendar = new JPanel();
+        Calendars calendar = new Calendars(id_user);
+        panel_calendar.add(calendar);
+        
+        
         panel_parent.add(panel_thu);
 
         
@@ -153,16 +181,7 @@ public class MainBoard extends javax.swing.JFrame {
         button_calendar.setIcon(new ImageIcon("src\\source\\img\\Thu_Chi\\icons8-calendar-48.png"));
         button_dotted.setIcon(new ImageIcon("src\\source\\img\\Thu_Chi\\icons8-more-48.png"));
     }
-
-    public static void main(String args[]) {
-
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainBoard(1).setVisible(true);
-            }
-        });
-    }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button_calendar;
     private javax.swing.JButton button_chart;

@@ -28,7 +28,7 @@ public class XuatPDF {
 
         try {
             connection = JDBCConnection.getJDBCConnection();
-            String query = "SELECT Log.ID_Log, Log.ID_User, Type.Name_Type, Log.Price, Log.Note, Log.Date " +
+            String query = "SELECT Log.ID_Log, Log.User_ID, Type.Name_Type, Log.Price, Log.Note, Log.Date " +
                             "FROM Log " +
                             "JOIN Type ON Log.ID_Type = Type.ID_Type";
             preparedStatement = connection.prepareStatement(query);
@@ -63,7 +63,7 @@ public class XuatPDF {
             
             while (resultSet.next()) {
                 table.addCell(new PdfPCell(new Phrase(String.valueOf(resultSet.getInt("ID_Log")), getUnicodeFont())));
-                table.addCell(new PdfPCell(new Phrase(String.valueOf(resultSet.getInt("ID_User")), getUnicodeFont())));
+                table.addCell(new PdfPCell(new Phrase(String.valueOf(resultSet.getInt("User_ID")), getUnicodeFont())));
                 table.addCell(new PdfPCell(new Phrase(resultSet.getString("Name_Type"), getUnicodeFont())));
                 table.addCell(new PdfPCell(new Phrase(String.valueOf(resultSet.getDouble("Price")), getUnicodeFont())));
                 table.addCell(new PdfPCell(new Phrase(resultSet.getString("Note"), getUnicodeFont())));

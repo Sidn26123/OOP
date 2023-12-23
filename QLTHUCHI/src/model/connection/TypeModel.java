@@ -29,7 +29,7 @@ public class TypeModel {
                 TypeO type = new TypeO();
                 type.setID_Type(rs.getInt("ID_Type"));
                 type.setID_User(rs.getInt("ID_User"));
-                type.setReceipts_Or_Expenses(rs.getBoolean("Receipts_Or_Expenses"));
+                type.setReceipts_Or_Expenses(rs.getInt("Receipts_Or_Expenses"));
                 type.setName_Type(rs.getString("Name_Type"));
                 type.setIcon_Path(rs.getString("Icon_Path"));
                 type.setColor(rs.getString("Color"));

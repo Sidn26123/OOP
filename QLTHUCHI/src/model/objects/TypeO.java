@@ -4,6 +4,14 @@
  */
 package model.objects;
 
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
+
 /**
  *
  * @author LENOVO
@@ -11,12 +19,28 @@ package model.objects;
 public class TypeO {
     private int ID_Type;
     private int ID_User;
-    private boolean Receipts_Or_Expenses;
+//<<<<<<< HEAD
+//    private boolean Receipts_Or_Expenses;
+//=======
+    private int Receipts_Or_Expenses;
     private String Name_Type;
     private String Icon_Path;
     private String Color;
     private int ID_Budget;
 
+    public TypeO() {
+        this.ID_Type = -1;
+    }
+
+    public TypeO(int ID_Type, int Receipts_Or_Expenses, String Name_Type, String Icon_Path, String Color) {
+        this.ID_Type = ID_Type;
+        // this.ID_User = ID_User;
+        this.Receipts_Or_Expenses = Receipts_Or_Expenses;
+        this.Name_Type = Name_Type;
+        this.Icon_Path = Icon_Path;
+        this.Color = Color;
+        // this.ID_Budget = ID_Budget;
+    }
     public int getID_Type() {
         return ID_Type;
     }
@@ -33,11 +57,18 @@ public class TypeO {
         this.ID_User = ID_Log;
     }
 
-    public boolean isReceipts_Or_Expenses() {
+//<<<<<<< HEAD
+//    public boolean isReceipts_Or_Expenses() {
+//        return Receipts_Or_Expenses;
+//    }
+//
+//    public void setReceipts_Or_Expenses(boolean Receipts_Or_Expenses) {
+//=======
+    public int isReceipts_Or_Expenses() {
         return Receipts_Or_Expenses;
     }
 
-    public void setReceipts_Or_Expenses(boolean Receipts_Or_Expenses) {
+    public void setReceipts_Or_Expenses(int Receipts_Or_Expenses) {
         this.Receipts_Or_Expenses = Receipts_Or_Expenses;
     }
 
@@ -72,6 +103,5 @@ public class TypeO {
     public void setID_Budget(int ID_Budget) {
         this.ID_Budget = ID_Budget;
     }
-    
-    
+
 }

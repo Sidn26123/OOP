@@ -22,7 +22,7 @@ public class XuatExcel {
 
         try {
             connection = JDBCConnection.getJDBCConnection();
-            String query = "SELECT Log.ID_Log, Log.ID_User, Type.Name_Type, Log.Price, Log.Note, Log.Date " +
+            String query = "SELECT Log.ID_Log, Log.User_ID, Type.Name_Type, Log.Price, Log.Note, Log.Date " +
                             "FROM Log " +
                             "JOIN Type ON Log.ID_Type = Type.ID_Type";
             preparedStatement = connection.prepareStatement(query);
@@ -43,7 +43,7 @@ public class XuatExcel {
             while (resultSet.next()) {
                 Row row = sheet.createRow(rowNum++);
                 row.createCell(0).setCellValue(resultSet.getInt("ID_Log"));
-                row.createCell(1).setCellValue(resultSet.getInt("ID_User"));
+                row.createCell(1).setCellValue(resultSet.getInt("User_ID"));
                 row.createCell(2).setCellValue(resultSet.getString("Name_Type"));
                 row.createCell(3).setCellValue(resultSet.getDouble("Price"));
                 row.createCell(4).setCellValue(resultSet.getString("Note"));

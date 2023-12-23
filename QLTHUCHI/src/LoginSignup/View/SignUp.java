@@ -79,17 +79,17 @@ public class SignUp extends javax.swing.JFrame {
         );
 
         jPanel1.add(jPanel3);
-        jPanel3.setBounds(400, 500, 0, 0);
+        jPanel3.setBounds(400, 500, 100, 100);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setMinimumSize(new java.awt.Dimension(400, 500));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 102, 102));
         jLabel1.setText("Sign Up");
         jLabel1.setPreferredSize(new java.awt.Dimension(111, 48));
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel2.setText("Email");
 
         txtgmail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -100,10 +100,10 @@ public class SignUp extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel4.setText("Password");
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel5.setText("Confirm Password");
 
         txtconfirm.setMinimumSize(new java.awt.Dimension(64, 26));
@@ -114,7 +114,7 @@ public class SignUp extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel3.setText("Full name");
 
         txtName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -124,6 +124,7 @@ public class SignUp extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 51, 51));
         jButton2.setText("Login");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -132,8 +133,10 @@ public class SignUp extends javax.swing.JFrame {
             }
         });
 
+        jLabel6.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel6.setText("I've an account !");
 
+        jButton3.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 51, 51));
         jButton3.setText("Sign Up");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -142,7 +145,7 @@ public class SignUp extends javax.swing.JFrame {
             }
         });
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel7.setText("UserName");
 
         txtuser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -152,7 +155,7 @@ public class SignUp extends javax.swing.JFrame {
             }
         });
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel8.setText("PhoneNumber");
 
         txtpass.setMinimumSize(new java.awt.Dimension(64, 26));
@@ -176,17 +179,16 @@ public class SignUp extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jButton3)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel6)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2))
                     .addComponent(txtphone, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtpass, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(43, 43, 43)
+                        .addGap(100, 100, 100)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel7)
                     .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -196,18 +198,17 @@ public class SignUp extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(txtconfirm, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtuser, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel3))
                 .addContainerGap(62, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24))
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25)
+                .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -218,9 +219,9 @@ public class SignUp extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtgmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel8)
-                .addGap(2, 2, 2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtphone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
@@ -232,10 +233,10 @@ public class SignUp extends javax.swing.JFrame {
                 .addComponent(txtconfirm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
                     .addComponent(jButton2))
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel4);
@@ -245,15 +246,11 @@ public class SignUp extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 21, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 23, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -270,34 +267,89 @@ public class SignUp extends javax.swing.JFrame {
         LoginFrame.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
-
+    
+    private boolean Check_Ten(String str) {
+    for (char c : str.toCharArray()) {
+        if (Character.isDigit(c)) {
+            return true;
+        }
+    }
+    return false;
+    }
+    
+    private boolean check_SDT(String str) {
+    for (char c : str.toCharArray()) {
+        if (Character.isLetter(c)) {
+            return true;
+        }
+    }
+    return false;
+    }
+    
+    private boolean Check_tai_khoan_da_ton_tai(String username, String email,String phonenumber) throws Exception {
+         try {
+            Connection con = connect.getJDBCConnection();
+            String sql = "SELECT * FROM [User] WHERE UserName = ? OR EmailAddress = ? OR PhoneNumber=?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setString(2, email);
+            ps.setString(3, phonenumber);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+         }catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+            return false;
+        }
+    }
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         try{
             if (txtName.getText().equals("") | txtuser.getText().equals("") | txtgmail.getText().equals("") | txtphone.getText().equals("") | txtpass.getText().equals("") | txtconfirm.getText().equals("")){
-                JOptionPane.showMessageDialog(this, "khong de trong thong tin !","try again !",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Không Để Trống Thông Tin !","try again !",JOptionPane.ERROR_MESSAGE);
                 return ;
             }
             if ( !txtconfirm.getText().equals(txtpass.getText())){
-                JOptionPane.showMessageDialog(this, "Nhap lai mat khau khong trung nhau !","try again !",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Nhập Lại Mật Khẩu Không Trùng Nhau !","try again !",JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            Connection con=connect.getJDBCConnection();
+            String email = txtgmail.getText().trim().toLowerCase();
+            if (!email.contains("@gmail.com")) {
+                JOptionPane.showMessageDialog(this, "Địa chỉ email phải có dạng '@gmail.com'", "Thử lại !", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            String fullName = txtName.getText().trim();
+            if (Check_Ten(fullName)) {
+                JOptionPane.showMessageDialog(this, "Họ và tên không được chứa chữ số !", "Thử lại !", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            String PhoneNumber = txtphone.getText().trim();
+            if (check_SDT(PhoneNumber)) {
+                JOptionPane.showMessageDialog(this, "Số Điện Thoại phải bao gồm các chữ số !", "Thử lại !", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             
+            if (PhoneNumber.length() != 10) {
+                JOptionPane.showMessageDialog(this, "Số điện thoại phải có 10 chữ số !!!", "Thử lại !", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            if (Check_tai_khoan_da_ton_tai(txtuser.getText(), txtgmail.getText(), txtphone.getText())) {
+                JOptionPane.showMessageDialog(this, "Tên đăng nhập, Email hoặc Số điện thoại đã tồn tại!", "Thử lại !", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            Connection con=connect.getJDBCConnection();
             String sql = "INSERT INTO [User] (Name ,UserName, Password,PhoneNumber,EmailAddress) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, txtName.getText());
             ps.setString(2, txtuser.getText());
             ps.setString(3, new String(txtpass.getPassword())); 
             ps.setString(4, txtphone.getText());
-            ps.setString(5, txtgmail.getText());
-
-            
-            int n = ps.executeUpdate();
-             
-            
-            if(n!=0){
-                JOptionPane.showMessageDialog(this, "Dang ki thanh cong !");
+            ps.setString(5, txtgmail.getText());       
+            int n = ps.executeUpdate();            
+            if(n!=0){               
+                JOptionPane.showMessageDialog(this, "Đăng Kí Thành Công !");
                 Login LoginFrame = new Login();
                 LoginFrame.setVisible(true);
                 LoginFrame.pack();
@@ -305,7 +357,7 @@ public class SignUp extends javax.swing.JFrame {
                 this.dispose();
             }
             else{
-                JOptionPane.showMessageDialog(this, "Dang ki that bai !");
+                JOptionPane.showMessageDialog(this, "Đăng Kí Thất Bại !");
             } 
         }
         catch(Exception e){
