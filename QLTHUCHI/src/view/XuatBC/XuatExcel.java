@@ -31,7 +31,6 @@ public class XuatExcel {
             XSSFWorkbook workbook = new XSSFWorkbook();
             XSSFSheet sheet = workbook.createSheet("Báo cáo Excel");
 
-            // Create header row
             Row headerRow = sheet.createRow(0);
             String[] columns = {"Mã Log", "Mã người dùng", "Danh mục", "Tiền", "Ghi chú", "Ngày"};
             for (int i = 0; i < columns.length; i++) {
@@ -39,7 +38,7 @@ public class XuatExcel {
                 cell.setCellValue(columns[i]);
             }
 
-            // Populate data rows
+            
             int rowNum = 1;
             while (resultSet.next()) {
                 Row row = sheet.createRow(rowNum++);
@@ -51,7 +50,7 @@ public class XuatExcel {
                 row.createCell(5).setCellValue(resultSet.getDate("Date").toString());
             }
 
-            // Write the workbook content to a file
+           
             try (FileOutputStream fileOut = new FileOutputStream("D:/Log_Report.xlsx")) {
                 workbook.write(fileOut);
             }
@@ -59,7 +58,7 @@ public class XuatExcel {
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         } finally {
-            // Close resources in the reverse order of their creation
+            
             try {
                 if (resultSet != null) resultSet.close();
                 if (preparedStatement != null) preparedStatement.close();

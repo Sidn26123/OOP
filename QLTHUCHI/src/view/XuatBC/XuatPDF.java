@@ -34,20 +34,19 @@ public class XuatPDF {
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
 
-            // Create a new document
             Document document = new Document(PageSize.A4);
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("D:/Log_Report.pdf"));
             writer.getAcroForm().setNeedAppearances(true);
             document.open();
 
-            // Add a title to the document
+         
             Paragraph title = new Paragraph("BÁO CÁO THU CHI", getUnicodeFont());
             title.setAlignment(Paragraph.ALIGN_CENTER);
             document.add(title);
 
-            // Create a table with column headers and set font
+            
             PdfPTable table = new PdfPTable(6);
-            table.setWidthPercentage(100); // Table width is 100% of the page width
+            table.setWidthPercentage(100); 
             table.setSpacingBefore(10f);
             table.setSpacingAfter(10f);
             table.getDefaultCell().setPadding(5);
@@ -61,7 +60,7 @@ public class XuatPDF {
             table.addCell(new PdfPCell(new Phrase("Ghi chú", getUnicodeFont())));
             table.addCell(new PdfPCell(new Phrase("Ngày", getUnicodeFont())));
 
-            // Populate data rows
+            
             while (resultSet.next()) {
                 table.addCell(new PdfPCell(new Phrase(String.valueOf(resultSet.getInt("ID_Log")), getUnicodeFont())));
                 table.addCell(new PdfPCell(new Phrase(String.valueOf(resultSet.getInt("ID_User")), getUnicodeFont())));
@@ -71,17 +70,17 @@ public class XuatPDF {
                 table.addCell(new PdfPCell(new Phrase(resultSet.getDate("Date").toString(), getUnicodeFont())));
             }
 
-            // Add the table to the document
+           
             document.add(table);
 
-            // Close the document
+           
             document.close();
 
             JOptionPane.showMessageDialog(null, "Xuất PDF thành công. Tài liệu đã được lưu tại: D:/Log_Report.pdf");
         } catch (SQLException | DocumentException | java.io.IOException e) {
             e.printStackTrace();
         } finally {
-            // Close resources in the reverse order of their creation
+            
             try {
                 if (resultSet != null) resultSet.close();
                 if (preparedStatement != null) preparedStatement.close();
@@ -92,7 +91,7 @@ public class XuatPDF {
         }
     }
 
-    // Helper method to get Unicode font
+  
     private static Font getUnicodeFont() throws DocumentException, java.io.IOException {
         BaseFont arialFont = BaseFont.createFont("C:\\Windows\\Fonts\\Arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
         return new Font(arialFont, 12);
