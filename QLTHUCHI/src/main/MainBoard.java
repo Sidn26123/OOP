@@ -255,7 +255,7 @@ public class MainBoard extends javax.swing.JFrame {
         panel_family.add(family.getContentPane());
         
         panel_None_family = new JPanel();
-        None_Family none_family = new None_Family(id_user);
+        None_Family none_family = new None_Family(id_user, this);
         panel_None_family.add(none_family.getContentPane());       
         
         panel_parent.add(panel_thu);

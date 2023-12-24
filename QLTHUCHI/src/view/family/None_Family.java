@@ -9,8 +9,10 @@ import javax.swing.JPanel;
 import main.MainBoard;
 public class None_Family extends javax.swing.JFrame {
     private int id_user;
-    public None_Family(int id_user) {
+    private MainBoard mainBoard;
+    public None_Family(int id_user, MainBoard mainBoard) {
         this.id_user = id_user;
+        this.mainBoard = mainBoard;
         initComponents();
     }
     JDBCConnection connect = new JDBCConnection();
@@ -231,13 +233,13 @@ public class None_Family extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_TimGroupActionPerformed
 
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new None_Family( 13).setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new None_Family( 13).setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton TaoGroup;
