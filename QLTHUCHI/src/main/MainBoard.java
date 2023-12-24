@@ -10,13 +10,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import LoginSignup.View.Login;
+import charts.chart.BarChart.chartTest;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import view.Chi.Chi;
 import view.calendar.Calendars;
+import view.chart.ChartView;
 import view.family.Family;
 import view.family.None_Family;
 import view.thu.Thu;
+import views.CalendarT;
 
 public class MainBoard extends javax.swing.JFrame {
     JDBCConnection connect = new JDBCConnection();
@@ -25,6 +29,8 @@ public class MainBoard extends javax.swing.JFrame {
     JPanel panel_calendar;
     JPanel panel_None_family;
     JPanel panel_family;
+    JPanel panel_chi;
+    JPanel panel_char;
     
     public MainBoard(int id_user) {
         this.id_user = id_user;
@@ -177,11 +183,17 @@ public class MainBoard extends javax.swing.JFrame {
     }//GEN-LAST:event_button_thuActionPerformed
 
     private void button_chiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_chiActionPerformed
-        
+        panel_parent.removeAll();
+        panel_parent.add(panel_chi);
+        panel_parent.repaint();
+        panel_parent.revalidate();
     }//GEN-LAST:event_button_chiActionPerformed
 
     private void button_chartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_chartActionPerformed
-        // TODO add your handling code here:
+        panel_parent.removeAll();
+        panel_parent.add(panel_char);
+        panel_parent.repaint();
+        panel_parent.revalidate();
     }//GEN-LAST:event_button_chartActionPerformed
 
     
@@ -260,9 +272,15 @@ public class MainBoard extends javax.swing.JFrame {
         Thu thu = new Thu(id_user);
         panel_thu.add(thu.getContentPane());
         
+        panel_chi = new JPanel();
+        Chi chi = new Chi(id_user);
+        panel_chi.add(chi.getContentPane());
+        
         panel_calendar = new JPanel();
-        Calendars calendar = new Calendars(id_user);
-        panel_calendar.add(calendar);
+//        Calendars calendar = new Calendars(id_user);
+//        panel_calendar.add(calendar);
+        CalendarT calendarT = new CalendarT(id_user);
+        panel_calendar.add(calendarT);
         panel_family = new JPanel();
         Family family = new Family(id_user, this);
         panel_family.add(family.getContentPane());
@@ -272,6 +290,12 @@ public class MainBoard extends javax.swing.JFrame {
         panel_None_family.add(none_family.getContentPane());       
         
         panel_parent.add(panel_thu);
+        
+        ChartView chartView = new ChartView();
+        chartTest chTest = new chartTest();
+        panel_char = new JPanel();
+        panel_char.add(chTest.getContentPane());
+        
 
         
         button_thu.setIcon(new ImageIcon("src\\source\\img\\Thu_Chi\\icons8-coin-wallet-48.png"));

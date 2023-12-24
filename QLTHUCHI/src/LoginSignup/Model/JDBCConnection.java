@@ -11,9 +11,13 @@ import java.util.logging.Logger;
 public class JDBCConnection {
     public static Connection getJDBCConnection(){
         String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-        String url = "jdbc:sqlserver://localhost:1433;databaseName=QLTC;encrypt=true;trustServerCertificate=true";
+//        String url = "jdbc:sqlserver://localhost:1433;databaseName=QLTC;encrypt=true;trustServerCertificate=true";
+//        String user = "sa";
+//        String password = "sa";
+          
+        String url = "jdbc:sqlserver://localhost:1433;databaseName=QLTHUCHI;encrypt=true;trustServerCertificate=true";
         String user = "sa";
-        String password = "sa";
+        String password = "123456789";
         try {
             Connection connection = DriverManager.getConnection(url, user, password);
             System.out.println("Connection Successfull !");
