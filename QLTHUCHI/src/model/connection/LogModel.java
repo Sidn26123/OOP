@@ -129,4 +129,59 @@ public class LogModel {
         }
         return user;
     }
+//    public boolean deleteLog(int id_log) {
+//        Connection connection = JDBCConnection.getJDBCConnection();
+//        String sql = "DELETE FROM Log WHERE ID_Log = ?";
+//        try {
+//            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+//            preparedStatement.setInt(1, id_log);
+//            int rowsAffected = preparedStatement.executeUpdate();
+//            return rowsAffected > 0;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//    }
+        public boolean deleteLog(int id_log) {
+        Connection connection = JDBCConnection.getJDBCConnection();
+        String deleteLogSQL = "DELETE FROM Log WHERE ID_Log = ?";
+        String deleteGroupLogSQL = "DELETE FROM group_log WHERE ID_Log = ?";
+
+        try {
+            // Xóa dữ liệu từ bảng Log
+            PreparedStatement deleteLogStatement = connection.prepareStatement(deleteLogSQL);
+            deleteLogStatement.setInt(1, id_log);
+            int rowsAffectedLog = deleteLogStatement.executeUpdate();
+
+            // Xóa dữ liệu từ bảng group_log
+            PreparedStatement deleteGroupLogStatement = connection.prepareStatement(deleteGroupLogSQL);
+            deleteGroupLogStatement.setInt(1, id_log);
+            int rowsAffectedGroupLog = deleteGroupLogStatement.executeUpdate();
+
+            // Trả về true nếu ít nhất một trong hai bảng có dữ liệu bị xóa
+            return rowsAffectedLog > 0 || rowsAffectedGroupLog > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+     public void updateLogGroup(LogO log){
+        Connection connection = JDBCConnection.getJDBCConnection();
+        String sql = "update Log set (ID_Type, Price, Note, Date, User_ID, Group_ID) values(?,?,?,?,?,?) where ";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, log.getID_Type());
+            preparedStatement.setDouble(2, log.getPrice());
+            preparedStatement.setString(3,log.getNote());
+            String utilDate = Utils.convertToSqlDate(log.getDateString());
+            preparedStatement.setString(4, utilDate);
+            preparedStatement.setInt(5,log.getUser_ID());
+            preparedStatement.setInt(6, log.getGroup_ID());
+            int rs = preparedStatement.executeUpdate();
+            System.out.println(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

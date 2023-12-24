@@ -15,10 +15,12 @@ import java.util.Calendar;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import model.objects.LogO;
+
 
 
 public class Family extends javax.swing.JFrame {
@@ -123,20 +125,20 @@ public class Family extends javax.swing.JFrame {
         table_chi.getTableHeader().setFont(new Font("Times New Roman",Font.PLAIN, 18));
     }
     
-    public void fillTable(Calendar c) {
-        int month = c.get(Calendar.MONTH) + 1;
-        int year = c.get(Calendar.YEAR);
-        List<LogO> LogsGroup = logController.getLogGroup(familyController.getID_Group(id_user), month, year);
-        tblModel.setRowCount(0);
-        for (LogO log : LogsGroup) {
-            User user = logController.getInfoUserById_log(log.getID());
-            tblModel.addRow(new String[]{user.getName(),getNguoiKhac(log.getID()),
-                log.getNote(), typeController.findTypeByID_Type(log.getID_Type()).getName_Type(),
-                log.getDateString(), String.valueOf(log.getPrice())});
+        public void fillTable(Calendar c) {
+            int month = c.get(Calendar.MONTH) + 1;
+            int year = c.get(Calendar.YEAR);
+            List<LogO> LogsGroup = logController.getLogGroup(familyController.getID_Group(id_user), month, year);
+            tblModel.setRowCount(0);
+            for (LogO log : LogsGroup) {
+                User user = logController.getInfoUserById_log(log.getID());
+                tblModel.addRow(new String[]{user.getName(),getNguoiKhac(log.getID()),
+                    log.getNote(), typeController.findTypeByID_Type(log.getID_Type()).getName_Type(),
+                    log.getDateString(), String.valueOf(log.getPrice())});
+            }
+            tblModel.fireTableDataChanged();
         }
-        tblModel.fireTableDataChanged();
-    }
-    
+
     private String getNguoiKhac(int id_log){
         String name_usersChoice = "<html>";
         int cnt = 1;
@@ -160,9 +162,7 @@ public class Family extends javax.swing.JFrame {
             }
         }
         return name_usersChoice + "</html>";
-    }
-    
-    
+    }  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -191,7 +191,6 @@ public class Family extends javax.swing.JFrame {
 
         dialog_more.setTitle("Option");
         dialog_more.setModal(true);
-        dialog_more.setPreferredSize(new java.awt.Dimension(155, 140));
 
         jButton1.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
         jButton1.setText("Rời nhóm");
@@ -217,7 +216,6 @@ public class Family extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 605));
         setResizable(false);
 
         label_name_group.setFont(new java.awt.Font("Segoe Script", 0, 26)); // NOI18N
@@ -304,11 +302,21 @@ public class Family extends javax.swing.JFrame {
         button_delete.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
         button_delete.setForeground(new java.awt.Color(255, 255, 255));
         button_delete.setText("Xóa");
+        button_delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_deleteActionPerformed(evt);
+            }
+        });
 
         button_update.setBackground(new java.awt.Color(51, 255, 0));
         button_update.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
         button_update.setForeground(new java.awt.Color(255, 255, 255));
         button_update.setText("Sửa");
+        button_update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_updateActionPerformed(evt);
+            }
+        });
 
         jPanel3.setBackground(new java.awt.Color(0, 255, 204));
         jPanel3.setPreferredSize(new java.awt.Dimension(320, 24));
@@ -391,11 +399,12 @@ public class Family extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(label_name_group)
                 .addGap(9, 9, 9)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(button_add)
-                    .addComponent(button_update)
-                    .addComponent(button_delete)
-                    .addComponent(button_more, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(button_more, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(button_add)
+                        .addComponent(button_update)
+                        .addComponent(button_delete)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(button_pre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -447,6 +456,63 @@ public class Family extends javax.swing.JFrame {
         dialog_more.setLocation(dim.width/2-dialog_more.getSize().width/2 + 466, dim.height/2-dialog_more.getSize().height/2 - 150);
         dialog_more.setVisible(true);
     }//GEN-LAST:event_button_moreActionPerformed
+
+    private void button_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_updateActionPerformed
+        int selectedRowIndex = table_chi.getSelectedRow();
+            if (selectedRowIndex != -1) {
+            // Lấy dữ liệu từ dòng đã chọn
+            String nguoiTao = (String) table_chi.getValueAt(selectedRowIndex, 0);
+            String nguoiChi = (String) table_chi.getValueAt(selectedRowIndex, 1);
+            String ten = (String) table_chi.getValueAt(selectedRowIndex, 2);
+            String loai = (String) table_chi.getValueAt(selectedRowIndex, 3);
+            String ngay = (String) table_chi.getValueAt(selectedRowIndex, 4);
+            String soTien = (String) table_chi.getValueAt(selectedRowIndex, 5);
+
+            Editform editform = new Editform(this, true, nguoiTao, nguoiChi, ten, loai, ngay, soTien);
+            editform.setVisible(true);
+            // Lấy dữ liệu đã sửa từ hộp thoại chỉnh sửa
+            String updatedNguoiTao = editform.getNguoiTao();
+            String updatedNguoiChi = editform.getNguoiChi();
+            String updatedTen = editform.getTen();
+            String updatedLoai = editform.getLoai();
+            String updatedNgay = editform.getNgay();
+            String updatedSoTien = editform.getSoTien();
+
+            // Cập nhật bảng với dữ liệu đã chỉnh sửa
+            table_chi.setValueAt(updatedNguoiTao, selectedRowIndex, 0);
+            table_chi.setValueAt(updatedNguoiChi, selectedRowIndex, 1);
+            table_chi.setValueAt(updatedTen, selectedRowIndex, 2);
+            table_chi.setValueAt(updatedLoai, selectedRowIndex, 3);
+            table_chi.setValueAt(updatedNgay, selectedRowIndex, 4);
+            table_chi.setValueAt(updatedSoTien, selectedRowIndex, 5);
+            updateDatabase(selectedRowIndex, updatedNguoiTao, updatedNguoiChi, updatedTen, updatedLoai, updatedNgay, updatedSoTien);
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Vui lòng chọn một dòng để sửa");
+        }
+    }//GEN-LAST:event_button_updateActionPerformed
+
+    private void button_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_deleteActionPerformed
+        LogO log = new LogO();
+            try {
+                int selectedRowIndex = table_chi.getSelectedRow();
+                if (selectedRowIndex != -1) {
+                    int id_log = logController.getID_Log();
+                    boolean success = logController.deleteLog(id_log);
+                    if (success) {
+                        JOptionPane.showMessageDialog(rootPane, "Đã xóa dòng thành công");
+                        Calendar c = getMonthYear();
+                        fillTable(c);
+                    } else {
+                        JOptionPane.showMessageDialog(rootPane, "Lỗi khi xóa dòng");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Vui lòng chọn một dòng để xóa");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(rootPane, "Đã xảy ra lỗi");
+            }
+    }//GEN-LAST:event_button_deleteActionPerformed
 
     public void getLsNguoiChi(List<List<String>> UserChoce){
         this.UserChoce = UserChoce;
