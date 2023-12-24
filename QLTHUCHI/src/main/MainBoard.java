@@ -210,6 +210,16 @@ public class MainBoard extends javax.swing.JFrame {
         panel_parent.revalidate();
     }
     
+    public void appear_panel_thu(){
+        panel_thu = new JPanel();
+        Thu thu = new Thu(id_user);
+        panel_thu.add(thu.getContentPane());
+        panel_parent.removeAll();
+        panel_parent.add(panel_thu);
+        panel_parent.repaint();
+        panel_parent.revalidate();
+    }
+    
     private void button_calendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_calendarActionPerformed
         panel_parent.removeAll();
         panel_parent.add(panel_calendar);
