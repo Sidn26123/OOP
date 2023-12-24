@@ -30,6 +30,6 @@ public class ConfigFile {
         // }
 
         // return "";
-        return "MySQL";
+        return "SQLServer";
     }
 }

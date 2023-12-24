@@ -19,9 +19,9 @@ public class JDBCConnection {
 //
 //=======
         if (c.getDB() == "SQLServer"){
-        String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=QLTHUCHI;encrypt = true;trustServerCertificate=true";
+        String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=QLTC;encrypt = true;trustServerCertificate=true";
         String user = "sa";
-        String password = "123456789";
+        String password = "sa";
    
         try {
             Connection connection = DriverManager.getConnection(url,user, password);

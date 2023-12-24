@@ -11,13 +11,14 @@ import controller.DanhMucChi;
  * @author phanh
  */
 public class ChiJPanel extends javax.swing.JPanel {
-
+    private final int ID_User;
     /**
      * Creates new form ChiJPanel
      */
-    public ChiJPanel() {
+    public ChiJPanel(int ID_User) {
+        this.ID_User = ID_User;
         initComponents();
-        DanhMucChi.populateDanhmucComboBox(Danhmuc);
+        DanhMucChi.populateDanhmucComboBox(Danhmuc,ID_User);
     }
 
     /**
@@ -86,7 +87,7 @@ public class ChiJPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
  
     private void ThemMucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ThemMucActionPerformed
-        DanhMucChi.themMucActionPerformed(Danhmuc);
+        DanhMucChi.themMucActionPerformed(Danhmuc,ID_User);
     }//GEN-LAST:event_ThemMucActionPerformed
 
     private void XoaMucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_XoaMucActionPerformed
@@ -94,7 +95,7 @@ public class ChiJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_XoaMucActionPerformed
 
     private void SuaMucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SuaMucActionPerformed
-        DanhMucChi.SuaMucActionPerformed(Danhmuc);
+        DanhMucChi.SuaMucActionPerformed(Danhmuc,ID_User);
     }//GEN-LAST:event_SuaMucActionPerformed
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

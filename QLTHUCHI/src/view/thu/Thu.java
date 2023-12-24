@@ -14,6 +14,7 @@ import java.util.Enumeration;
 import java.util.List;
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
 import model.objects.LogO;
@@ -376,7 +377,14 @@ public class Thu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void button_chinhsua1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_chinhsua1ActionPerformed
-        new ThuJPanel().setVisible(true);
+        int userID = 1;
+        ThuJPanel thuJPanel = new ThuJPanel(userID);
+        JFrame newFrame = new JFrame("Chỉnh sửa");
+        newFrame.getContentPane().add(thuJPanel);
+        newFrame.setSize(330, 150);
+        newFrame.setLocationRelativeTo(null);
+        newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        newFrame.setVisible(true);
     }//GEN-LAST:event_button_chinhsua1ActionPerformed
 
     private void text_ghichuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_ghichuActionPerformed
