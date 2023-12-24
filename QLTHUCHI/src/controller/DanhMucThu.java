@@ -23,7 +23,7 @@ import model.objects.TypeO;
 public class DanhMucThu {
     
     //cập nhật lại giao diện panel_danhmuc
-    public static void updateDanhMucPanel(int id_user, JPanel panel_danhmuc, ButtonGroup buttonGroup1, JButton button_chinhsua1) {
+    public static void updateDanhMucThuPanel(int id_user, JPanel panel_danhmuc, ButtonGroup buttonGroup1, JButton button_chinhsua1) {
         // Xóa các thành phần hiện tại trong panel
         JButton buttonChinhsua1 = button_chinhsua1;
         panel_danhmuc.removeAll();

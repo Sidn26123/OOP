@@ -1,14 +1,72 @@
 package controller;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
 import model.connection.JDBCConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JToggleButton;
+import model.objects.TypeO;
 
 public class DanhMucChi {
+    
+    //cập nhật lại giao diện panel_danhmuc
+    public static void updateDanhMucChiPanel(int id_user, JPanel panel_danhmuc, ButtonGroup buttonGroup1, JButton button_chinhsua1) {
+        // Xóa các thành phần hiện tại trong panel
+        JButton buttonChinhsua1 = button_chinhsua1;
+        panel_danhmuc.removeAll();
+        panel_danhmuc.add(buttonChinhsua1);
+
+        // Lấy danh sách cập nhật các loại
+        TypeController typeController = new TypeController();
+        List<TypeO> types = typeController.getAllTypeReceipt(id_user);
+        int length = types.size();
+        int rows = (int) length / 3 + 1;
+        panel_danhmuc.setLayout(new GridLayout(rows, 3));
+
+        for (TypeO type : types) {
+            ImageIcon icon;
+            JToggleButton toggleButton;
+
+            if (!(type.getIcon_Path() == null)) {
+                icon = new ImageIcon(type.getIcon_Path());
+                toggleButton = new JToggleButton(type.getName_Type(), icon);
+            } else {
+                toggleButton = new JToggleButton(type.getName_Type());
+            }
+
+            toggleButton.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+            toggleButton.setActionCommand(String.valueOf(type.getID_Type()));
+            toggleButton.setForeground(new Color(333333));
+
+            toggleButton.setBackground(new Color(255, 230, 230));
+            toggleButton.setMaximumSize(new java.awt.Dimension(50, 50));
+            toggleButton.setMinimumSize(new java.awt.Dimension(10, 10));
+            toggleButton.setPreferredSize(new Dimension(50, 50));
+
+            panel_danhmuc.add(toggleButton);
+            buttonGroup1.add(toggleButton);
+        }
+
+        // Vẽ lại và xác nhận lại panel để phản ánh các thay đổi
+        panel_danhmuc.repaint();
+        panel_danhmuc.revalidate();
+    }
+    
+    
+    
+    
     
      // lấy danh mục trong cơ sở dữ liệu để đưa ra jcombobox
     public static void populateDanhmucComboBox(JComboBox<String> Danhmuc,int ID_User) {
@@ -18,7 +76,7 @@ public class DanhMucChi {
         //
         try {
             connection = JDBCConnection.getJDBCConnection();
-            String sql = "SELECT Name_Type FROM Type WHERE (ID_User = ? OR ID_User = -2) and (Receipts_Or_expenses = 1)";
+            String sql = "SELECT Name_Type FROM Type WHERE (ID_User = ? OR ID_User = -1) and (Receipts_Or_expenses = 1)";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, ID_User);  // Thiết lập giá trị tham số
 
@@ -114,7 +172,7 @@ public class DanhMucChi {
         try {
             connection = JDBCConnection.getJDBCConnection();
                                             //Receipts_Or_expenses = 0 Tương ứng với danh mục chi, ID_User = -2 để lấy danh mục chi có sẵn lưu trong db
-            String sql = "SELECT COUNT(*) FROM Type WHERE UPPER(Name_Type) = UPPER(?) and ((ID_User = ? OR ID_User = -2) and (Receipts_Or_expenses = 1))";
+            String sql = "SELECT COUNT(*) FROM Type WHERE UPPER(Name_Type) = UPPER(?) and ((ID_User = ? OR ID_User = -1) and (Receipts_Or_expenses = 1))";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, newCategory.trim());
              preparedStatement.setInt(2, ID_User);
