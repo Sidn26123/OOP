@@ -419,7 +419,7 @@ public class Thu extends javax.swing.JFrame {
 
             int tienthu = 0;
             try {
-                tienthu = Integer.valueOf(String.valueOf(text_tienthu.getText()));
+                tienthu = Integer.parseInt(String.valueOf(text_tienthu.getText()));
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(Thu.this, "Vụi lòng nhập đúng số tiền!", "Thông báo",JOptionPane.OK_OPTION);
             }
@@ -465,13 +465,13 @@ public class Thu extends javax.swing.JFrame {
         dialog_dsThu.setVisible(true);
     }//GEN-LAST:event_button_danh_sach_thuActionPerformed
 
-//    public static void main(String args[]) {
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new Thu(1).setVisible(true);
-//            }
-//        });
-//    }
+    public static void main(String args[]) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Thu(1).setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;

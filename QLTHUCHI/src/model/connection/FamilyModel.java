@@ -259,4 +259,7 @@ public class FamilyModel {
         }
         return lsPrice_Group;
     }
+    private void test(){
+        System.out.println("Hello world");
+    }
 }

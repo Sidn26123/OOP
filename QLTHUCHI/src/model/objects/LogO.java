@@ -90,6 +90,7 @@ public class LogO {
 
     public Object[] toArray() {
         return new Object[] {ID_Log, ID_Type, Price, Note, DateString};
+        
     }
 
 

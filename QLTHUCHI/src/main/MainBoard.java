@@ -167,7 +167,6 @@ public class MainBoard extends javax.swing.JFrame {
         LoginFrame.setVisible(true);
         LoginFrame.pack();
         LoginFrame.setLocationRelativeTo(null);
-        new Login().setVisible(true);
     }//GEN-LAST:event_button_logoutActionPerformed
 
     private void button_thuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_thuActionPerformed
@@ -275,9 +274,9 @@ public class MainBoard extends javax.swing.JFrame {
         button_family.setIcon(new ImageIcon("src\\source\\img\\Thu_Chi\\icons8-house-48.png"));
     }
   
-//    public static void main(String[] args) {
-//        new MainBoard(13).setVisible(true);
-//    }
+    public static void main(String[] args) {
+        new MainBoard(13).setVisible(true);
+    }
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
