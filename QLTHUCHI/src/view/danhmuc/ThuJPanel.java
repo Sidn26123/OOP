@@ -88,8 +88,7 @@ public class ThuJPanel extends javax.swing.JPanel {
 
     private void ThemMucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ThemMucActionPerformed
        
-        DanhMucThu danhmucthu = new DanhMucThu();
-        danhmucthu.themMucActionPerformed(Danhmuc,ID_User);
+       DanhMucThu.themMucActionPerformed(Danhmuc,ID_User);
     }//GEN-LAST:event_ThemMucActionPerformed
 
     private void XoaMucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_XoaMucActionPerformed
