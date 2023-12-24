@@ -14,6 +14,7 @@ import java.util.Enumeration;
 import java.util.List;
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
 import model.objects.LogO;
@@ -277,9 +278,9 @@ public class Thu extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Segoe Script", 0, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe Script", 0, 30)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 255, 255));
-        jLabel1.setText("THU");
+        jLabel1.setText("Thu");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -300,7 +301,7 @@ public class Thu extends javax.swing.JFrame {
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGap(149, 149, 149)
+                                .addGap(142, 142, 142)
                                 .addComponent(jLabel1)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(button_save, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -390,7 +391,14 @@ public class Thu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void button_chinhsua1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_chinhsua1ActionPerformed
-        new ThuJPanel().setVisible(true);
+
+        ThuJPanel thuJPanel = new ThuJPanel(id_user);
+        JFrame newFrame = new JFrame("Chỉnh sửa");
+        newFrame.getContentPane().add(thuJPanel);
+        newFrame.setSize(330, 150);
+        newFrame.setLocationRelativeTo(null);
+        newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        newFrame.setVisible(true);
     }//GEN-LAST:event_button_chinhsua1ActionPerformed
 
     private void text_ghichuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_ghichuActionPerformed

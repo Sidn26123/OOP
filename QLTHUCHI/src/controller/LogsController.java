@@ -8,10 +8,17 @@ import java.util.Vector;
 import model.objects.ActionStore;
 import model.objects.LogO;
 import model.objects.Logs;
+import model.objects.LogsDB;
 /**
  *
  * @author sidac
  */
+import java.util.Vector;
+
+//import com.mysql.cj.util.Util;
+
+import Utils.Utils;
+
 public class LogsController {
     private Logs logs;
     public LogsController(){
@@ -94,5 +101,60 @@ public class LogsController {
             }
         }
         return data;
+    }
+    public void filter(Vector<Object[]> conditionsForFilter, Vector<Object[]> conditionsForSort){
+        Logs logs = new Logs();
+        for (Object[] item : conditionsForFilter){
+            item[1] = (String)Utils.convertStringToSQLDate((String)item[1]);
+        }
+        Vector<String> conditionForFilter = new Vector<String>();
+        for (Object[] item : conditionsForFilter){
+            if (item[0] == "date"){
+                if (item[2] == "from"){
+                    conditionForFilter.add("date >= " + "'" + item[1] + "'");
+                }
+                else if (item[2] == "to"){
+                    conditionForFilter.add("date <= " + "'" + item[1] + "'");
+                }
+            }
+            else if (item[0] == "amount"){
+                if (item[2] == "from"){
+                    conditionForFilter.add("amount >= " + "'" + item[1] + "'");
+                }
+                else if (item[2] == "to"){
+                    conditionForFilter.add("amount <= " + "'" + item[1] + "'");
+                }
+            }
+        }
+        Vector<String> conditionForSort = new Vector<String>();
+        for (Object[] item : conditionsForSort){
+            if (item[0] == "date"){
+                if (item[1] == "ASC"){
+                    conditionForSort.add("date ASC");
+                }
+                else if (item[1] == "DESC"){
+                    conditionForSort.add("date DESC");
+                }
+            }
+            else if (item[0] == "amount"){
+                if (item[1] == "ASC"){
+                    conditionForSort.add("amount ASC");
+                }
+                else if (item[1] == "DESC"){
+                    conditionForSort.add("amount DESC");
+                }
+            }
+        }
+        Vector<Object[]> data = new Vector<Object[]>();
+            data = new LogsDB().getDataWithCondition(conditionForFilter, conditionForSort);
+        for (Object[] item : data){
+            logs.addLog(new LogO((int)item[0], (int)item[1], (int)item[2], (String)item[3], (String)item[4]));
+        }
+        // Transactions transactions = new Transactions();
+        // transactions.vectorToTransactions(data);
+        // return transactions;
+
+        this.logs = logs;
+
     }
 }

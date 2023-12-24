@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import LoginSignup.View.Login;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -166,6 +167,7 @@ public class MainBoard extends javax.swing.JFrame {
         LoginFrame.setVisible(true);
         LoginFrame.pack();
         LoginFrame.setLocationRelativeTo(null);
+        new Login().setVisible(true);
     }//GEN-LAST:event_button_logoutActionPerformed
 
     private void button_thuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_thuActionPerformed
@@ -182,6 +184,7 @@ public class MainBoard extends javax.swing.JFrame {
     private void button_chartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_chartActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_button_chartActionPerformed
+
     
     public JPanel getPanel_parent(){
         return this.panel_parent;
@@ -214,6 +217,7 @@ public class MainBoard extends javax.swing.JFrame {
         panel_parent.repaint();
         panel_parent.revalidate();
     }//GEN-LAST:event_button_calendarActionPerformed
+
     public void check_Group_ID(int ID){       
         String sql = "SELECT Group_ID FROM [User] WHERE ID = ?";
         try (Connection con = connect.getJDBCConnection();
@@ -240,6 +244,7 @@ public class MainBoard extends javax.swing.JFrame {
         
         check_Group_ID(id_user);
     }//GEN-LAST:event_button_familyActionPerformed
+
     
     private void setDefaultThings(){
         panel_thu = new JPanel();
@@ -249,7 +254,6 @@ public class MainBoard extends javax.swing.JFrame {
         panel_calendar = new JPanel();
         Calendars calendar = new Calendars(id_user);
         panel_calendar.add(calendar);
-        
         panel_family = new JPanel();
         Family family = new Family(id_user, this);
         panel_family.add(family.getContentPane());
@@ -271,9 +275,9 @@ public class MainBoard extends javax.swing.JFrame {
         button_family.setIcon(new ImageIcon("src\\source\\img\\Thu_Chi\\icons8-house-48.png"));
     }
   
-    public static void main(String[] args) {
-        new MainBoard(13).setVisible(true);
-    }
+//    public static void main(String[] args) {
+//        new MainBoard(13).setVisible(true);
+//    }
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

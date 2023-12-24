@@ -1,27 +1,38 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package model.objects;
 
 
 
 public class ActionStore {
-        private LogO typeData;
+        private LogO data;
         private String typeAction; // "add" or "delete" or "update"
         private int index; //các hành động được thực hiện nhiều cái trong 1 lần (xóa nhiều item) thì sẽ có cùng index
-        public ActionStore(LogO typeData, String typeAction, int index) {
-            this.typeData = typeData;
+        private int indexInTable; 
+        /**
+         * 
+         * @param data
+         * @param typeAction
+         * @param index là index cho các action vào ra cùng 1 lúc
+         */
+        public ActionStore(LogO data, String typeAction, int index) {
+            this.data = data;
             this.typeAction = typeAction;
             this.index = index;
         }
-        public LogO getTypeData() {
-            return typeData;
+
+        public ActionStore(LogO data, String typeAction, int index, int indexInTable) {
+            this.data = data;
+            this.typeAction = typeAction;
+            this.index = index;
+            this.indexInTable = indexInTable;
         }
 
-        public void setTypeData(LogO typeData) {
-            this.typeData = typeData;
+        public LogO getData() {
+            return data;
+        }
+
+        public void setData(LogO data) {
+            this.data = data;
         }
 
         public String getTypeAction() {
@@ -58,6 +69,31 @@ public class ActionStore {
 
         // public int isReceiptsOrExpenses(){
         //     return this.typeData.isReceipts_Or_Expenses();
+        public int getIndexInTable() {
+            return indexInTable;
+        }
+
+        public void setIndexInTable(int indexInTable) {
+            this.indexInTable = indexInTable;
+        }
+        // public int getID(){
+        //     return this.data.getID_Type();
+        // }
+
+        // public String getName(){
+        //     return this.data.getName_Type();
+        // }
+        
+        // public String getIconPath(){
+        //     return this.data.getIcon_Path();
+        // }
+
+        // public String getColor(){
+        //     return this.data.getColor();
+        // }
+
+        // public int isReceiptsOrExpenses(){
+        //     return this.data.isReceipts_Or_Expenses();
         // }
 
 

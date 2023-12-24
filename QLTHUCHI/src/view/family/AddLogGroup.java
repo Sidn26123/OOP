@@ -480,7 +480,7 @@ public class AddLogGroup extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void button_chinhsua1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_chinhsua1ActionPerformed
-        new ThuJPanel().setVisible(true);
+        new ThuJPanel(id_user).setVisible(true);
     }//GEN-LAST:event_button_chinhsua1ActionPerformed
 
     private void text_ghichuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_ghichuActionPerformed
