@@ -190,11 +190,20 @@ public class MainBoard extends javax.swing.JFrame {
         return this.panel_family;
     }
     public void appear_panel_family(){
-        Family family = new Family(id_user);
+        Family family = new Family(id_user, this);
         panel_family.removeAll();
         panel_family.add(family.getContentPane());
         panel_parent.removeAll();
         panel_parent.add(panel_family);
+        panel_parent.repaint();
+        panel_parent.revalidate();
+    }
+    public void appear_panel_none_family(){
+        panel_None_family = new JPanel();
+        None_Family none_family = new None_Family(id_user, this);
+        panel_None_family.add(none_family.getContentPane());
+        panel_parent.removeAll();
+        panel_parent.add(panel_None_family);
         panel_parent.repaint();
         panel_parent.revalidate();
     }
@@ -242,7 +251,7 @@ public class MainBoard extends javax.swing.JFrame {
         panel_calendar.add(calendar);
         
         panel_family = new JPanel();
-        Family family = new Family(id_user);
+        Family family = new Family(id_user, this);
         panel_family.add(family.getContentPane());
         
         panel_None_family = new JPanel();
@@ -261,6 +270,11 @@ public class MainBoard extends javax.swing.JFrame {
         button_dotted.setIcon(new ImageIcon("src\\source\\img\\Thu_Chi\\icons8-more-48.png"));
         button_family.setIcon(new ImageIcon("src\\source\\img\\Thu_Chi\\icons8-house-48.png"));
     }
+  
+    public static void main(String[] args) {
+        new MainBoard(13).setVisible(true);
+    }
+    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button_calendar;

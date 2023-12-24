@@ -539,9 +539,10 @@ public class AddLogGroup extends javax.swing.JFrame {
                 String stringDate = Utils.Utils.converDateToString(date, "dd/MM/yyyy");
                 c.set(Calendar.MONTH, Integer.parseInt(stringDate.split("/")[1])-1);
                 c.set(Calendar.YEAR, Integer.parseInt(stringDate.split("/")[2]));
-                System.out.println(( "add log"+stringDate.split("/")[1]) + " " + (stringDate.split("/")[2]));
                 family.setTextLabelDate(c);
                 family.fillTable(c);
+                family.sum_price_per_month();
+                family.initTablePrice();
                 JOptionPane.showMessageDialog(AddLogGroup.this, "Thành Công","Thông báo", JOptionPane.OK_OPTION);
             } catch (HeadlessException e) {
                 JOptionPane.showMessageDialog(AddLogGroup.this, "Thất bại","Thông báo", JOptionPane.OK_OPTION);

@@ -9,35 +9,49 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
+import java.util.Vector;
+import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import main.MainBoard;
 import model.objects.LogO;
 
 
 public class Family extends javax.swing.JFrame {
     
     private int id_user;
+    private MainBoard mainBoard;
     private DefaultTableModel tblModel = new DefaultTableModel();
+    private DefaultTableModel tblModelPrice = new DefaultTableModel();
     TypeController typeController = new TypeController();
     LogController logController = new LogController();
     public List<List<String>> UserChoce = new ArrayList<>();
     FamilyController familyController = new FamilyController();
 
-    public Family(int id_user) {
+    public Family(int id_user, MainBoard mainBoard) {
         this.id_user = id_user;
+        this.mainBoard = mainBoard;
         Calendar c = Calendar.getInstance();
         initComponents();
         initTable();
+        initTablePrice();
         fillTable(c);
         setingUITable();
         setDefault();
+        setRemoveMember();
         
     }
     
@@ -52,6 +66,79 @@ public class Family extends javax.swing.JFrame {
         Calendar c = Calendar.getInstance();
         setTextLabelDate(c);
         label_date.setHorizontalAlignment(JLabel.CENTER);
+       
+        if(!familyController.is_HostGroupUser(id_user, id_group)){
+            menu_uy_quyen.setVisible(false);
+            menu_add_member.setVisible(false);
+            menu_remove_member.setVisible(false);
+        }
+        setLsMember();
+        setUyQuyen();
+        sum_price_per_month();
+    }
+    
+    private void setRemoveMember(){
+        List<User> members = familyController.getUsersGroup(id_user);
+        for(User member: members){
+            JMenuItem menuItem = new JMenuItem(new AbstractAction(member.getName()) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                delete_member_func(member);
+            }
+            });
+            if(member.getID() != id_user){
+                menu_remove_member.add(menuItem);
+            }
+        }
+    }
+    
+    private void setLsMember(){
+        List<User> members = familyController.getUsersGroup(id_user);
+        for(User member: members){
+            String name = member.getName();
+            if(familyController.is_HostGroupUser(member.getID(), familyController.getID_Group(id_user))){
+                name += " (Host)";
+            }
+            if(member.getID() == id_user){
+                name += " (Bạn)";
+            }
+            JMenuItem menuItem = new JMenuItem(new AbstractAction(name) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            }
+            });
+            menu_lsMember.add(menuItem);
+        }
+    }
+    private void setUyQuyen(){
+        List<User> members = familyController.getUsersGroup(id_user);
+        for(User member: members){
+            JMenuItem menuItem = new JMenuItem(new AbstractAction(member.getName()) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                uy_quyen_member_func(member);
+            }
+            });
+            if(member.getID() != id_user){
+                menu_uy_quyen.add(menuItem);
+            }
+        }
+    }
+    
+    private void delete_member_func(User user){
+        int is_outGroup = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa người này ra khỏi nhóm?", "Thông báo", JOptionPane.YES_NO_OPTION);
+        if(is_outGroup == JOptionPane.YES_OPTION){
+            familyController.setOutGroup(user.getID());
+            mainBoard.appear_panel_family();
+        }
+    }
+    
+    private void uy_quyen_member_func(User user){
+        int is_outGroup = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn đưa người này làm trưởng nhóm?", "Thông báo", JOptionPane.YES_NO_OPTION);
+        if(is_outGroup == JOptionPane.YES_OPTION){
+            familyController.setID_Host(user.getID(), familyController.getID_Group(id_user));
+            mainBoard.appear_panel_family();
+        }
     }
     
     public void setTextLabelDate(Calendar c){
@@ -123,6 +210,23 @@ public class Family extends javax.swing.JFrame {
         table_chi.getTableHeader().setFont(new Font("Times New Roman",Font.PLAIN, 18));
     }
     
+    public void initTablePrice(){
+        tblModelPrice.setRowCount(0);
+        List<User> userGroup = familyController.getUsersGroup(id_user);
+        List<String> header = new ArrayList<>();
+        header.add("");
+        for(User user: userGroup){
+            header.add(user.getName());
+        }
+        tblModelPrice.setColumnIdentifiers( header.toArray());
+        table_tongket.setModel(tblModelPrice);
+        table_tongket.getTableHeader().setFont(new Font("Times New Roman",Font.PLAIN, 14));
+        for(User user: userGroup){
+            tblModelPrice.addRow(new String[]{user.getName(),"0","0","0","0"});
+        }
+        tblModelPrice.fireTableDataChanged();
+    }
+    
     public void fillTable(Calendar c) {
         int month = c.get(Calendar.MONTH) + 1;
         int year = c.get(Calendar.YEAR);
@@ -135,6 +239,43 @@ public class Family extends javax.swing.JFrame {
                 log.getDateString(), String.valueOf(log.getPrice())});
         }
         tblModel.fireTableDataChanged();
+    }
+    
+    public void fillTablePrice(Calendar c){
+        int month = c.get(Calendar.MONTH) + 1;
+        int year = c.get(Calendar.YEAR);
+        List<User> userGroup = familyController.getUsersGroup(id_user);
+        Map<Integer, Map<Integer, Double>> price_per_member = familyController.getPriceMemberGroup(id_user, month, year);
+        setCorrectPrice(price_per_member, userGroup);
+        tblModelPrice.setRowCount(0);
+        for(User user: userGroup){
+            List<User> userGroup1 = userGroup;
+            List<String> row_tmp = new ArrayList<>();
+            row_tmp.add(user.getName());
+            Map<Integer, Double> row = price_per_member.get(user.getID());
+            for(User user1: userGroup1){
+                String tmpString = String.format("%.2f", row.get(user1.getID()));
+                row_tmp.add(tmpString);
+            }
+            tblModelPrice.addRow(row_tmp.toArray());
+        }
+    }
+    
+    private void setCorrectPrice(Map<Integer, Map<Integer, Double>> price_per_member, List<User> userGroup){
+        for(User user: userGroup){
+            for(User user1: userGroup){
+                double member1 = price_per_member.get(user.getID()).get(user1.getID());
+                double member2 = price_per_member.get(user1.getID()).get(user.getID());
+                if(member1 > member2){
+                    price_per_member.get(user.getID()).put(user1.getID(), member1-member2);
+                    price_per_member.get(user1.getID()).put(user.getID(),0.0);
+                }
+                else{
+                    price_per_member.get(user.getID()).put(user1.getID(), 0.0);
+                    price_per_member.get(user1.getID()).put(user.getID(),member2-member1);
+                }
+            }
+        }
     }
     
     private String getNguoiKhac(int id_log){
@@ -167,19 +308,26 @@ public class Family extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        dialog_more = new javax.swing.JDialog();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        popupMenu_more = new javax.swing.JPopupMenu();
+        menu_outGroup = new javax.swing.JMenuItem();
+        menu_lsMember = new javax.swing.JMenu();
+        menu_uy_quyen = new javax.swing.JMenu();
+        menu_add_member = new javax.swing.JMenuItem();
+        menu_remove_member = new javax.swing.JMenu();
+        dialog_addMember = new javax.swing.JDialog();
+        text_input_addMember = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        button_add_member = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         label_name_group = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table_chi = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
-        button_sum = new javax.swing.JButton();
         label_sum = new javax.swing.JLabel();
         button_tongket = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         table_tongket = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
         button_add = new javax.swing.JButton();
         button_delete = new javax.swing.JButton();
         button_update = new javax.swing.JButton();
@@ -189,31 +337,81 @@ public class Family extends javax.swing.JFrame {
         button_next = new javax.swing.JButton();
         button_more = new javax.swing.JButton();
 
-        dialog_more.setTitle("Option");
-        dialog_more.setModal(true);
-        dialog_more.setPreferredSize(new java.awt.Dimension(155, 140));
+        popupMenu_more.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        popupMenu_more.setFocusable(false);
 
-        jButton1.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
-        jButton1.setText("Rời nhóm");
+        menu_outGroup.setText("Rời nhóm");
+        menu_outGroup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_outGroupActionPerformed(evt);
+            }
+        });
+        popupMenu_more.add(menu_outGroup);
 
-        jButton2.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
-        jButton2.setText("Thêm thành viên");
+        menu_lsMember.setText("Thành viên");
+        popupMenu_more.add(menu_lsMember);
 
-        javax.swing.GroupLayout dialog_moreLayout = new javax.swing.GroupLayout(dialog_more.getContentPane());
-        dialog_more.getContentPane().setLayout(dialog_moreLayout);
-        dialog_moreLayout.setHorizontalGroup(
-            dialog_moreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
-        );
-        dialog_moreLayout.setVerticalGroup(
-            dialog_moreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(dialog_moreLayout.createSequentialGroup()
+        menu_uy_quyen.setText("Ủy quyền");
+        popupMenu_more.add(menu_uy_quyen);
+
+        menu_add_member.setText("Thêm thành viên");
+        menu_add_member.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_add_memberActionPerformed(evt);
+            }
+        });
+        popupMenu_more.add(menu_add_member);
+
+        menu_remove_member.setText("Xóa thành viên");
+        popupMenu_more.add(menu_remove_member);
+
+        dialog_addMember.setTitle("Thêm thành viên");
+
+        text_input_addMember.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        text_input_addMember.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                text_input_addMemberActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        jLabel1.setText("Nhập ID, UserName hoặc Gmail:");
+
+        button_add_member.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        button_add_member.setText("Thêm");
+        button_add_member.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_add_memberActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout dialog_addMemberLayout = new javax.swing.GroupLayout(dialog_addMember.getContentPane());
+        dialog_addMember.getContentPane().setLayout(dialog_addMemberLayout);
+        dialog_addMemberLayout.setHorizontalGroup(
+            dialog_addMemberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dialog_addMemberLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addGroup(dialog_addMemberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(text_input_addMember)
+                    .addGroup(dialog_addMemberLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dialog_addMemberLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(button_add_member)
+                .addGap(88, 88, 88))
+        );
+        dialog_addMemberLayout.setVerticalGroup(
+            dialog_addMemberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dialog_addMemberLayout.createSequentialGroup()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(text_input_addMember, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19)
+                .addComponent(button_add_member)
+                .addContainerGap())
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -242,14 +440,16 @@ public class Family extends javax.swing.JFrame {
         table_chi.setSelectionBackground(new java.awt.Color(51, 102, 255));
         jScrollPane1.setViewportView(table_chi);
 
-        button_sum.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        button_sum.setText("Tổng");
-
         label_sum.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         label_sum.setText("0");
 
         button_tongket.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         button_tongket.setText("Tổng kết");
+        button_tongket.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_tongketActionPerformed(evt);
+            }
+        });
 
         table_tongket.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -264,6 +464,9 @@ public class Family extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(table_tongket);
 
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jLabel2.setText("Tổng:");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -272,20 +475,20 @@ public class Family extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(button_tongket)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(button_sum)
-                .addGap(35, 35, 35)
-                .addComponent(label_sum, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42))
-            .addComponent(jScrollPane2)
+                .addComponent(jLabel2)
+                .addGap(82, 82, 82)
+                .addComponent(label_sum)
+                .addContainerGap())
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(button_sum)
                     .addComponent(label_sum)
-                    .addComponent(button_tongket))
+                    .addComponent(button_tongket)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -362,7 +565,7 @@ public class Family extends javax.swing.JFrame {
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jScrollPane1)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 175, Short.MAX_VALUE)
+                .addGap(0, 199, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(button_add)
@@ -372,14 +575,14 @@ public class Family extends javax.swing.JFrame {
                         .addComponent(button_delete)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(button_more, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20))
+                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(button_pre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(button_next, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(245, 245, 245))))
+                        .addGap(209, 209, 209))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(label_name_group, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -391,11 +594,12 @@ public class Family extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(label_name_group)
                 .addGap(9, 9, 9)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(button_add)
-                    .addComponent(button_update)
-                    .addComponent(button_delete)
-                    .addComponent(button_more, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(button_more, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(button_add)
+                        .addComponent(button_update)
+                        .addComponent(button_delete)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(button_pre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -414,11 +618,14 @@ public class Family extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -433,45 +640,96 @@ public class Family extends javax.swing.JFrame {
         Calendar c = getPreviousMonth();
         setTextLabelDate(c);
         fillTable(c);
+        sum_price_per_month();
+        initTablePrice();
     }//GEN-LAST:event_button_preActionPerformed
 
     private void button_nextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_nextActionPerformed
         Calendar c = getNextMonth();
         setTextLabelDate(c);
         fillTable(c);
+        sum_price_per_month();
+        initTablePrice();
     }//GEN-LAST:event_button_nextActionPerformed
 
     private void button_moreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_moreActionPerformed
-        dialog_more.setSize(155, 140);
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        dialog_more.setLocation(dim.width/2-dialog_more.getSize().width/2 + 466, dim.height/2-dialog_more.getSize().height/2 - 150);
-        dialog_more.setVisible(true);
+        popupMenu_more.show(mainBoard, WIDTH + 910, WIDTH+120);
     }//GEN-LAST:event_button_moreActionPerformed
 
+    private void menu_outGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_outGroupActionPerformed
+        int is_outGroup = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn rời khỏi nhóm không?", "Thông báo", JOptionPane.YES_NO_OPTION);
+        if(is_outGroup == JOptionPane.YES_OPTION){
+            familyController.setOutGroup(id_user);
+            mainBoard.appear_panel_none_family();
+        }
+    }//GEN-LAST:event_menu_outGroupActionPerformed
+
+    private void menu_add_memberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_add_memberActionPerformed
+        dialog_addMember.setSize(280,150);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        dialog_addMember.setLocation(dim.width/2-dialog_addMember.getSize().width/2, dim.height/2-dialog_addMember.getSize().height/2-50);
+        dialog_addMember.setVisible(true);
+    }//GEN-LAST:event_menu_add_memberActionPerformed
+
+    private void text_input_addMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_input_addMemberActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_text_input_addMemberActionPerformed
+
+    private void button_add_memberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_add_memberActionPerformed
+        String input = text_input_addMember.getText();
+        int check = familyController.add_member_group(input, familyController.getID_Group(id_user));
+        switch (check) {
+            case 0 -> JOptionPane.showMessageDialog(this, "Người này không tồn tại!", "Thông báo", JOptionPane.OK_OPTION);
+            case -1 -> JOptionPane.showMessageDialog(this, "Người này đã có nhóm!", "Thông báo", JOptionPane.OK_OPTION);
+            default -> {
+                JOptionPane.showMessageDialog(this, "Thêm thành công!", "Thông báo", JOptionPane.OK_OPTION);
+                dialog_addMember.setVisible(false);
+                mainBoard.appear_panel_family();
+            }
+        }
+    }//GEN-LAST:event_button_add_memberActionPerformed
+
+    private void button_tongketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_tongketActionPerformed
+        fillTablePrice(getMonthYear());
+        
+    }//GEN-LAST:event_button_tongketActionPerformed
+
+    public void sum_price_per_month(){
+        Calendar calendar = getMonthYear();
+        int month = calendar.get(Calendar.MONTH)+1;
+        int year = calendar.get(Calendar.YEAR);
+        double price = 0;
+        List<LogO> LogsGroup = logController.getLogGroup(familyController.getID_Group(id_user), month, year);
+        for(LogO log: LogsGroup){
+            price += log.getPrice();
+        }
+        label_sum.setText(String.valueOf(price));
+    }
+    
     public void getLsNguoiChi(List<List<String>> UserChoce){
         this.UserChoce = UserChoce;
     }
     
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Family(13).setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new Family(13).setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button_add;
+    private javax.swing.JButton button_add_member;
     private javax.swing.JButton button_delete;
     private javax.swing.JButton button_more;
     private javax.swing.JButton button_next;
     private javax.swing.JButton button_pre;
-    private javax.swing.JButton button_sum;
     private javax.swing.JButton button_tongket;
     private javax.swing.JButton button_update;
-    private javax.swing.JDialog dialog_more;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JDialog dialog_addMember;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -480,7 +738,14 @@ public class Family extends javax.swing.JFrame {
     private javax.swing.JLabel label_date;
     private javax.swing.JLabel label_name_group;
     private javax.swing.JLabel label_sum;
+    private javax.swing.JMenuItem menu_add_member;
+    private javax.swing.JMenu menu_lsMember;
+    private javax.swing.JMenuItem menu_outGroup;
+    private javax.swing.JMenu menu_remove_member;
+    private javax.swing.JMenu menu_uy_quyen;
+    private javax.swing.JPopupMenu popupMenu_more;
     private javax.swing.JTable table_chi;
     private javax.swing.JTable table_tongket;
+    private javax.swing.JTextField text_input_addMember;
     // End of variables declaration//GEN-END:variables
 }
