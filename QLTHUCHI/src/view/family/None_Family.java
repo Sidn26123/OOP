@@ -133,7 +133,7 @@ public class None_Family extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Tên nhóm đã tồn tại !", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }
             } while (groupName.isEmpty() || check_Group_Name_Ton_Tai(groupName));
-                String sqlUpdateGroupUser = "INSERT INTO Group_User (Host_ID, Name_Group) VALUES (?, ?)";
+                String sqlUpdateGroupUser = "INSERT INTO Group_User (HostID, Name_Group) VALUES (?, ?)";
                 try (PreparedStatement psUpdateGroupUser = con.prepareStatement(sqlUpdateGroupUser)) {
                     psUpdateGroupUser.setInt(1, id_user);
                     psUpdateGroupUser.setString(2, groupName);
@@ -141,7 +141,7 @@ public class None_Family extends javax.swing.JFrame {
 
                     if (n > 0) {
                         int groupid = 0;
-                        String sql = "Select ID_Group from Group_User WHERE Host_ID=?";
+                        String sql = "Select ID_Group from Group_User WHERE HostID=?";
                         try (PreparedStatement ps = con.prepareStatement(sql)) {
                             ps.setInt(1, id_user);
                             try (ResultSet rs = ps.executeQuery()) {
