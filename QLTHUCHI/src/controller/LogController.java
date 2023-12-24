@@ -1,5 +1,7 @@
 package controller;
 
+import LoginSignup.Model.User;
+import java.util.List;
 import model.connection.LogModel;
 import model.objects.LogO;
 
@@ -10,5 +12,17 @@ public class LogController {
     }
     public void addLog(LogO log){
         logDao.addLog(log);
+    }
+    public void addLogGroup(LogO log){
+        logDao.addLogGroup(log);
+    }
+    public List<LogO> getLogGroup(int id_group, int month, int year){
+        return logDao.getAllLogGroup(id_group, month, year);
+    }
+    public int getID_Log(){
+        return logDao.getID_Log();
+    }
+    public User getInfoUserById_log(int id_log){
+        return logDao.getInfoUserbyLog(id_log);
     }
 }

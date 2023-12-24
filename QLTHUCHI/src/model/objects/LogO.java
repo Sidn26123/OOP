@@ -13,7 +13,7 @@ import java.util.Date;
 public class LogO {
     private int ID_Log;
     private int ID_Type;
-    private int Price;
+    private double Price;
     private String Note;
     private String DateString;
     private int User_ID;
@@ -26,7 +26,7 @@ public class LogO {
         this.ID_Log = -1;
     }
 
-    public LogO(int ID_Log, int ID_Type, int Price, String Note, String DateString) {
+    public LogO(int ID_Log, int ID_Type, double Price, String Note, String DateString) {
         this.ID_Log = ID_Log;
         this.ID_Type = ID_Type;
         this.Price = Price;
@@ -47,11 +47,11 @@ public class LogO {
         this.ID_Type = ID_Type;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return Price;
     }
 
-    public void setPrice(int Price) {
+    public void setPrice(double Price) {
         this.Price = Price;
     }
 
@@ -90,6 +90,7 @@ public class LogO {
 
     public Object[] toArray() {
         return new Object[] {ID_Log, ID_Type, Price, Note, DateString};
+        
     }
 
 

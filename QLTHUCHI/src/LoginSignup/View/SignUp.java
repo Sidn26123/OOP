@@ -268,24 +268,12 @@ public class SignUp extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
     
-    private boolean Check_Ten(String str) {
-    for (char c : str.toCharArray()) {
-        if (Character.isDigit(c)) {
-            return true;
-        }
+    private boolean check_number(String str) {
+        return str.matches("\\d*\\.?\\d+");
     }
-    return false;
+    private boolean check_letter(String str) {
+        return str.matches("[a-zA-Z]+");
     }
-    
-    private boolean check_SDT(String str) {
-    for (char c : str.toCharArray()) {
-        if (Character.isLetter(c)) {
-            return true;
-        }
-    }
-    return false;
-    }
-    
     private boolean Check_tai_khoan_da_ton_tai(String username, String email,String phonenumber) throws Exception {
          try {
             Connection con = connect.getJDBCConnection();
@@ -319,12 +307,13 @@ public class SignUp extends javax.swing.JFrame {
                 return;
             }
             String fullName = txtName.getText().trim();
-            if (Check_Ten(fullName)) {
+            if (check_number(fullName)) {
+
                 JOptionPane.showMessageDialog(this, "Họ và tên không được chứa chữ số !", "Thử lại !", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             String PhoneNumber = txtphone.getText().trim();
-            if (check_SDT(PhoneNumber)) {
+            if (check_letter(PhoneNumber)) {
                 JOptionPane.showMessageDialog(this, "Số Điện Thoại phải bao gồm các chữ số !", "Thử lại !", JOptionPane.ERROR_MESSAGE);
                 return;
             }
