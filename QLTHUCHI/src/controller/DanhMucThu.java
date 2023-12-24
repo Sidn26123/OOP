@@ -1,14 +1,71 @@
 package controller;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
 import model.connection.JDBCConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JToggleButton;
+import model.objects.TypeO;
+
 
 public class DanhMucThu {
+    
+    //cập nhật lại giao diện panel_danhmuc
+    public static void updateDanhMucPanel(int id_user, JPanel panel_danhmuc, ButtonGroup buttonGroup1, JButton button_chinhsua1) {
+        // Xóa các thành phần hiện tại trong panel
+        JButton buttonChinhsua1 = button_chinhsua1;
+        panel_danhmuc.removeAll();
+        panel_danhmuc.add(buttonChinhsua1);
+
+        // Lấy danh sách cập nhật các loại
+        TypeController typeController = new TypeController();
+        List<TypeO> types = typeController.getAllTypeExpenses(id_user);
+        int length = types.size();
+        int rows = (int) length / 3 + 1;
+        panel_danhmuc.setLayout(new GridLayout(rows, 3));
+
+        for (TypeO type : types) {
+            ImageIcon icon;
+            JToggleButton toggleButton;
+
+            if (!(type.getIcon_Path() == null)) {
+                icon = new ImageIcon(type.getIcon_Path());
+                toggleButton = new JToggleButton(type.getName_Type(), icon);
+            } else {
+                toggleButton = new JToggleButton(type.getName_Type());
+            }
+
+            toggleButton.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+            toggleButton.setActionCommand(String.valueOf(type.getID_Type()));
+            toggleButton.setForeground(new Color(333333));
+
+            toggleButton.setBackground(new Color(255, 230, 230));
+            toggleButton.setMaximumSize(new java.awt.Dimension(50, 50));
+            toggleButton.setMinimumSize(new java.awt.Dimension(10, 10));
+            toggleButton.setPreferredSize(new Dimension(50, 50));
+
+            panel_danhmuc.add(toggleButton);
+            buttonGroup1.add(toggleButton);
+        }
+
+        // Vẽ lại và xác nhận lại panel để phản ánh các thay đổi
+        panel_danhmuc.repaint();
+        panel_danhmuc.revalidate();
+    }
+    
+    
     
      // lấy danh mục trong cơ sở dữ liệu để đưa ra jcombobox
     public static void populateDanhmucComboBox(JComboBox<String> Danhmuc,int ID_User) {
@@ -57,6 +114,8 @@ public class DanhMucThu {
                 Danhmuc.addItem(newCategory);
                 Danhmuc.setSelectedItem(newCategory);
                 saveCategoryToDatabase(newCategory,Danhmuc,ID_User);
+               
+                
             } else {
                 JOptionPane.showMessageDialog(Danhmuc, "Danh mục đã tồn tại.", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }

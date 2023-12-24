@@ -18,8 +18,8 @@ public class TypeController {
     public TypeController(){
         typeDao = new TypeModel();
     }
-    public List<TypeO> getAllTypeExpenses(){
-        return typeDao.getAllTypeExpenses();
+    public List<TypeO> getAllTypeExpenses(int ID_User){
+        return typeDao.getAllTypeExpenses(ID_User);
     }
     public List<TypeO> getAllTypeReceipt(){
         return typeDao.getAllTypeReceipt();

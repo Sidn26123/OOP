@@ -1,6 +1,7 @@
 package view.thu;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import controller.DanhMucThu;
 import controller.LogController;
 import controller.TypeController;
 import java.awt.Color;
@@ -8,12 +9,15 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
@@ -63,7 +67,7 @@ public class Thu extends javax.swing.JFrame {
         
         
         typeController = new TypeController();
-        List<TypeO> types = typeController.getAllTypeExpenses();
+        List<TypeO> types = typeController.getAllTypeExpenses(id_user);
         int length = types.size();
         int rows = (int)length/3 + 1;
         panel_danhmuc.setLayout(new GridLayout(rows,3));
@@ -92,6 +96,11 @@ public class Thu extends javax.swing.JFrame {
             
         }
     }
+    
+    
+
+    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -398,6 +407,13 @@ public class Thu extends javax.swing.JFrame {
         newFrame.setSize(330, 150);
         newFrame.setLocationRelativeTo(null);
         newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        newFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                // Gọi phương thức để xử lý lại request hoặc làm mới trang
+                DanhMucThu.updateDanhMucPanel(id_user, panel_danhmuc, buttonGroup1, button_chinhsua1);
+            }
+        });
         newFrame.setVisible(true);
     }//GEN-LAST:event_button_chinhsua1ActionPerformed
 
