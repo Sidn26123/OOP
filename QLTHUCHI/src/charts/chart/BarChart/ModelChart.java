@@ -23,6 +23,14 @@ public class ModelChart {
         this.values = values;
     }
 
+    public ModelChart(Object[] data) {
+        this.label = (String)data[0];
+        double[] values = new double[data.length-1];
+        for (int i = 1; i < data.length; i++){
+            values[i-1] = (double) data[i];
+        }
+        this.values = values;
+    }
     public ModelChart() {
     }
 

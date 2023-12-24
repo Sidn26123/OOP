@@ -37,10 +37,7 @@ public class Main extends javax.swing.JFrame {
         chart.addData(new ModelChart("May", new double[]{350, 540, 300,150}));
         chart.addData(new ModelChart("June", new double[]{190, 280, 81,200}));
         chart.addData(new ModelChart("June", new double[]{190, 280, 81,200}));
-        chart.addData(new ModelChart("June", new double[]{190, 280, 81,200}));
-        chart.addData(new ModelChart("June", new double[]{190, 280, 81,200}));
-        chart.addData(new ModelChart("June", new double[]{190, 280, 81,200}));
-
+        chart.addData(new Object[]{"Junes", 190.0,280.0,81.0,200.0});
     }
 
     /**

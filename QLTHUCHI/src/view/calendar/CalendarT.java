@@ -2,6 +2,7 @@
 package view.calendar;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
@@ -12,10 +13,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import Utils.EnchanceTable;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 public class CalendarT extends javax.swing.JPanel {
     private int id_user;
-
+    private int rowNum = 5;
+    private int colNum = 7;
     public CalendarT(int id_user) {
         this.id_user = id_user;
         initComponents();
@@ -112,10 +119,11 @@ public class CalendarT extends javax.swing.JPanel {
 
         setPreferredSize(new java.awt.Dimension(637, 604));
         setLayout(null);
-
+        PanelBorder dateWrapper = new PanelBorder();
         button_pre.setBackground(new java.awt.Color(153, 153, 153));
         button_pre.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         button_pre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/source/img/Calendar/icons8-previous-50.png"))); // NOI18N
+        button_pre.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         button_pre.setBorder(null);
         button_pre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -128,6 +136,8 @@ public class CalendarT extends javax.swing.JPanel {
         button_next.setBackground(new java.awt.Color(153, 153, 153));
         button_next.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         button_next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/source/img/Calendar/icons8-next-50.png"))); // NOI18N
+        button_next.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
         button_next.setBorder(null);
         button_next.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,7 +172,7 @@ public class CalendarT extends javax.swing.JPanel {
         calendarWrapper.setLayout(null);
 
         calendarShowPanel.setBackground(new java.awt.Color(255, 255, 255));
-        calendarShowPanel.setLayout(new java.awt.GridLayout(5, 7));
+        calendarShowPanel.setLayout(new java.awt.GridLayout(rowNum, colNum));
 
         calendarItem.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -229,7 +239,7 @@ public class CalendarT extends javax.swing.JPanel {
             {48, 15, "04/02/2023"}
         };
         totalValueLabel.setBounds(30, 60, 34, 14);
-        for (int i = 0; i< 5*7; i++){
+        for (int i = 0; i< rowNum*colNum; i++){
             JPanel calendarItem1 = new JPanel();
             calendarItem1.setLayout(null);
 
@@ -286,56 +296,66 @@ public class CalendarT extends javax.swing.JPanel {
         calendarWrapper.setBounds(10, 60, 580, 290);
     }// </editor-fold>                        
     private JPanel drawTable(Object[][] data){
-                for (int i = 0; i< 5*7; i++){
+        for (int i = 0; i< rowNum*colNum; i++){
             JPanel calendarItem1 = new JPanel();
             calendarItem1.setLayout(null);
-
-        JLabel dateItemLabel = new JLabel(((String)data[i][2]));
-        dateItemLabel.setFont(new java.awt.Font("Times New Roman", 0, 12));
-        calendarItem1.add(dateItemLabel);
-        dateItemLabel.setBounds(0, 0, 60, 20);
-            if ((int)data[i][0] - (int)data[i][1] < 0){
-                dateItemLabel.setForeground(Color.RED);
-            }
-            else if ((int)data[i][0] - (int)data[i][1] > 0){
-                dateItemLabel.setForeground(Color.GREEN);
-            }
-//
-        JLabel incomeValueLabel = new JLabel(data[i][0].toString());
-        incomeValueLabel.setFont(new java.awt.Font("Times New Roman", 0, 12));
-        calendarItem1.add(incomeValueLabel);
-        incomeValueLabel.setBounds(30, 20, 34, 14);
-
-        JLabel spentValueLabel = new JLabel(data[i][1].toString());
-        spentValueLabel.setFont(new java.awt.Font("Times New Roman", 0, 12));
-        calendarItem1.add(spentValueLabel);
-        spentValueLabel.setBounds(30, 40, 34, 14);
-        int borderWidth = 1;
-        calendarItem1.setBorder(new javax.swing.border.LineBorder(Color.CYAN, borderWidth));
-        
-        calendarItem1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                createFrame(evt.getX(), evt.getY());
-            }
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                createFrame(e.getX(), e.getY());
-//            }
-//        });
-//            }
-//        }
-        public void mouseEntered(java.awt.event.MouseEvent e) {
-            calendarItem1.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-            dateItemLabel.setFont(new java.awt.Font("Times New Roman", 0, 15));
-//            calendarItem1.setBackground(Color.LIGHT_GRAY);
-        }
-
-        public void mouseExited(java.awt.event.MouseEvent e) {
-            calendarItem1.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+            JLabel dateItemLabel = new JLabel(((String)data[i][2]));
             dateItemLabel.setFont(new java.awt.Font("Times New Roman", 0, 12));
-        }
-        });
-        
+            calendarItem1.add(dateItemLabel);
+            dateItemLabel.setBounds(0, 0, 60, 20);
+                if ((int)data[i][0] - (int)data[i][1] < 0){
+                    dateItemLabel.setForeground(Color.RED);
+                }
+                else if ((int)data[i][0] - (int)data[i][1] > 0){
+                    dateItemLabel.setForeground(Color.GREEN);
+                }
+    //
+            JLabel incomeValueLabel = new JLabel(data[i][0].toString());
+            incomeValueLabel.setFont(new java.awt.Font("Times New Roman", 0, 12));
+            calendarItem1.add(incomeValueLabel);
+            incomeValueLabel.setBounds(30, 20, 34, 14);
+            
+            JLabel spentValueLabel = new JLabel(data[i][1].toString());
+            spentValueLabel.setFont(new java.awt.Font("Times New Roman", 0, 12));
+            calendarItem1.add(spentValueLabel);
+            spentValueLabel.setBounds(30, 40, 34, 14);
+            int borderWidth = 1;
+            calendarItem1.setBorder(new javax.swing.border.LineBorder(Color.CYAN, borderWidth));
+            
+            Point frameLocation = calendarShowPanel.getLocation();
+            
+            
+            int startX = (int) frameLocation.getX();
+            int startY = (int) frameLocation.getY();
+            calendarItem1.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    if (testFrame != null){
+                        testFrame.dispose();
+                    }
+                    createFrame(evt.getX() + startX, evt.getY()+ startY);
+//                    view.render.renders render = new view.render.renders();
+//                    render.renderTransactionTableWithFrame(data);
+                }
+    //            @Override
+    //            public void mouseClicked(MouseEvent e) {
+    //                createFrame(e.getX(), e.getY());
+    //            }
+    //        });
+    //            }
+    //        }
+            public void mouseEntered(java.awt.event.MouseEvent e) {
+                calendarItem1.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+                dateItemLabel.setFont(new java.awt.Font("Times New Roman", 0, 15));
+    //            calendarItem1.setBackground(Color.LIGHT_GRAY);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent e) {
+                calendarItem1.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+                dateItemLabel.setFont(new java.awt.Font("Times New Roman", 0, 12));
+            }
+            });
+            calendarItem1.setBackground(Color(255,255,255));
+
             calendarShowPanel.add(calendarItem1);
         }
         
@@ -404,19 +424,36 @@ public class CalendarT extends javax.swing.JPanel {
     }                                         
     private static void createFrame(int mouseX,int mouseY) {
         
-        JFrame frame = new JFrame("Mouse Clicked Frame");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        if (testFrame != null){
+            testFrame.dispose();
+
+        }
+        testFrame = new JFrame("Mouse Clicked Frame");
+        testFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        testFrame.setUndecorated(true);
+        testFrame.setAlwaysOnTop(true);
         System.out.println(mouseX);
         int frameWidth = 200;
         int frameHeight = 150;
-
+        Object[][] datas = new Object[][]{
+            {1, 2, 3, "Hello", "World"},
+            {4, 5, 6, "Java", "Programming"},
+            {7, 8, 9, "OpenAI", "GPT-3.5"}
+        };
+//        EnchanceTable e = new EnchanceTable();
+        view.render.enhanceTable render = new view.render.enhanceTable();
+        JTable eTable = render.renderTransactionTableWithFrame(datas);
+//        eTable = e.enchanedTable(datas);
         // Lấy kích thước màn hình
+        testFrame.add(new JScrollPane(eTable));
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
         // Tính toán vị trí sao cho frame không chạm vào các viền
-        int frameX = mouseX;
-        int frameY = mouseY;
 
+        Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
+        int mouseX1 = (int) mouseLocation.getX();
+        int mouseY1 = (int) mouseLocation.getY();
+        int frameX = mouseX1;
+        int frameY = mouseY1;
         if (frameX + frameWidth > screenSize.width) {
             frameX = screenSize.width - frameWidth;
         }
@@ -425,8 +462,8 @@ public class CalendarT extends javax.swing.JPanel {
             frameY = screenSize.height - frameHeight;
         }
 
-        frame.setBounds(frameX, frameY, frameWidth, frameHeight);
-        frame.setVisible(true);
+        testFrame.setBounds(frameX, frameY, frameWidth, frameHeight);
+        testFrame.setVisible(true);
     }
 
     private void calendarItemMouseEntered(java.awt.event.MouseEvent evt) {                                          
@@ -473,5 +510,10 @@ public class CalendarT extends javax.swing.JPanel {
     private javax.swing.JLabel spentValueLabel;
     private javax.swing.JLabel totalValueLabel;
     private Object[][] data;
+    private static JFrame testFrame;
     // End of variables declaration                   
+
+    private Color Color(int i, int i0, int i1) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

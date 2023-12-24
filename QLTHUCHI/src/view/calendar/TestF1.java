@@ -1,5 +1,6 @@
 package view.calendar;
 
+import charts.chart.BarChart.ModelChart;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -69,6 +70,31 @@ public class TestF1 {
                 }
             });
             addCtrlX(frame);
+                    Vector<Vector<Object>> data = new Vector<>();
+        Vector<Object> vector1 = new Vector<>(Arrays.asList(1, 2, "A"));
+        Vector<Object> vector2 = new Vector<>(Arrays.asList(3, 4, "B"));
+        Vector<Object> vector3 = new Vector<>(Arrays.asList(5, 6, "C"));
+        data.add(vector1);
+        data.add(vector2);
+        data.add(vector3);
+//        JTable a = view.chi.renders.renderTransactionTableWithFrame(data);
+        charts.chart.BarChart.Chart chart = new charts.chart.BarChart.Chart();
+//        JTable a = Utils.EnchaneTable.enchanedTable(datas, new String[]{"id", "d", "d", "d", "d"}, new boolean[]{false, false, true, true, true});
+        chart.addLegend("Income", new Color(245, 189, 135));
+        chart.addLegend("Expense", new Color(135, 189, 245));
+        chart.addLegend("Profit", new Color(189, 135, 245));
+//        chart.addLegend("Cost", new Color(139, 229, 222));
+        chart.addData(new ModelChart("January", new double[]{500, 200, 80,89}));
+        chart.addData(new ModelChart("February", new double[]{600, 750, 90,150}));
+        chart.addData(new ModelChart("March", new double[]{200, 350, 460,900}));
+        chart.addData(new ModelChart("April", new double[]{480, 150, 750,700}));
+        chart.addData(new ModelChart("May", new double[]{350, 540, 300,150}));
+        chart.addData(new Object[]{"Junes", 190.0,280.0,81.0,200.0});
+//        n.add(chart);
+        frame.add(chart);
+                chart.start();
+        frame.validate();
+        frame.repaint();
             // Assign shortcut Ctrl + X to the frame
 //            frame.getRootPane().getInputMap().put(ctrlXKeyStroke, "ctrlX");
 //            frame.getRootPane().getActionMap().put("ctrlX", new AbstractAction() {
@@ -87,23 +113,35 @@ public class TestF1 {
         l.setText("sdasdasd");
         JPanel n = new JPanel();
         frame.getContentPane().setBackground(Color.BLUE);
-        Object[][] datas = new Object[][]{
-            {1, 2, 3, "Hello", "World"},
-            {4, 5, 6, "Java", "Programming"},
-            {7, 8, 9, "OpenAI", "GPT-3.5"}
-        };
-//        Vector<Vector<Object>> data = new Vector<>();
-//        Vector<Object> vector1 = new Vector<>(Arrays.asList(1, 2, "A"));
-//        Vector<Object> vector2 = new Vector<>(Arrays.asList(3, 4, "B"));
-//        Vector<Object> vector3 = new Vector<>(Arrays.asList(5, 6, "C"));
-//        data.add(vector1);
-//        data.add(vector2);
-//        data.add(vector3);
+//        Object[][] datas = new Object[][]{
+//            {1, 2, 3, "Hello", "World"},
+//            {4, 5, 6, "Java", "Programming"},
+//            {7, 8, 9, "OpenAI", "GPT-3.5"}
+//        };
+        Vector<Vector<Object>> data = new Vector<>();
+        Vector<Object> vector1 = new Vector<>(Arrays.asList(1, 2, "A"));
+        Vector<Object> vector2 = new Vector<>(Arrays.asList(3, 4, "B"));
+        Vector<Object> vector3 = new Vector<>(Arrays.asList(5, 6, "C"));
+        data.add(vector1);
+        data.add(vector2);
+        data.add(vector3);
 //        JTable a = view.chi.renders.renderTransactionTableWithFrame(data);
-        JTable a = Utils.EnchaneTable.enchanedTable(datas, new String[]{"id", "d", "d", "d", "d"}, new boolean[]{false, false, true, true, true});
-        n.add(a);
-        frame.add(n);
-        
+        charts.chart.BarChart.Chart chart = new charts.chart.BarChart.Chart();
+//        JTable a = Utils.EnchaneTable.enchanedTable(datas, new String[]{"id", "d", "d", "d", "d"}, new boolean[]{false, false, true, true, true});
+        chart.addLegend("Income", new Color(245, 189, 135));
+        chart.addLegend("Expense", new Color(135, 189, 245));
+        chart.addLegend("Profit", new Color(189, 135, 245));
+//        chart.addLegend("Cost", new Color(139, 229, 222));
+        chart.addData(new ModelChart("January", new double[]{500, 200, 80,89}));
+        chart.addData(new ModelChart("February", new double[]{600, 750, 90,150}));
+        chart.addData(new ModelChart("March", new double[]{200, 350, 460,900}));
+        chart.addData(new ModelChart("April", new double[]{480, 150, 750,700}));
+        chart.addData(new ModelChart("May", new double[]{350, 540, 300,150}));
+        chart.addData(new Object[]{"Junes", 190.0,280.0,81.0,200.0});
+//        n.add(chart);
+        frame.add(chart);
+                chart.start();
+
         createStripedRowTable();
         
         frame.validate();
@@ -139,6 +177,7 @@ public class TestF1 {
 //    }
     private static void createStripedRowTable() {
 //        // Dữ liệu mẫu
+        view.render.enhanceTable renderTable = new view.render.enhanceTable();
         Vector<Vector<Object>> data = new Vector<>();
         Vector<Object> vector1 = new Vector<>(Arrays.asList(1, 2, "A"));
         Vector<Object> vector2 = new Vector<>(Arrays.asList(3, 4, "B"));
@@ -307,7 +346,8 @@ public class TestF1 {
 //
 //        // Tạo cửa sổ và thêm bảng vào đó
 //        table.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        JTable table = view.chi.renders.renderTransactionTableWithFrame(data);
+        JTable table = renderTable.renderTransactionTableWithFrame(data);
+//        JTable table = Utils.
         JFrame frame = new JFrame("Striped Row Table");
         frame.setUndecorated(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

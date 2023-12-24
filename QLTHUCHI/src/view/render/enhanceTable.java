@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Utils;
+package view.render;
 
+import view.chi.*;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -14,27 +15,38 @@ import java.awt.event.MouseEvent;
 import java.util.Arrays;
 import java.util.Vector;
 import javax.swing.JTable;
+import javax.swing.event.MouseInputAdapter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
-import view.chi.renders;
+import view.calendar.TestF1;
 
 /**
  *
  * @author sidac
  */
-public class EnchaneTable {
-    private static int flagIndex = -1;
-    public static JTable enchanedTable(Object[][] data, String[] header, boolean[] editableColumns){
+public class enhanceTable {
+    private int flagIndex = -1;
+    private boolean defaultValueSortableAttr = false;
+    private boolean defaultValueEditableAttr = false; 
+    private String defaultTheme = "light";
+    private int defaultFontSize = 12;
+//    private Font defaultFont = new Font("Time New Roman",Font.TRUETYPE_FONT ,this.defaultFontSize); 
+    private boolean defaultCanSelectAll = false;
+    public JTable renderTransactionTableWithFrame1(Object[][] data){
         JTable table = new JTable();
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
             },
-            header 
+            new String [] {
+                "ID", "Mã", "A","B", "Thời gian", "Chọn"
+            }
         ) {
-            boolean[] canEdit = editableColumns;
+            boolean[] canEdit = new boolean [] {
+                false, false, true, true, false, true
+            };
             @Override
             public Class<?> getColumnClass(int columnIndex) {
                 // Ä�áº·t kiá»ƒu dá»¯ liá»‡u cá»§a cá»™t kiá»ƒu boolean lÃ  Boolean
@@ -87,7 +99,20 @@ public class EnchaneTable {
 //            }
 //        });
 //    }
-    public static JTable renderTransactionTableWithFrame(Vector<Vector<Object>> data){
+    
+    public JTable renderTransactionTableWithFrame(Object[][] data){
+        Vector<Vector<Object>> formattedData = new Vector<Vector<Object>>();
+        for (int i = 0; i< data.length; i++){
+            Vector<Object> da = new Vector<Object>();
+            for (int j = 0; j < data[i].length; j++){
+                da.add(data[i][j]);
+            }
+            formattedData.add(da);
+        }
+        return renderTransactionTableWithFrame(formattedData);
+    }
+    
+    public JTable renderTransactionTableWithFrame(Vector<Vector<Object>> data, String[] header, boolean[] editableColumns, boolean[] sortableColumns, boolean isCanSelectAll, int fontSize){
         // Dữ liệu mẫu
 //        Vector<Object> vector1 = new Vector<>(Arrays.asList(1, 2, "A"));
 //        Vector<Object> vector2 = new Vector<>(Arrays.asList(3, 4, "B"));
@@ -97,11 +122,19 @@ public class EnchaneTable {
 //        data.add(vector3);
 
         // Tạo bảng và mô hình
-        DefaultTableModel model = new DefaultTableModel(data, new Vector<>(Arrays.asList("Column 1", "Column 2", "Column 3"))) {
+        Vector<String> headerVector = new Vector<String>();
+        if (isCanSelectAll){
+            header = new String[header.length];
+            header[header.length - 1] = "Chọn";
+        }
+        for (String s : header){
+            headerVector.add(s);
+        }
+        DefaultTableModel model = new DefaultTableModel(data, headerVector) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 // Chỉnh sửa tính chất có thể chỉnh sửa của các cột
-                return column == 2; // Chỉ cột thứ 3 (index 2) có thể chỉnh sửa
+                return editableColumns[column];
             }
         };
         JTable table = new JTable(model);
@@ -258,7 +291,22 @@ public class EnchaneTable {
         table.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         return table;
     }
-    private static class CustomHeaderRenderer extends DefaultTableCellRenderer {
+    
+    public JTable renderTransactionTableWithFrame(Vector<Vector<Object>> data){
+        int n = data.size();
+       String[] header = new String[n];
+        boolean[] sortableColumns = new boolean[n];
+        boolean[] editableColumns = new boolean[n];
+        boolean isCanSelectAll = defaultCanSelectAll;
+        for (int i = 0; i< n; i++){
+            header[i] = "Column " + i;
+            sortableColumns[i] = defaultValueSortableAttr;
+            editableColumns[i] = defaultValueEditableAttr;
+        }
+        return renderTransactionTableWithFrame(data, header, sortableColumns, editableColumns, isCanSelectAll, defaultFontSize);
+    }
+    
+    private class CustomHeaderRenderer extends DefaultTableCellRenderer {
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             Component headerComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);

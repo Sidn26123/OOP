@@ -1,11 +1,17 @@
 package view.calendar;
 
+import Utils.EnchanceTable;
 import com.toedter.calendar.JCalendar;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import javax.swing.AbstractAction;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import view.calendar.CalendarT;
 public class Test {
 
@@ -82,21 +88,34 @@ public class Test {
             .addGap(0, 270, Short.MAX_VALUE)
         );
 
-
+        EnchanceTable a = new EnchanceTable();
+        
+//        JTable b = a.enchanedTable(data, String[]{"a", "b"});
         // Tạo một JPanel để chứa JCalendar
         JPanel panel = new JPanel(new BorderLayout());
         
         // Tạo một JCalendar và thêm nó vào JPanel
         CalendarT calendars = new view.calendar.CalendarT(1);
         panel.add(calendars, BorderLayout.CENTER);
-        
+        KeyStroke ctrlXKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK);// Đặt JFrame vào giữa màn hình
+        panel.getInputMap().put(ctrlXKeyStroke, "ctrlX");
+        panel.getActionMap().put("ctrlX", new AbstractAction(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                    // Gọi hàm tương ứng với Ctrl + N ở đây
+            }
+        });
         // Thêm JPanel vào JFrame
         frame.getContentPane().add(panel);
-        
+
         // Cấu hình JFrame
         frame.setSize(400, 300);
-        frame.setLocationRelativeTo(null); // Đặt JFrame vào giữa màn hình
+        frame.setLocationRelativeTo(null);
+
         frame.setVisible(true);
+        Point p = frame.getLocation();
+        System.out.println(p.getX());
         JPanel newFrame = new JPanel();
         // JFrame newFrame = new JFrame("New Frame");
         // newFrame.setType(JFrame.Type.UTILITY);
