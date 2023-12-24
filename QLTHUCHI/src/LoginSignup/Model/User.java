@@ -9,9 +9,36 @@ public class User {
     private String PassWord;
     private String PhoneNumber;
     private String EmailAddress;
-    private int Receipts;
-    private int Expenses;
+    private double Receipts;
+    private double Expenses;
 
+    public User() {
+    }
+
+    public User(int ID, String Name, int Group_ID, String UserName, String PassWord, String PhoneNumber, String EmailAddress, double Receipts, double Expenses) {
+        this.ID = ID;
+        this.Name = Name;
+        this.Group_ID = Group_ID;
+        this.UserName = UserName;
+        this.PassWord = PassWord;
+        this.PhoneNumber = PhoneNumber;
+        this.EmailAddress = EmailAddress;
+        this.Receipts = Receipts;
+        this.Expenses = Expenses;
+    }
+
+    public User(int ID, String Name, int Group_ID, String EmailAddress, double Receipts, double Expenses) {
+        this.ID = ID;
+        this.Name = Name;
+        this.Group_ID = Group_ID;
+        this.EmailAddress = EmailAddress;
+        this.Receipts = Receipts;
+        this.Expenses = Expenses;
+    }
+
+    
+    
+    
     public int getID() {
         return ID;
     }
@@ -68,19 +95,19 @@ public class User {
         this.EmailAddress = EmailAddress;
     }
 
-    public int getReceipts() {
+    public double getReceipts() {
         return Receipts;
     }
 
-    public void setReceipts(int Receipts) {
+    public void setReceipts(double Receipts) {
         this.Receipts = Receipts;
     }
 
-    public int getExpenses() {
+    public double getExpenses() {
         return Expenses;
     }
 
-    public void setExpenses(int Expenses) {
+    public void setExpenses(double Expenses) {
         this.Expenses = Expenses;
     }
     

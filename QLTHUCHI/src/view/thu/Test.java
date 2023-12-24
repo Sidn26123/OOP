@@ -35,7 +35,8 @@ public class Test extends javax.swing.JFrame {
 
     private void setPanelDanhMuc(){
         typeController = new TypeController();
-        List<TypeO> types = typeController.getAllTypeExpenses();
+        int id_user=0;
+        List<TypeO> types = typeController.getAllTypeExpenses(id_user);
         int length = types.size();
         int rows = (int)length/3 + 1;
         panel_danhmuc.setLayout(new GridLayout(rows,3));
@@ -60,6 +61,8 @@ public class Test extends javax.swing.JFrame {
         }
         
     }
+    
+    
     
     private void setSizeBTN(){
 //        jToggleButton1.setSize(25, 25);

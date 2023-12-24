@@ -1,5 +1,7 @@
 package view.calculator;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -20,7 +22,9 @@ public class Calculator extends javax.swing.JFrame {
         calculatorService = new CalculatorService();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         addActionListeners(thu);
-        this.setLocationRelativeTo(null);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2 + 500, dim.height/2-this.getSize().height/2);
+        this.setTitle("Calculator");
         this.setTitle("Calculator");
     }
     @SuppressWarnings("unchecked")

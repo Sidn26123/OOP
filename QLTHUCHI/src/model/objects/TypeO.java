@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package model.objects;
 
 
@@ -12,16 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-/**
- *
- * @author LENOVO
- */
+
 public class TypeO {
     private int ID_Type;
     private int ID_User;
-//<<<<<<< HEAD
-//    private boolean Receipts_Or_Expenses;
-//=======
     private int Receipts_Or_Expenses;
     private String Name_Type;
     private String Icon_Path;
@@ -57,13 +48,6 @@ public class TypeO {
         this.ID_User = ID_Log;
     }
 
-//<<<<<<< HEAD
-//    public boolean isReceipts_Or_Expenses() {
-//        return Receipts_Or_Expenses;
-//    }
-//
-//    public void setReceipts_Or_Expenses(boolean Receipts_Or_Expenses) {
-//=======
     public int isReceipts_Or_Expenses() {
         return Receipts_Or_Expenses;
     }

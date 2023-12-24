@@ -19,6 +19,9 @@ public class JDBCConnection {
 //
 //=======
         if (c.getDB() == "SQLServer"){
+//        String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=QLTC;encrypt = true;trustServerCertificate=true";
+//        String user = "sa";
+//        String password = "sa";
         String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=QLTC;encrypt = true;trustServerCertificate=true";
         String user = "sa";
         String password = "sa";

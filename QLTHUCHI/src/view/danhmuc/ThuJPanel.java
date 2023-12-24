@@ -87,6 +87,7 @@ public class ThuJPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ThemMucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ThemMucActionPerformed
+       
        DanhMucThu.themMucActionPerformed(Danhmuc,ID_User);
     }//GEN-LAST:event_ThemMucActionPerformed
 
