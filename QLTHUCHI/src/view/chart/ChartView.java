@@ -17,17 +17,7 @@ public class ChartView extends javax.swing.JFrame {
     }
 
     private void setDefault(){
-        Vector<Vector<Object>> data = new Vector<>();
-        Vector<Object> vector1 = new Vector<>(Arrays.asList(1, 2, "A"));
-        Vector<Object> vector2 = new Vector<>(Arrays.asList(3, 4, "B"));
-        Vector<Object> vector3 = new Vector<>(Arrays.asList(5, 6, "C"));
-        data.add(vector1);
-        data.add(vector2);
-        data.add(vector3);
-//        JTable a = view.chi.renders.renderTransactionTableWithFrame(data);
-        chart = new charts.chart.BarChart.Chart();
-        
-//        JTable a = Utils.EnchaneTable.enchanedTable(datas, new String[]{"id", "d", "d", "d", "d"}, new boolean[]{false, false, true, true, true});
+        getContentPane().setBackground(new Color(250, 250, 250));
         chart.addLegend("Income", new Color(245, 189, 135));
         chart.addLegend("Expense", new Color(135, 189, 245));
         chart.addLegend("Profit", new Color(189, 135, 245));
@@ -37,7 +27,12 @@ public class ChartView extends javax.swing.JFrame {
         chart.addData(new ModelChart("March", new double[]{200, 350, 460,900}));
         chart.addData(new ModelChart("April", new double[]{480, 150, 750,700}));
         chart.addData(new ModelChart("May", new double[]{350, 540, 300,150}));
-        chart.addData(new ModelChart("June", new double[]{350, 540, 300,150}));
+        chart.addData(new ModelChart("June", new double[]{190, 280, 81,200}));
+        chart.addData(new ModelChart("June", new double[]{190, 280, 81,200}));
+        chart.addData(new ModelChart("June", new double[]{190, 280, 81,200}));
+        chart.addData(new ModelChart("June", new double[]{190, 280, 81,200}));
+        chart.addData(new ModelChart("June", new double[]{190, 280, 81,200}));
+        panel_chart.add(chart);
         chart.start();
         
     }

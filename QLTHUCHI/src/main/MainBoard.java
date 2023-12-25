@@ -291,7 +291,7 @@ public class MainBoard extends javax.swing.JFrame {
         
         panel_parent.add(panel_thu);
         
-        ChartView chartView = new ChartView();
+//        ChartView chartView = new ChartView();
         chartTest chTest = new chartTest();
         panel_char = new JPanel();
         panel_char.add(chTest.getContentPane());
