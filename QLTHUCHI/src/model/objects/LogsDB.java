@@ -205,9 +205,17 @@ public class LogsDB {
         Connection con = getConnection();
         String countSql = "SELECT COUNT(*) AS row_count FROM Log "+
                         "WHERE date = '"+Utils.convertToSqlDate(date)+"' " +
-                        "AND category_id = " + id;
+                        "AND category_id = ?";
+        //countSql cho sqlserver
+        if (!isMySQL){
+            countSql = "SELECT COUNT(*) AS row_count FROM Log "+
+                        "WHERE date = '"+Utils.convertToSqlDate(date)+"' " +
+                        "AND category_id = ?";
+        }
+
         int rowCount = 0;
         try (PreparedStatement countStatement = con.prepareStatement(countSql)) {
+            countStatement.setInt(1, id);
             try (ResultSet countResult = countStatement.executeQuery()) {
                 if (countResult.next()) {
                     rowCount = countResult.getInt("row_count");
@@ -221,9 +229,10 @@ public class LogsDB {
         Vector<LogO> ans = new Vector<LogO>();
         String sql = "SELECT * FROM Log "+
                         "WHERE date = '"+Utils.convertToSqlDate(date)+"' " +
-                        "AND category_id = " + id;
+                        "AND category_id = ?";
         int i = 0;
         try(PreparedStatement ps = con.prepareStatement(sql)){
+            ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()){
                 while (rs.next()){
                     // s += "ID: " + rs.getInt("id") +", cateID: " + rs.getInt("category_id") + ", Amount: " + rs.getInt("amount") +
@@ -251,9 +260,10 @@ public class LogsDB {
         Connection con = getConnection();
         String countSql = "SELECT COUNT(*) AS row_count FROM Log "+
                         "WHERE date = '"+Utils.convertToSqlDate(date)+"' " +
-                        "AND type = '" + mode + "'";
+                        "AND type = ?";
         int rowCount = 0;
         try (PreparedStatement countStatement = con.prepareStatement(countSql)) {
+            countStatement.setInt(1, mode);
             try (ResultSet countResult = countStatement.executeQuery()) {
                 if (countResult.next()) {
                     rowCount = countResult.getInt("row_count");
@@ -423,10 +433,18 @@ public class LogsDB {
     public int getSpecSum(String date, int item){
         String sqlDate = Utils.convertToSqlDate(date);
         Connection con = getConnection();
-        String sql = "SELECT SUM(amount) FROM Log " +
-                    "WHERE amount > 0 AND date = ? " +
-                    "AND category_id = ? " +
-                    " GROUP BY DATE(date)";
+        String sql;
+        if (isMySQL) {
+            sql = "SELECT SUM(amount) FROM Log " +
+                  "WHERE amount > 0 AND date = ? " +
+                  "AND category_id = ? " +
+                  "GROUP BY DATE(date)";
+        } else {
+            sql = "SELECT SUM(amount) AS total_amount " +
+                  "FROM Log " +
+                  "WHERE amount > 0 AND date = @date AND category_id = @category_id " +
+                  "GROUP BY CAST(date AS DATE)";
+        }
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, sqlDate);
             ps.setInt(2, item);
@@ -484,10 +502,18 @@ public class LogsDB {
             e.printStackTrace();
         }
 
-        String sql = "SELECT SUM(amount), category_id, type FROM Log " +
-                    "INNER JOIN Category AS C ON Log.category_id = C.id " +
-                    "WHERE C.id = '"+ firstCateID+"' AND date = '"+sqlDate +"' "+
-                    "GROUP BY DATE(date)";
+        String sql;
+        if (isMySQL) {
+            sql = "SELECT SUM(amount) AS total_amount, category_id, type FROM Log " +
+                  "INNER JOIN Category AS C ON Log.category_id = C.id " +
+                  "WHERE C.id = '"+ firstCateID+"' AND date = '"+sqlDate +"' "+
+                  "GROUP BY DATE(date)";
+        } else {
+            sql = "SELECT SUM(amount) AS total_amount, category_id, type FROM Log " +
+                  "INNER JOIN Category AS C ON Log.category_id = C.id " +
+                  "WHERE C.id = @firstCateID AND date = @sqlDate " +
+                  "GROUP BY CAST(date AS DATE)";
+        }
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             try (ResultSet rs = ps.executeQuery()) {
