@@ -15,8 +15,8 @@ public class TypeController {
     public List<TypeO> getAllTypeExpenses(int ID_User){
         return typeDao.getAllTypeExpenses(ID_User);
     }
-    public List<TypeO> getAllTypeReceipt(){
-        return typeDao.getAllTypeReceipt();
+    public List<TypeO> getAllTypeReceipt(int ID_User){
+        return typeDao.getAllTypeReceipt(ID_User);
     }
     public TypeO findTypeByID_Type(int id_type){
         return typeDao.findTypebyID(id_type);

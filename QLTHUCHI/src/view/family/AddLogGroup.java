@@ -101,7 +101,7 @@ public class AddLogGroup extends javax.swing.JFrame {
     private void setPanelDanhMuc(){
 
         typeController = new TypeController();
-        List<TypeO> types = typeController.getAllTypeReceipt();
+        List<TypeO> types = typeController.getAllTypeReceipt(id_user);
         int length = types.size();
         int rows = (int)length/3 + 1;
         panel_danhmuc.setLayout(new GridLayout(rows,3));

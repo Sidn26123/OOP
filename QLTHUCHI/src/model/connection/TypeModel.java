@@ -34,12 +34,13 @@ public class TypeModel {
         }
         return types;
     }
-    public List<TypeO> getAllTypeReceipt(){
+    public List<TypeO> getAllTypeReceipt(int ID_User){
         List <TypeO> types = new ArrayList<>();
         Connection connection = JDBCConnection.getJDBCConnection();
-        String sql = "select * from [dbo].[Type] where Receipts_Or_Expenses = 1";
+        String sql = "select * from [dbo].[Type] where (ID_User = ? OR ID_User = -1) and (Receipts_Or_expenses = 1)";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, ID_User);
             ResultSet rs = preparedStatement.executeQuery();
             while(rs.next()){
                 TypeO type = new TypeO();

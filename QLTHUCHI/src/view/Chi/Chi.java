@@ -2,6 +2,7 @@ package view.Chi;
 
 import view.thu.*;
 import com.formdev.flatlaf.FlatLightLaf;
+import controller.DanhMucChi;
 import controller.LogController;
 import controller.TypeController;
 import java.awt.Color;
@@ -9,6 +10,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
@@ -21,7 +24,7 @@ import javax.swing.JToggleButton;
 import model.objects.LogO;
 import model.objects.TypeO;
 import view.calculator.Calculator_Chi;
-import view.danhmuc.ThuJPanel;
+import view.danhmuc.ChiJPanel;
 
 public class Chi extends javax.swing.JFrame {
 
@@ -60,7 +63,7 @@ public class Chi extends javax.swing.JFrame {
         
         
         typeController = new TypeController();
-        List<TypeO> types = typeController.getAllTypeReceipt();
+        List<TypeO> types = typeController.getAllTypeReceipt(id_user);
         int length = types.size();
         int rows = (int)length/3 + 1;
         panel_danhmuc.setLayout(new GridLayout(rows,3));
@@ -390,12 +393,19 @@ public class Chi extends javax.swing.JFrame {
 
     private void button_chinhsua1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_chinhsua1ActionPerformed
 
-        ThuJPanel thuJPanel = new ThuJPanel(id_user);
+        ChiJPanel chiJPanel = new ChiJPanel(id_user);
         JFrame newFrame = new JFrame("Chỉnh sửa");
-        newFrame.getContentPane().add(thuJPanel);
+        newFrame.getContentPane().add(chiJPanel);
         newFrame.setSize(330, 150);
         newFrame.setLocationRelativeTo(null);
         newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        newFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                // Gọi phương thức để xử lý lại request hoặc làm mới trang
+                DanhMucChi.updateDanhMucChiPanel(id_user, panel_danhmuc, buttonGroup1, button_chinhsua1);
+            }
+        });
         newFrame.setVisible(true);
     }//GEN-LAST:event_button_chinhsua1ActionPerformed
 

@@ -414,7 +414,7 @@ public class Thu extends javax.swing.JFrame {
             @Override
             public void windowClosed(WindowEvent e) {
                 // Gọi phương thức để xử lý lại request hoặc làm mới trang
-                DanhMucThu.updateDanhMucPanel(id_user, panel_danhmuc, buttonGroup1, button_chinhsua1);
+                DanhMucThu.updateDanhMucThuPanel(id_user, panel_danhmuc, buttonGroup1, button_chinhsua1);
             }
         });
         newFrame.setVisible(true);
