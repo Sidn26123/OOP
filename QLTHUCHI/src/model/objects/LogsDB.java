@@ -537,10 +537,19 @@ public class LogsDB {
     public int getTypeSum(String date, int type){
         String sqlDate = Utils.convertToSqlDate(date);
         Connection con = getConnection();
-        String sql = "SELECT SUM(amount) FROM Log " +
-                    "WHERE amount > 0 AND date = '"+sqlDate +"' " +
-                    "AND type = " + type +
-                    " GROUP BY DATE(date)";
+        String sql;
+        if (isMySQL) {
+            sql = "SELECT SUM(amount) AS total_amount FROM Log " +
+                  "WHERE amount > 0 AND date = '"+sqlDate +"' " +
+                  "AND type = '" + type + "' " +
+                  "GROUP BY DATE(date)";
+        } else {
+            sql = "SELECT SUM(amount) AS total_amount FROM Log " +
+                  "WHERE amount > 0 AND date = @sqlDate " +
+                  "AND type = @type " +
+                  "GROUP BY CAST(date AS DATE)";
+        }
+
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             try (ResultSet rs = ps.executeQuery()) {
                 // Lặp qua kết quả nếu có
@@ -572,12 +581,23 @@ public class LogsDB {
         int i = 0;
         String endRawDataDate = "";
 
-        String sql = "SELECT SUM(T.amount), C.type, T.date " +
-        "FROM Log T " +
-        "INNER JOIN Category C ON C.id = T.category_id " +
-        "WHERE T.date >= ? AND T.date <= ? " + 
-        "GROUP BY C.type, T.date" + 
-        " ORDER BY T.date";
+        String sql;
+        if (isMySQL) {
+            sql = "SELECT SUM(T.amount) AS total_amount, C.type, T.date " +
+                  "FROM Log T " +
+                  "INNER JOIN Category C ON C.id = T.category_id " +
+                  "WHERE T.date >= ? AND T.date <= ? " + 
+                  "GROUP BY C.type, T.date " + 
+                  "ORDER BY T.date";
+        } else {
+            sql = "SELECT SUM(T.amount) AS total_amount, C.type, T.date " +
+                  "FROM Log T " +
+                  "INNER JOIN Category C ON C.id = T.category_id " +
+                  "WHERE T.date >= @startDate AND T.date <= @endDate " + 
+                  "GROUP BY C.type, T.date " + 
+                  "ORDER BY T.date";
+}
+
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, startDate);
@@ -683,7 +703,12 @@ public class LogsDB {
                 deleteStringId += ", ";
             }
         }
-        String sql = "DELETE FROM Log WHERE id IN ( " + deleteStringId + " )";
+        String sql;
+        if (isMySQL) {
+            sql = "DELETE FROM Log WHERE id IN ( " + deleteStringId + " )";
+        } else {
+            sql = "DELETE FROM Log WHERE id IN ( SELECT CAST(value AS INT) FROM STRING_SPLIT(@deleteStringId, ','))";
+        }
         try(PreparedStatement ps = con.prepareStatement(sql)){
             ps.executeUpdate();
         }
@@ -694,7 +719,12 @@ public class LogsDB {
     }
     public void updateData(int id, Object[] dataToUpdate){
         Connection con = getConnection();
-        String sql = "UPDATE Log SET category_id = ?, amount = ?, note = ? WHERE id = " + id;
+        String sql;
+        if (isMySQL) {
+            sql = "UPDATE Log SET category_id = ?, amount = ?, note = ? WHERE id = ?";
+        } else {
+            sql = "UPDATE Log SET category_id = @category_id, amount = @amount, note = @note WHERE id = @id";
+        }
         try(PreparedStatement ps = con.prepareStatement(sql)){
             // if (dataToUpdate[3] == null || dataToUpdate[3] == "" || dataToUpdate.length == 3){
             //     dataToUpdate[3] = Utils.getCurrentDateFormatted();
@@ -714,7 +744,12 @@ public class LogsDB {
     }
     public void updateData(Vector<Object[]> datas){
         Connection con = getConnection();
-        String sql = "UPDATE Log SET category_id = ?, amount = ?, note = ? WHERE id = ?";
+        String sql;
+        if (isMySQL) {
+            sql = "UPDATE Log SET category_id = ?, amount = ?, note = ? WHERE id = ?";
+        } else {
+            sql = "UPDATE Log SET category_id = @category_id, amount = @amount, note = @note WHERE id = @id";
+        }
 
         try(PreparedStatement ps = con.prepareStatement(sql)){
             for (Object[] data : datas) {
@@ -743,7 +778,12 @@ public class LogsDB {
     }
     public void updateData(Object[] data){
         Connection con = getConnection();
-        String sql = "UPDATE Log SET category_id = ?, amount = ?, note = ? WHERE id = ?";
+        String sql;
+        if (isMySQL) {
+            sql = "UPDATE Log SET category_id = ?, amount = ?, note = ? WHERE id = ?";
+        } else {
+            sql = "UPDATE Log SET category_id = @category_id, amount = @amount, note = @note WHERE id = @id";
+        }
         try(PreparedStatement ps = con.prepareStatement(sql)){
             // if (data[3] == null || data[3] == "" || data.length == 3){
             //     data[3] = Utils.getCurrentDateFormatted();

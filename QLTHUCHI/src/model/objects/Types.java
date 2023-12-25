@@ -9,6 +9,7 @@ package model.objects;
  *
  * @author sidac
  */
+import Utils.ConfigFile;
 import java.sql.Connection;
 import Utils.Utils;
 import Utils.MyJDBCFuncLib;
@@ -18,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 public class Types {
+//    private ConfigFile configFile = new ConfigFile();
+    private boolean isMySQL = new ConfigFile().getDB() == "MySQL" ? true : false;
     public Connection getConnection() {
         MyJDBCFuncLib myJDBCFuncLib = new MyJDBCFuncLib();
         return myJDBCFuncLib.getConnection();
@@ -26,11 +29,12 @@ public class Types {
     public void createTable() {
         Connection con = getConnection();
         String createTableSQL = "CREATE TABLE Category (" +
-                                "id INT AUTO_INCREMENT PRIMARY KEY, " +
+                                "id INT " + (isMySQL ? "AUTO_INCREMENT" : "IDENTITY(1,1)") + " PRIMARY KEY, " +
                                 "name NVARCHAR(255), " +
                                 "color NVARCHAR(255), " + 
                                 "icon_path NVARCHAR(255), " +
                                 "type INT)";
+
         try (PreparedStatement ps = con.prepareStatement(createTableSQL)) {
             ps.executeUpdate();
         } catch (Exception e) {
@@ -129,11 +133,17 @@ public class Types {
     }
     public Object[][] getSpecData(int idToGet){
         Object[][] ans = null;
-        String sql = "SELECT * FROM Log " +
-                    "WHERE category_id = '" + idToGet+"'";
+        String sql;
+        if (isMySQL) {
+            sql = "SELECT * FROM Log WHERE category_id = ?";
+        } else {
+            sql = "SELECT * FROM Log WHERE category_id = @category_id";
+        }
+
         Connection con = getConnection();
         try{
             PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1,idToGet);
             try (ResultSet resultSet = ps.executeQuery(sql)){
                 List<Integer> idList = new ArrayList<>();
                 List<String> nameList = new ArrayList<>();
