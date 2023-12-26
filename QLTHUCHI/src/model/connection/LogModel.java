@@ -145,7 +145,7 @@ public class LogModel {
         public boolean deleteLog(int id_log) {
         Connection connection = JDBCConnection.getJDBCConnection();
         String deleteLogSQL = "DELETE FROM Log WHERE ID_Log = ?";
-        String deleteGroupLogSQL = "DELETE FROM group_log WHERE ID_Log = ?";
+        String deleteGroupLogSQL = "DELETE FROM Group_Log WHERE ID_Log = ?";
 
         try {
             // Xóa dữ liệu từ bảng Log
@@ -168,16 +168,16 @@ public class LogModel {
 
      public void updateLogGroup(LogO log){
         Connection connection = JDBCConnection.getJDBCConnection();
-        String sql = "update Log set (ID_Type, Price, Note, Date, User_ID, Group_ID) values(?,?,?,?,?,?) where ";
+        String sql = "update Log set Price=?, Note=?, Date=?, User_ID=?, Group_ID=? where ID_Log= ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, log.getID_Type());
-            preparedStatement.setDouble(2, log.getPrice());
-            preparedStatement.setString(3,log.getNote());
+            preparedStatement.setDouble(1, log.getPrice());
+            preparedStatement.setString(2,log.getNote());
             String utilDate = Utils.convertToSqlDate(log.getDateString());
-            preparedStatement.setString(4, utilDate);
-            preparedStatement.setInt(5,log.getUser_ID());
-            preparedStatement.setInt(6, log.getGroup_ID());
+            preparedStatement.setString(3, utilDate);
+            preparedStatement.setInt(4,log.getUser_ID());
+            preparedStatement.setInt(5, log.getGroup_ID());
+            preparedStatement.setInt(6, log.getID());
             int rs = preparedStatement.executeUpdate();
             System.out.println(rs);
         } catch (SQLException e) {

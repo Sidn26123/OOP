@@ -136,7 +136,6 @@ public class AddLogGroup extends javax.swing.JFrame {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         dialog_dsNguoiChi = new javax.swing.JDialog();
-        jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         table_ds_nguoiChi = new javax.swing.JTable();
         button_add = new javax.swing.JButton();
@@ -163,17 +162,6 @@ public class AddLogGroup extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         dialog_dsNguoiChi.setModal(true);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 56, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 39, Short.MAX_VALUE)
-        );
 
         table_ds_nguoiChi.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         table_ds_nguoiChi.setModel(new javax.swing.table.DefaultTableModel(
@@ -210,6 +198,11 @@ public class AddLogGroup extends javax.swing.JFrame {
         });
 
         box_ls.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        box_ls.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                box_lsActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Segoe Script", 0, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 255, 255));
@@ -232,9 +225,8 @@ public class AddLogGroup extends javax.swing.JFrame {
             .addGroup(dialog_dsNguoiChiLayout.createSequentialGroup()
                 .addGap(143, 143, 143)
                 .addComponent(jLabel2)
-                .addGap(82, 82, 82)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dialog_dsNguoiChiLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(button_add)
@@ -251,9 +243,7 @@ public class AddLogGroup extends javax.swing.JFrame {
         dialog_dsNguoiChiLayout.setVerticalGroup(
             dialog_dsNguoiChiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dialog_dsNguoiChiLayout.createSequentialGroup()
-                .addGroup(dialog_dsNguoiChiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                .addComponent(jLabel2)
                 .addGap(3, 3, 3)
                 .addComponent(box_ls, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
@@ -596,6 +586,10 @@ public class AddLogGroup extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_button_delete_dsActionPerformed
 
+    private void box_lsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_box_lsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_box_lsActionPerformed
+
 //    public static void main(String args[]) {
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {
@@ -623,7 +617,6 @@ public class AddLogGroup extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;

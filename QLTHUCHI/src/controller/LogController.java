@@ -28,7 +28,7 @@ public class LogController {
     public boolean deleteLog(int id_log) {
         return logDao.deleteLog(id_log);
     }
-    public boolean updateLog(int id_log) {
-        return logDao.deleteLog(id_log);
+    public void updateLogGroup(LogO log) {
+        logDao.updateLogGroup(log);
     }
 }

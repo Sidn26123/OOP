@@ -460,32 +460,9 @@ public class Family extends javax.swing.JFrame {
     private void button_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_updateActionPerformed
         int selectedRowIndex = table_chi.getSelectedRow();
             if (selectedRowIndex != -1) {
-            // Lấy dữ liệu từ dòng đã chọn
-            String nguoiTao = (String) table_chi.getValueAt(selectedRowIndex, 0);
-            String nguoiChi = (String) table_chi.getValueAt(selectedRowIndex, 1);
-            String ten = (String) table_chi.getValueAt(selectedRowIndex, 2);
-            String loai = (String) table_chi.getValueAt(selectedRowIndex, 3);
-            String ngay = (String) table_chi.getValueAt(selectedRowIndex, 4);
-            String soTien = (String) table_chi.getValueAt(selectedRowIndex, 5);
-
-            Editform editform = new Editform(this, true, nguoiTao, nguoiChi, ten, loai, ngay, soTien);
+            Editform editform = new Editform(id_user,Family.this);
             editform.setVisible(true);
-            // Lấy dữ liệu đã sửa từ hộp thoại chỉnh sửa
-            String updatedNguoiTao = editform.getNguoiTao();
-            String updatedNguoiChi = editform.getNguoiChi();
-            String updatedTen = editform.getTen();
-            String updatedLoai = editform.getLoai();
-            String updatedNgay = editform.getNgay();
-            String updatedSoTien = editform.getSoTien();
-
-            // Cập nhật bảng với dữ liệu đã chỉnh sửa
-            table_chi.setValueAt(updatedNguoiTao, selectedRowIndex, 0);
-            table_chi.setValueAt(updatedNguoiChi, selectedRowIndex, 1);
-            table_chi.setValueAt(updatedTen, selectedRowIndex, 2);
-            table_chi.setValueAt(updatedLoai, selectedRowIndex, 3);
-            table_chi.setValueAt(updatedNgay, selectedRowIndex, 4);
-            table_chi.setValueAt(updatedSoTien, selectedRowIndex, 5);
-            updateDatabase(selectedRowIndex, updatedNguoiTao, updatedNguoiChi, updatedTen, updatedLoai, updatedNgay, updatedSoTien);
+//            updateDatabase(selectedRowIndex, updatedNguoiTao, updatedNguoiChi, updatedTen, updatedLoai, updatedNgay, updatedSoTien);
         } else {
             JOptionPane.showMessageDialog(rootPane, "Vui lòng chọn một dòng để sửa");
         }
