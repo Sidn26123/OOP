@@ -23,6 +23,11 @@ public class FamilyController {
             familyModel.addTypeGroup(Integer.parseInt(userChoice.get(0)), id_log);
         }
     }
+    public void updateLogGroup(List<List<String>> usersChoice, int id_log){
+        for(List<String> userChoice: usersChoice){
+            familyModel.updateTypeGroup(Integer.parseInt(userChoice.get(0)), id_log);
+        }
+    }
     public List<List<String>> getUserChoice(int id_log){
         return familyModel.getNameUserChoice(id_log);
     }

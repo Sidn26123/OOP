@@ -76,4 +76,24 @@ public class TypeModel {
         }
         return type;
     }
+    public TypeO findId_typeByName(String name){
+        TypeO type = new TypeO();
+        Connection connection = JDBCConnection.getJDBCConnection();
+        String sql = "select * from Type where Name_Type = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, name);
+            ResultSet rs = preparedStatement.executeQuery();
+            while(rs.next()){
+                type.setID_Type(rs.getInt("ID_Type"));
+                type.setID_User(rs.getInt("ID_User"));
+                type.setReceipts_Or_Expenses(rs.getInt("Receipts_Or_Expenses"));
+                type.setName_Type(rs.getString("Name_Type"));
+                type.setIcon_Path(rs.getString("Icon_Path"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return type;
+    }
 }
