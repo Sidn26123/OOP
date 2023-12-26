@@ -35,6 +35,7 @@ public class FamilyController {
         }
     }
     public void updateLogGroup(List<List<String>> usersChoice, int id_log){
+        familyModel.deleteLogGroupbyID_log(id_log);
         for(List<String> userChoice: usersChoice){
             familyModel.updateTypeGroup(Integer.parseInt(userChoice.get(0)), id_log);
         }

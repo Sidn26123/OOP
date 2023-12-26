@@ -432,6 +432,7 @@ public class Thu extends javax.swing.JFrame {
         
             if(date == null){
                 JOptionPane.showMessageDialog(Thu.this, "Vui lòng nhập đúng định dạng ngày!","Thông báo", JOptionPane.OK_OPTION);
+                return;
             }
 
             String ghichu = text_ghichu.getText();
@@ -441,6 +442,7 @@ public class Thu extends javax.swing.JFrame {
                 tienthu = Integer.parseInt(String.valueOf(text_tienthu.getText()));
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(Thu.this, "Vụi lòng nhập đúng số tiền!", "Thông báo",JOptionPane.OK_OPTION);
+                return;
             }
             String id_Type = "";
 

@@ -56,7 +56,6 @@ public class Editform extends javax.swing.JFrame {
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         dialog_dsNguoiChi = new javax.swing.JDialog();
         jPanel1 = new javax.swing.JPanel();
@@ -106,8 +105,22 @@ public class Editform extends javax.swing.JFrame {
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(table_ds_nguoiChi);
+        if (table_ds_nguoiChi.getColumnModel().getColumnCount() > 0) {
+            table_ds_nguoiChi.getColumnModel().getColumn(0).setResizable(false);
+            table_ds_nguoiChi.getColumnModel().getColumn(1).setResizable(false);
+            table_ds_nguoiChi.getColumnModel().getColumn(2).setResizable(false);
+            table_ds_nguoiChi.getColumnModel().getColumn(3).setResizable(false);
+        }
 
         button_add.setBackground(new java.awt.Color(0, 255, 255));
         button_add.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
@@ -192,31 +205,12 @@ public class Editform extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Update");
-        getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jLabel2.setText("Người Chi:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(24, 34, 0, 0);
-        getContentPane().add(jLabel2, gridBagConstraints);
 
         jLabel3.setText("Ghi Chú");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(36, 49, 0, 0);
-        getContentPane().add(jLabel3, gridBagConstraints);
 
         jLabel4.setText("Loại:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(26, 65, 0, 0);
-        getContentPane().add(jLabel4, gridBagConstraints);
 
         btnEdit.setText("Lưu");
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
@@ -224,12 +218,6 @@ public class Editform extends javax.swing.JFrame {
                 btnEditActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 11;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(33, 18, 26, 0);
-        getContentPane().add(btnEdit, gridBagConstraints);
 
         btnCancel.setText("Hủy bỏ");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -237,37 +225,13 @@ public class Editform extends javax.swing.JFrame {
                 btnCancelActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 11;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(33, 24, 26, 0);
-        getContentPane().add(btnCancel, gridBagConstraints);
 
         jLabel5.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         jLabel5.setText("Chỉnh Sửa");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(9, 54, 0, 0);
-        getContentPane().add(jLabel5, gridBagConstraints);
 
         jLabel6.setText("Ngày:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(18, 60, 0, 0);
-        getContentPane().add(jLabel6, gridBagConstraints);
 
         jLabel7.setText("Số Tiền:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(18, 48, 0, 0);
-        getContentPane().add(jLabel7, gridBagConstraints);
 
         box_loai.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
         box_loai.addActionListener(new java.awt.event.ActionListener() {
@@ -275,15 +239,6 @@ public class Editform extends javax.swing.JFrame {
                 box_loaiActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 4;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.ipadx = 278;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(26, 18, 0, 0);
-        getContentPane().add(box_loai, gridBagConstraints);
 
         txttien.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txttien.addActionListener(new java.awt.event.ActionListener() {
@@ -291,29 +246,11 @@ public class Editform extends javax.swing.JFrame {
                 txttienActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.gridwidth = 4;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.ipadx = 286;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(18, 18, 0, 0);
-        getContentPane().add(txttien, gridBagConstraints);
 
         jDateChooser1.setBackground(new java.awt.Color(245, 177, 109));
         jDateChooser1.setForeground(new java.awt.Color(255, 0, 0));
         jDateChooser1.setDateFormatString("yyyy-MM-dd");
         jDateChooser1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridwidth = 4;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.ipadx = 268;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(18, 18, 0, 0);
-        getContentPane().add(jDateChooser1, gridBagConstraints);
 
         txtnguoichi.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtnguoichi.addActionListener(new java.awt.event.ActionListener() {
@@ -321,15 +258,6 @@ public class Editform extends javax.swing.JFrame {
                 txtnguoichiActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 4;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.ipadx = 286;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(18, 18, 0, 0);
-        getContentPane().add(txtnguoichi, gridBagConstraints);
 
         dsachnguoichi.setText("Chọn");
         dsachnguoichi.addActionListener(new java.awt.event.ActionListener() {
@@ -337,13 +265,6 @@ public class Editform extends javax.swing.JFrame {
                 dsachnguoichiActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(21, 18, 0, 29);
-        getContentPane().add(dsachnguoichi, gridBagConstraints);
 
         txtghichu.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtghichu.addActionListener(new java.awt.event.ActionListener() {
@@ -351,15 +272,98 @@ public class Editform extends javax.swing.JFrame {
                 txtghichuActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 4;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.ipadx = 286;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(30, 18, 0, 0);
-        getContentPane().add(txtghichu, gridBagConstraints);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(140, 140, 140)
+                        .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33)
+                        .addComponent(btnCancel))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(182, 182, 182)
+                        .addComponent(jLabel5))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(70, 70, 70)
+                                    .addComponent(jLabel4)
+                                    .addGap(29, 29, 29)
+                                    .addComponent(box_loai, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addGap(39, 39, 39)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel2)
+                                            .addGap(29, 29, 29)
+                                            .addComponent(txtnguoichi, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel3)
+                                            .addGap(29, 29, 29)
+                                            .addComponent(txtghichu, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(53, 53, 53)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel7)
+                                        .addGap(29, 29, 29)
+                                        .addComponent(txttien, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel6)
+                                        .addGap(29, 29, 29)
+                                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(dsachnguoichi)))
+                .addContainerGap(22, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jLabel5)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel3))
+                    .addComponent(txtghichu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtnguoichi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(dsachnguoichi)))
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(jLabel4))
+                    .addComponent(box_loai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel6))
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel7))
+                    .addComponent(txttien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnEdit)
+                    .addComponent(btnCancel))
+                .addContainerGap())
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -397,12 +401,14 @@ public class Editform extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         initTable();
         fillTableDs_NguoiChi();
+        
         TableColumn column1 = table_ds_nguoiChi.getColumnModel().getColumn(0);
         column1.setPreferredWidth(0);
         TableColumn column2 = table_ds_nguoiChi.getColumnModel().getColumn(1);
         column2.setPreferredWidth(180);
         TableColumn column3 = table_ds_nguoiChi.getColumnModel().getColumn(2);
         column3.setPreferredWidth(180);
+        
     }
     private void updateNguoiChiText() {
         StringBuilder nguoiChiText = new StringBuilder();
@@ -443,9 +449,9 @@ public class Editform extends javax.swing.JFrame {
 
             String ghichu = txtghichu.getText();
 
-            int tienthu = 0;
+            double tienthu = 0.0;
             try {
-                tienthu = Integer.valueOf(String.valueOf(txttien.getText()));
+                tienthu = Double.parseDouble(String.valueOf(txttien.getText()));
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(Editform.this, "Vụi lòng nhập đúng số tiền!", "Thông báo",JOptionPane.OK_OPTION);
                 return;
@@ -463,8 +469,9 @@ public class Editform extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(Editform.this, "Vui lòng chọn người chi!", "Thông báo", JOptionPane.OK_OPTION);
                 return;
             }
+            int id_log = family.getlogselect().getID();
             LogO log = new LogO();
-            
+            log.setID_Log(id_log);
             log.setGroup_ID(familyController.getID_Group(id_user));
             log.setUser_ID(id_user);
             log.setID_Type(Integer.parseInt(id_Type));
@@ -473,15 +480,16 @@ public class Editform extends javax.swing.JFrame {
             log.setDateString(Utils.Utils.converDateToString(date, "dd/MM/yyyy"));
             try {
                 logController.updateLogGroup(log);
-                int id_log = logController.getID_Log();
                 familyController.updateLogGroup(UserChoce, id_log);
+                System.out.println(UserChoce);
                 Calendar c = Calendar.getInstance();
                 String stringDate = Utils.Utils.converDateToString(date, "dd/MM/yyyy");
                 c.set(Calendar.MONTH, Integer.parseInt(stringDate.split("/")[1])-1);
                 c.set(Calendar.YEAR, Integer.parseInt(stringDate.split("/")[2]));
-                System.out.println(( "update log"+stringDate.split("/")[1]) + " " + (stringDate.split("/")[2]));
                 family.setTextLabelDate(c);
                 family.fillTable(c);
+                family.sum_price_per_month();
+                family.initTablePrice();
                 JOptionPane.showMessageDialog(Editform.this, "Thành Công","Thông báo", JOptionPane.OK_OPTION);
             } catch (HeadlessException e) {
                 JOptionPane.showMessageDialog(Editform.this, "Thất bại","Thông báo", JOptionPane.OK_OPTION);
@@ -510,7 +518,7 @@ public class Editform extends javax.swing.JFrame {
     private void dsachnguoichiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dsachnguoichiActionPerformed
         dialog_dsNguoiChi.setSize(425, 325);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        dialog_dsNguoiChi.setLocation(dim.width/2-dialog_dsNguoiChi.getSize().width/2 + 530, dim.height/2-dialog_dsNguoiChi.getSize().height/2 - 110);
+        dialog_dsNguoiChi.setLocation(dim.width/2-dialog_dsNguoiChi.getSize().width/2 + 435, dim.height/2-dialog_dsNguoiChi.getSize().height/2 - 35);
         dialog_dsNguoiChi.setVisible(true);
     }//GEN-LAST:event_dsachnguoichiActionPerformed
 
