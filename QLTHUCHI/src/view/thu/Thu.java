@@ -348,13 +348,14 @@ public class Thu extends javax.swing.JFrame {
                         .addComponent(curDate, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(timeType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(backActionBtn)
-                    .addComponent(nextActionBtn)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(totalOfTypeInDay)
                         .addComponent(totalInDayValue)
-                        .addComponent(deleteAllBtn)))
+                        .addComponent(deleteAllBtn))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(backActionBtn)
+                        .addComponent(nextActionBtn)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(transactionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(16, Short.MAX_VALUE))
@@ -711,11 +712,19 @@ public class Thu extends javax.swing.JFrame {
     }//GEN-LAST:event_timeTypeActionPerformed
 
     private void nextDateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextDateBtnActionPerformed
-        // TODO add your handling code here:
+        this.curDateValue = Utils.getDateFormattedWithOffset(curDateValue, "d", 1);
+        this.curDate.setText(this.curDateValue);
+        LogsDB log =  new LogsDB();
+        this.totalInDayValue.setText("" + log.getSpecSum(this.curDate.getText(), this.curIdOfMode));
     }//GEN-LAST:event_nextDateBtnActionPerformed
 
     private void beforeDateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_beforeDateBtnActionPerformed
-        // TODO add your handling code here:
+                LogsDB log = new LogsDB();
+        this.curDateValue = Utils.getDateFormattedWithOffset(curDateValue, "d", -1);
+        this.curDate.setText(this.curDateValue);
+        this.totalInDayValue.setText("" + log.getSpecSum(this.curDate.getText(), this.curIdOfMode));
+
+        this.totalAmoutInDate.setText("" + log.getSpecSum(this.curDate.getText(), this.curIdOfMode)); 
     }//GEN-LAST:event_beforeDateBtnActionPerformed
 
     private void backActionBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionBtnActionPerformed
