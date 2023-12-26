@@ -1,5 +1,5 @@
 
-package views;
+package view.calendar;
 
 import java.awt.Color;
 import java.awt.Cursor;

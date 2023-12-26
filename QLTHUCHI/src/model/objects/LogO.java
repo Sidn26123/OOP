@@ -5,10 +5,7 @@
 package model.objects;
 
 import java.util.Date;
-/**
- *
- * @author LENOVO
- */
+
 
 public class LogO {
     private int ID_Log;
