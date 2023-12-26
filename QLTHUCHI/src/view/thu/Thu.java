@@ -719,12 +719,12 @@ public class Thu extends javax.swing.JFrame {
     }//GEN-LAST:event_nextDateBtnActionPerformed
 
     private void beforeDateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_beforeDateBtnActionPerformed
-                LogsDB log = new LogsDB();
+        LogsDB log = new LogsDB();
         this.curDateValue = Utils.getDateFormattedWithOffset(curDateValue, "d", -1);
         this.curDate.setText(this.curDateValue);
         this.totalInDayValue.setText("" + log.getSpecSum(this.curDate.getText(), this.curIdOfMode));
 
-        this.totalAmoutInDate.setText("" + log.getSpecSum(this.curDate.getText(), this.curIdOfMode)); 
+        this.totalInDayValue.setText("" + log.getSpecSum(this.curDate.getText(), this.curIdOfMode)); 
     }//GEN-LAST:event_beforeDateBtnActionPerformed
 
     private void backActionBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionBtnActionPerformed
