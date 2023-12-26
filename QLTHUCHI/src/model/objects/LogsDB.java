@@ -72,7 +72,7 @@ public class LogsDB {
                     //                     ", Note: " + rs.getString("Note") + ", Date Created: " + rs.getString("date_created") + "\n";
                     ans[i][0] = rs.getInt("ID_Log");
                     ans[i][1] = rs.getInt("ID_Type");
-                    ans[i][2] = rs.getInt("Price");
+                    ans[i][2] = (int)rs.getDouble("Price");
                     ans[i][3] = rs.getString("Note");
                     ans[i][4] = rs.getString("date_created");
                     ans[i][5] = rs.getString("date");
@@ -133,7 +133,7 @@ public class LogsDB {
                     //                     ", Note: " + rs.getString("Note") + ", Date Created: " + rs.getString("date_created") + "\n";
                     ans[i][0] = rs.getInt("ID_Log");
                     ans[i][1] = rs.getInt("ID_Type");
-                    ans[i][2] = rs.getInt("Price");
+                    ans[i][2] = (int)rs.getDouble("Price");
                     ans[i][3] = rs.getString("Note");
                     ans[i][4] = rs.getString("date_created");
                     i++;
@@ -186,7 +186,7 @@ public class LogsDB {
                     //                     ", Note: " + rs.getString("Note") + ", Date Created: " + rs.getString("date_created") + "\n";
                     ans[i][0] = rs.getInt("ID_Log");
                     ans[i][1] = rs.getInt("ID_Type");
-                    ans[i][2] = rs.getInt("Price");
+                    ans[i][2] = (int)rs.getDouble("Price");
                     ans[i][3] = rs.getString("Note");
                     ans[i][4] = rs.getString("date_created");
                     i++;
@@ -246,7 +246,7 @@ public class LogsDB {
                     // ans[i][4] = rs.getString("date_created");
 
                     // i++;
-                    ans.add(new LogO(rs.getInt("ID_Log"), rs.getInt("ID_Type"), rs.getInt("Price"), rs.getString("Note"), rs.getString("date")));
+                    ans.add(new LogO(rs.getInt("ID_Log"), rs.getInt("ID_Type"), (int)rs.getDouble("Price"), rs.getString("Note"), rs.getString("date")));
                 }
             }
         }
@@ -293,7 +293,7 @@ public class LogsDB {
                     // ans[i][4] = rs.getString("date_created");
 
                     // i++;
-                    ans.add(new LogO(rs.getInt("ID_Log"), rs.getInt("ID_Type"), rs.getInt("Price"), rs.getString("Note"), rs.getString("date")));
+                    ans.add(new LogO(rs.getInt("ID_Log"), rs.getInt("ID_Type"), (int)rs.getDouble("Price"), rs.getString("Note"), rs.getString("date")));
                 }
             }
         }
@@ -348,7 +348,7 @@ public class LogsDB {
                     Object[] item = new Object[6];
                     item[0] = rs.getInt("ID_Log");
                     item[1] = rs.getInt("ID_Type");
-                    item[2] = rs.getInt("Price");
+                    item[2] = (int)rs.getDouble("Price");
                     item[3] = rs.getString("Note");
                     item[4] = rs.getString("date_created");
                     ans.add(item);
@@ -522,7 +522,7 @@ public class LogsDB {
                 // Lặp qua kết quả nếu có
                 while (rs.next()) {
                     // Lấy giá trị từ cột đầu tiên (trong trường hợp này, SUM(Price))
-                    int sumAmount = rs.getInt(1);
+                    int sumAmount = (int)rs.getDouble(1);
                     int cateID = rs.getInt(2);
                     ans = new Object[]{sumAmount, cateID};
                     return ans;
@@ -594,7 +594,7 @@ public class LogsDB {
                 ans = new Object[numRows][3];
                 while (rs.next()) {
                     // Lấy giá trị từ cột đầu tiên (trong trường hợp này, SUM(Price))
-                    int sumAmount = rs.getInt(1);
+                    double sumAmount = rs.getDouble(1);
                     // System.out.println("sum: " + sumAmount + " type: " + rs.getString(3));
                     ans[i][2] = sumAmount;
                     ans[i][0] = rs.getInt(2);
@@ -656,7 +656,7 @@ public class LogsDB {
                 // Lặp qua kết quả nếu có
                 while (rs.next()) {
                     // Lấy giá trị từ cột đầu tiên (trong trường hợp này, SUM(Price))
-                    int sumAmount = rs.getInt("total_Price");
+                    double sumAmount = rs.getDouble("total_Price");
                     ans[i][0] = rs.getInt(2);
                     ans[i][1] = rs.getString(3);
                     ans[i][2] = sumAmount;
@@ -698,7 +698,7 @@ public class LogsDB {
             ps.setString(2, endDate);
             try (ResultSet rs = ps.executeQuery()) {
                 while(rs.next()){
-                    double sumAmount = rs.getInt(1);
+                    double sumAmount = rs.getDouble(1);
                     int type = rs.getInt(2);
                     String curDate = rs.getString(3);
                     rawData[i][0] = (int)sumAmount;
