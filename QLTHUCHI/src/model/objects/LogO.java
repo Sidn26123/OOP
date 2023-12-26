@@ -90,7 +90,9 @@ public class LogO {
         
     }
 
-
+    public Object[] toArray1() {
+        return new Object[] {ID_Type, Price, Note, DateString, ID_Log};
+    }
 
     public Object[] toRowTable(Object[] structureString){
         Object[] row = new Object[structureString.length];

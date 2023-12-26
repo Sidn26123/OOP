@@ -778,15 +778,23 @@ public class Thu extends javax.swing.JFrame {
     }//GEN-LAST:event_button_danh_sach_thuActionPerformed
 
     private void timeTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timeTypeActionPerformed
-        if (this.timeType.getSelectedItem() == "Ngày"){
+        if (this.timeType.getSelectedItem() == "NgÃ y"){
             this.curTypeOfTime = "d";
+            this.conditionsForFilter.removeAllElements();
+            this.conditionsForFilter.add(new Object[]{"date", this.curDate.getText(), "from"});
+            this.conditionsForFilter.add(new Object[]{"date", this.curDate.getText(), "to"});
         }
-        else if (this.timeType.getSelectedItem() == "Tuần"){
+        else if (this.timeType.getSelectedItem() == "Tuáº§n"){
             this.curTypeOfTime = "w";
         }
-        else if (this.timeType.getSelectedItem() == "Tháng"){
+        else if (this.timeType.getSelectedItem() == "ThÃ¡ng"){
             this.curTypeOfTime = "m";
+            this.conditionsForFilter.removeAllElements();
+            this.conditionsForFilter.add(new Object[]{"date", Utils.getFirstDateInCurMonth(), "from"});
+            this.conditionsForFilter.add(new Object[]{"date", Utils.getLastDateInCurMonth(), "to"});
         }
+        this.logsController.filter(conditionsForFilter, conditionsForSort);
+        this.fillTransactionTable();
     }//GEN-LAST:event_timeTypeActionPerformed
 
     private void nextDateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextDateBtnActionPerformed

@@ -18,7 +18,17 @@ public class Utils {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return currentDate.format(formatter);
     }
+    public static String getFirstDateInCurMonth(){
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return "01/" + currentDate.format(formatter).substring(3);
+    }
 
+    public static String getLastDateInCurMonth(){
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return getLastDateOfMonth(currentDate.getMonthValue(), currentDate.getYear());
+    }
     /**
      * Lấy ngày hiện tại và định dạng đầu ra
      * @param outputFormatString Định dạng đầu ra

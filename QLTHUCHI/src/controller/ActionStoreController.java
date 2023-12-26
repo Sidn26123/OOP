@@ -421,4 +421,37 @@ public class ActionStoreController {
         this.moveNextAction(logs);
         return logs;
     }
+    public void saveHistory(){
+        System.out.println("saveHistory: " + this.actionStore.getIndexOfActionStores() + " " + this.actionStore.getSize());
+        for (int i = this.actionStore.getIndexOfActionStores() + 1; i < this.actionStore.getSize(); i++){
+            ActionStore actionStoreItem = this.actionStore.getActionItemAt(i);
+            if (actionStoreItem.getTypeAction().equals("add")){
+                System.out.println("TE");
+                // new LogsDB().deleteData(actionStoreItem.getData().getID());
+                try{
+                    new LogsDB().deleteData(actionStoreItem.getData().getID());
+                }
+                catch(Exception e){
+                    System.out.println(e.getStackTrace());
+                }
+            }
+            else if (actionStoreItem.getTypeAction().equals("delete")){
+                // new LogsDB().insertData(actionStoreItem.getData().toArray1());
+                try{
+                    new LogsDB().insertData(actionStoreItem.getData().toArray1());
+                }
+                catch(Exception e){
+                }
+            }
+            else if (actionStoreItem.getTypeAction().equals("update")){
+                try{
+                    new LogsDB().updateData(actionStoreItem.getData().toArray1());
+                }
+                catch(Exception e){
+                }
+            }
+        }
+        this.actionStore.removeActionsAfterIndex(this.actionStore.getIndexOfActionStores());
+    }
+    
 }

@@ -335,7 +335,9 @@ public class LogsDB {
             }
         }
 
-        String sql = "SELECT * FROM Log "+ whereString + orderString;
+        String sql = "SELECT ID_Log, Log.ID_Type AS ID_Type,  Price, Note, Date, Type.Name_Type AS Name_Type FROM Log " +
+                    "INNER JOIN Type ON Log.ID_Type = Type.ID_Type "
+                        + whereString + orderString;
         try(PreparedStatement ps = con.prepareStatement(sql)){
             // System.out.println("where: " + whereString);
             // ps.setString(1, whereString);
@@ -350,7 +352,7 @@ public class LogsDB {
                     item[1] = rs.getInt("ID_Type");
                     item[2] = (int)rs.getDouble("Price");
                     item[3] = rs.getString("Note");
-                    item[4] = rs.getString("date_created");
+                    item[4] = rs.getString("Date");
                     ans.add(item);
                 }
             }
@@ -476,11 +478,11 @@ public class LogsDB {
         Connection con = getConnection();
         String preSql;
         if (isMySQL) {
-            preSql = "SELECT ID_Type FROM Type WHERE Receipts_Or_Expenses = ? LIMIT 1";
+            preSql = "SELECT ID_Type FROM Type WHERE Receipts_Or_Expanses = ? LIMIT 1";
         } else {
-            preSql = "SELECT TOP 1 ID_Type FROM Type WHERE Receipts_Or_Expenses = ?";
+            preSql = "SELECT TOP 1 ID_Type FROM Type WHERE Receipts_Or_Expanses = ?";
         }
-//        ResultSet rs1 = null;
+        ResultSet rs1 = null;
         int firstCateID = 0;
         Object[] ans = new Object[2];
         // try{
@@ -509,12 +511,12 @@ public class LogsDB {
             sql = "SELECT SUM(Price) AS total_Price FROM Log " +
                   "INNER JOIN Type AS C ON Log.ID_Type = C.ID_Type " +
                   "WHERE C.ID_Type = '"+ firstCateID+"' AND Log.Date = '"+sqlDate +"' "+
-                  "GROUP BY DATE(Date), C.ID_Type";
+                  "GROUP BY DATE(Date)";
         } else {
             sql = "SELECT SUM(Price) AS total_Price, C.ID_Type FROM Log " +
                   "INNER JOIN Type AS C ON Log.ID_Type = C.ID_Type " +
                   "WHERE C.ID_Type = '"+ firstCateID + "' AND Log.Date = '" + sqlDate+"'" +
-                  "GROUP BY CAST(Date AS DATE), C.ID_Type";
+                  "GROUP BY CAST(Date AS DATE)";
         }
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -566,12 +568,20 @@ public class LogsDB {
         endDate = Utils.convertToSqlDate(endDate);
         String sql = "";
         if (isMySQL){
-            sql = "SELECT COALESCE(SUM(Price), 0) AS total_Price, C.Receipts_Or_Expanses FROM Log " +
-            "RIGHT JOIN Type AS C ON Log.ID_Type = C.ID_Type " +
-            "WHERE C.Receipts_Or_Expanses IN (0,1) AND Date >= ? AND Date <= ? " +
-            "GROUP BY C.Receipts_Or_Expanses";
-
+            // sql = "SELECT COALESCE(SUM(Price), 0) AS total_Price, C.Receipts_Or_Expanses FROM Log " +
+            // "RIGHT JOIN Type AS C ON Log.ID_Type = C.ID_Type " +
+            // "WHERE C.Receipts_Or_Expanses IN (0,1) AND Date >= ? AND Date <= ? " +
+            // "GROUP BY C.Receipts_Or_Expanses";
+            sql = "SELECT COALESCE(SUM(Price), 0) AS total_Price, C.Receipts_Or_Expanses FROM Type AS C "+
+                    "LEFT JOIN Log ON Log.ID_Type = C.ID_Type "+
+                    "WHERE Log.Date >= ? AND Log.Date <= ? "+
+                    "GROUP BY C.Receipts_Or_Expanses";
         }
+        // SELECT C.type, COALESCE(SUM(T.amount), 0) AS TotalAmount
+// FROM Category AS C
+// LEFT JOIN Transactions AS T ON T.type = C.ID
+// WHERE T.date BETWEEN N'2023-11-1' AND N'2023-12-30'
+// GROUP BY C.type;
         else{
             sql = "SELECT SUM(Price) AS total_Price, C.Receipts_Or_Expanses FROM Log " +
                     "INNER JOIN Type AS C ON Log.ID_Type = C.ID_Type " +
@@ -612,9 +622,9 @@ public class LogsDB {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        // for (Object[] item : ans) {
-        //     System.out.println(item[0].toString() + " " + item[1].toString());
-        // }
+        for (Object[] item : ans) {
+            System.out.println(item[0].toString() + " " + item[1].toString());
+        }
         if (ans != null){
             return ans;
         }
@@ -630,17 +640,24 @@ public class LogsDB {
         endDate = Utils.convertToSqlDate(endDate);
         String sql = "";
         if (isMySQL) {
-            sql = "SELECT COALESCE(SUM(Price), 0) AS total_Price, C.ID_Type AS id, C.name FROM Log " +
-                  "RIGHT JOIN Type AS C ON Log.ID_Type = C.ID_Type " +
-                  "WHERE C.Receipts_Or_Expanses = ? AND Date >= ? AND Date <= ? " +
-                  "GROUP BY C.ID_Type, C.Name_Type";
+
+            sql = "SELECT COALESCE(SUM(Log.Price), 0) AS TotalPrice, Type.ID_Type, Type.Name_Type " +
+            "FROM Type " +
+            "LEFT JOIN Log ON Type.ID_Type = Log.ID_Type " +
+            "WHERE Type.Receipts_Or_Expanses = ? AND Log.Date >= ? AND Log.Date <= ? " +
+            "GROUP BY Type.ID_Type, Type.Name_Type;";
         } else {
-            sql = "SELECT COALESCE(SUM(Price), 0) AS total_Price, C.ID_Type AS id, C.name FROM Log " +
-                  "RIGHT JOIN Type AS C ON Log.ID_Type = C.ID_Type " +
-                  "WHERE C.Receipts_Or_Expanses = ? AND Date >= ? AND Date <= ? " +
-                  "GROUP BY C.ID_Type, C.Name_Type";
+            sql = "SELECT COALESCE(SUM(Log.Price), 0) AS TotalPrice, Type.ID_Type, Type.Name_Type " +
+            "FROM Type " +
+            "LEFT JOIN Log ON Type.ID_Type = Log.ID_Type " +
+            "WHERE Type.Receipts_Or_Expanses = ? AND Log.Date >= ? AND Log.Date <= ? " +
+            "GROUP BY Type.ID_Type, Type.Name_Type;";
         }
-        
+
+
+
+
+
         Object[][] ans = new Object[2][2];
         Connection con = getConnection();
         try (PreparedStatement ps = con.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
@@ -656,20 +673,20 @@ public class LogsDB {
                 // Lặp qua kết quả nếu có
                 while (rs.next()) {
                     // Lấy giá trị từ cột đầu tiên (trong trường hợp này, SUM(Price))
-                    double sumAmount = rs.getDouble("total_Price");
+                    double sumAmount = rs.getDouble("TotalPrice");
                     ans[i][0] = rs.getInt(2);
                     ans[i][1] = rs.getString(3);
                     ans[i][2] = sumAmount;
-                    // System.out.println("sum: " + sumAmount + " type: " + rs.getInt(2));
+                    System.out.println("sum: " + sumAmount + " type: " + rs.getInt(2));
                     // return (int) sumAmount;
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        // for (Object[] item : ans) {
-        //     System.out.println(item[0].toString() + " " + item[1].toString() + " " + item[2].toString());
-        // }
+        for (Object[] item : ans) {
+            System.out.println(item[0].toString() + " " + item[1].toString() + " " + item[2].toString());
+        }
         return ans;
     }
 
@@ -686,11 +703,11 @@ public class LogsDB {
         int i = 0;
         String endRawDataDate = "";
 
-        String sql = "SELECT SUM(T.Price), C.type, T.Date " +
+        String sql = "SELECT SUM(T.Price), C.Receipts_Or_Expanses, T.Date " +
         "FROM Log T " +
         "INNER JOIN Type C ON C.ID_Type = T.ID_Type " +
         "WHERE T.Date >= ? AND T.Date <= ? " + 
-        "GROUP BY C.Receipts_Or_Expenses, T.Date " + 
+        "GROUP BY C.Receipts_Or_Expanses, T.Date " + 
         "ORDER BY T.Date";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -774,9 +791,15 @@ public class LogsDB {
 
     public void deleteData(int id){
         Connection con = getConnection();
-        String sql = "DELETE FROM Log WHERE id = " + id;
+        String sql = "DELETE FROM Log WHERE ID_Log = " + id;
+        System.out.println("sql: " + sql);
         try(PreparedStatement ps = con.prepareStatement(sql)){
-            ps.executeUpdate();
+            //lấy số dòfng affect
+            int affectedRows = ps.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Deleting user failed, no rows affected.");
+            }
+
         }
         catch(Exception e){
             e.printStackTrace();
@@ -857,7 +880,7 @@ public class LogsDB {
             e.printStackTrace();
         }   
     }
-    
+
     public void updateData(Object[][] data){
         Vector<Object[]> datas = new Vector<Object[]>();
         for (Object[] item : data) {
@@ -865,7 +888,6 @@ public class LogsDB {
         }
         updateData(datas);
     }
-
     public void updateData(Object[] data){
         Connection con = getConnection();
         String sql = "UPDATE Log SET ID_Type = ?, Price = ?, Note = ? WHERE ID_Log = ?";
@@ -935,7 +957,7 @@ public class LogsDB {
                     "WHERE C.ID_Type = ? AND Date >= ? AND Date <= ? "+
                     "GROUP BY DATE(Date)";
         }
-        else if (config.getDB() == "SQLServer"){
+        if (config.getDB() == "MySQL"){
             String caseString = "CASE";
             for (int i = 0; i < timeRange.length; i++) {
                 caseString += " WHEN Date BETWEEN '" + timeRange[i][0] + "' AND '" + timeRange[i][1] + "' THEN " + (i+1);
@@ -943,13 +965,14 @@ public class LogsDB {
             caseString += " ELSE " + (timeRange.length + 1) + " END AS Nhom";
             
             sql = "SELECT Nhom AS GroupNumber, COALESCE(SUM(Price), 0) AS TongAmount " +
-                    "FROM (" +
-                    "    SELECT Date, Price, " +
-                    caseString +
-                    "    FROM Logs " +
-                    "    WHERE Date BETWEEN ? AND ? " +
-                    ") AS NhomCacNgay " +
-                    "GROUP BY Nhom;";
+            "FROM (" +
+            "    SELECT Date, Price, " +
+            caseString +
+            "    FROM Logs " +
+            "    WHERE Date BETWEEN ? AND ? " +
+            ") AS NhomCacNgay " +
+            "INNER JOIN Type ON Logs.ID_Type = Type.ID_Type " +
+            "GROUP BY Nhom, Type.ID_Type;";
         }
         try(PreparedStatement ps = con.prepareStatement(sql)){
             for (int i = 0; i < idList.length; i++) {
@@ -1035,4 +1058,29 @@ public class LogsDB {
         return ans;
     }
 
+    // public Object[][] getDataForBarChart(String inputDate, int num){
+    //     String sql = "SELECT SUM(Price), C.Receipts_Or_Expanses FROM Log " +
+    //                 "INNER JOIN Type AS C ON Log.ID_Type = C.ID_Type " +
+    //                 "WHERE Date = ? AND C.Receipts_Or_Expanses = ? " +
+    //                 "GROUP BY C.Receipts_Or_Expanses";
+    //     Connection con = getConnection();
+    //     try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
+    //         preparedStatement.setInt(1, num);
+
+    //         try (ResultSet resultSet = preparedStatement.executeQuery()) {
+    //             while (resultSet.next()) {
+    //                 java.sql.Date groupStartDate = resultSet.getDate("group_start_date");
+    //                 double totalPrice = resultSet.getDouble("total_price");
+
+    //                 System.out.println("Group Start Date: " + groupStartDate + ", Total Price: " + totalPrice);
+    //             }
+    //         }
+    //         } catch (SQLException e) {
+    //             e.printStackTrace();
+    //         }
+    //     }
+        
+    public void saveHistory(){
+        //execute ngược từ i+1 đến hết
+    }
 }
