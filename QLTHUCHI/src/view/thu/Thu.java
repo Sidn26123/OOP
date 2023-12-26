@@ -124,18 +124,22 @@ public class Thu extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         detailsLogFrame = new javax.swing.JFrame();
         jPanel2 = new javax.swing.JPanel();
-        showTransacs = new javax.swing.JButton();
-        curDate = new javax.swing.JLabel();
-        nextDateBtn = new javax.swing.JButton();
-        beforeDateBtn = new javax.swing.JButton();
         timeType = new javax.swing.JComboBox<>();
         transactionScrollPane = new javax.swing.JScrollPane();
         transactionTable = new javax.swing.JTable();
-        backActionBtn = new javax.swing.JButton();
-        nextActionBtn = new javax.swing.JButton();
         totalOfTypeInDay = new javax.swing.JLabel();
         totalInDayValue = new javax.swing.JLabel();
         deleteAllBtn = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        beforeDateBtn = new javax.swing.JButton();
+        curDate = new javax.swing.JLabel();
+        nextDateBtn = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
+        panel_title = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        nextActionBtn = new javax.swing.JButton();
+        backActionBtn = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -153,7 +157,6 @@ public class Thu extends javax.swing.JFrame {
         button_chinhsua1 = new javax.swing.JButton();
         button_danh_sach_thu = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        addDataBtn = new javax.swing.JButton();
 
         dialog_dsThu.setModal(true);
 
@@ -211,25 +214,9 @@ public class Thu extends javax.swing.JFrame {
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setPreferredSize(new java.awt.Dimension(745, 400));
 
-        showTransacs.setText("Xem");
-
-        curDate.setText("jLabel2");
-
-        nextDateBtn.setText("jButton3");
-        nextDateBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nextDateBtnActionPerformed(evt);
-            }
-        });
-
-        beforeDateBtn.setText("jButton4");
-        beforeDateBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                beforeDateBtnActionPerformed(evt);
-            }
-        });
-
+        timeType.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         timeType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ngày", "Tháng" }));
         timeType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -270,28 +257,115 @@ public class Thu extends javax.swing.JFrame {
         });
         transactionScrollPane.setViewportView(transactionTable);
 
-        backActionBtn.setText("<");
-        backActionBtn.addActionListener(new java.awt.event.ActionListener() {
+        totalOfTypeInDay.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        totalOfTypeInDay.setText("Tổng:");
+
+        totalInDayValue.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        totalInDayValue.setText("0");
+
+        deleteAllBtn.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        deleteAllBtn.setText("Xóa");
+        deleteAllBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                backActionBtnActionPerformed(evt);
+                deleteAllBtnActionPerformed(evt);
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jLabel2.setText("Lọc theo:");
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+
+        beforeDateBtn.setText("jButton4");
+        beforeDateBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                beforeDateBtnActionPerformed(evt);
+            }
+        });
+
+        curDate.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        curDate.setText("Date");
+
+        nextDateBtn.setText("jButton3");
+        nextDateBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextDateBtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(beforeDateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 29, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(curDate, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(nextDateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 29, Short.MAX_VALUE)
+                .addGap(24, 24, 24))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(beforeDateBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(curDate))
+                    .addComponent(nextDateBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 60, Short.MAX_VALUE)
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 24, Short.MAX_VALUE)
+        );
+
+        panel_title.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel3.setFont(new java.awt.Font("Segoe Script", 0, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 255, 255));
+        jLabel3.setText("Danh Sách Thu");
+
+        javax.swing.GroupLayout panel_titleLayout = new javax.swing.GroupLayout(panel_title);
+        panel_title.setLayout(panel_titleLayout);
+        panel_titleLayout.setHorizontalGroup(
+            panel_titleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
+        );
+        panel_titleLayout.setVerticalGroup(
+            panel_titleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
         nextActionBtn.setText(">");
+        nextActionBtn.setMaximumSize(new java.awt.Dimension(24, 24));
+        nextActionBtn.setMinimumSize(new java.awt.Dimension(24, 24));
+        nextActionBtn.setPreferredSize(new java.awt.Dimension(24, 24));
         nextActionBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nextActionBtnActionPerformed(evt);
             }
         });
 
-        totalOfTypeInDay.setText("Tổng:");
-
-        totalInDayValue.setText("jLabel3");
-
-        deleteAllBtn.setText("jButton3");
-        deleteAllBtn.addActionListener(new java.awt.event.ActionListener() {
+        backActionBtn.setText("<");
+        backActionBtn.setMaximumSize(new java.awt.Dimension(24, 24));
+        backActionBtn.setMinimumSize(new java.awt.Dimension(24, 24));
+        backActionBtn.setPreferredSize(new java.awt.Dimension(24, 24));
+        backActionBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteAllBtnActionPerformed(evt);
+                backActionBtnActionPerformed(evt);
             }
         });
 
@@ -302,62 +376,67 @@ public class Thu extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(transactionScrollPane)
+                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(transactionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addGap(22, 22, 22))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(totalOfTypeInDay)
+                        .addGap(56, 56, 56)
+                        .addComponent(totalInDayValue)
+                        .addGap(46, 46, 46))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(0, 25, Short.MAX_VALUE)
-                                .addComponent(timeType, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(timeType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(backActionBtn)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(nextActionBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(18, 18, 18)
-                        .addComponent(curDate, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(6, 6, 6)
+                                .addComponent(backActionBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(nextActionBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(beforeDateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                    .addComponent(nextDateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(36, 36, 36)
-                                .addComponent(showTransacs))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
+                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(160, 160, 160)
+                                .addComponent(deleteAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(29, 29, 29))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(totalOfTypeInDay)
-                                .addGap(18, 18, 18)
-                                .addComponent(totalInDayValue)
-                                .addGap(18, 18, 18)
-                                .addComponent(deleteAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18))))
+                                .addGap(103, 103, 103)
+                                .addComponent(panel_title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(showTransacs)
-                            .addComponent(nextDateBtn))
+                            .addComponent(jLabel2)
+                            .addComponent(timeType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(beforeDateBtn))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(curDate, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(timeType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(nextActionBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(backActionBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(panel_title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(deleteAllBtn))))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(totalOfTypeInDay)
-                        .addComponent(totalInDayValue)
-                        .addComponent(deleteAllBtn))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(backActionBtn)
-                        .addComponent(nextActionBtn)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(transactionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(totalOfTypeInDay)
+                    .addComponent(totalInDayValue))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout detailsLogFrameLayout = new javax.swing.GroupLayout(detailsLogFrame.getContentPane());
@@ -373,7 +452,7 @@ public class Thu extends javax.swing.JFrame {
             detailsLogFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(detailsLogFrameLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -483,13 +562,6 @@ public class Thu extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(0, 255, 255));
         jLabel1.setText("Thu");
 
-        addDataBtn.setText("Thêm");
-        addDataBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addDataBtnActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -528,10 +600,6 @@ public class Thu extends javax.swing.JFrame {
                                 .addComponent(button_calculator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(27, 27, 27))))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(265, 265, 265)
-                .addComponent(addDataBtn)
-                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -562,9 +630,7 @@ public class Thu extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(button_calculator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(10, 10, 10)
-                .addComponent(addDataBtn)
-                .addGap(18, 18, 18)
+                .addGap(51, 51, 51)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(button_danh_sach_thu))
@@ -688,7 +754,9 @@ public class Thu extends javax.swing.JFrame {
     private void button_danh_sach_thuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_danh_sach_thuActionPerformed
 //        dialog_dsThu.setVisible(true);
 //        showDetailsLogFrame();
+        detailsLogFrame.setSize(745, 450);
         detailsLogFrame.setVisible(true);
+        detailsLogFrame.setLocationRelativeTo(null);
         this.logsController.filter(conditionsForFilter, conditionsForSort);
         DefaultTableModel model = (DefaultTableModel) transactionTable.getModel();
         model.setRowCount(0);
@@ -821,43 +889,6 @@ public class Thu extends javax.swing.JFrame {
         
     }//GEN-LAST:event_deleteAllBtnActionPerformed
 
-    private void addDataBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDataBtnActionPerformed
-        int amount = 0;
-        try {
-            // Chuyển đổi chuỗi thành số nguyên
-            amount = Integer.parseInt(this.text_tienthu.getText().trim());
-
-            // In ra giá trị số nguyên đã chuyển đổi
-        } catch (NumberFormatException e) {
-            // Xử lý nếu chuỗi không thể chuyển đổi thành số nguyên
-            System.out.println("Lỗi chuyển đổi: " + e.getMessage());
-        }
-
-        String note = this.text_ghichu.getText();
-        String date = this.curDateValue;
-        int idOfItemInCategory = this.curIdOfItemInCategory;
-        LogsDB log = new LogsDB();
-        
-        log.insertData(new Object[]{idOfItemInCategory, amount, note, date});
-        
-        // this.transactions.add(new Object[]{log.getLastId(), idOfItemInCategory, amount, note, date});
-        this.logsController.addLog(new LogO(log.getLastId(), idOfItemInCategory, amount, note, date));
-        
-        this.totalInDayValue.setText("" + log.getSpecSum(this.curDate.getText(), this.curIdOfMode));
-
-        this.logData = new LogO(log.getLastId(), this.curIdOfItemInCategory, amount, note, date);
-        
-        if (this.actionStore.getLastAction() == null){
-            this.actionStoreItem = new ActionStore(this.logData, "add", 0, this.logsController.getLogs().getSize()-1);
-        }
-        else{
-            this.actionStoreItem = new ActionStore(this.logData, "add", this.actionStore.getLastAction().getIndex()+1, this.logsController.getLogs().getSize()-1);
-        }
-
-        this.actionStoreController.addActionStore(actionStoreItem);
-
-    }//GEN-LAST:event_addDataBtnActionPerformed
-
     public void updateData(){
         LogsDB log = new LogsDB();
         Object[][] te = log.getData(this.curDate.getText(), this.curIdOfItemInCategory);
@@ -986,7 +1017,6 @@ public class Thu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addDataBtn;
     private javax.swing.JButton backActionBtn;
     private javax.swing.JButton beforeDateBtn;
     private javax.swing.ButtonGroup buttonGroup1;
@@ -1003,6 +1033,8 @@ public class Thu extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -1010,14 +1042,16 @@ public class Thu extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JButton nextActionBtn;
     private javax.swing.JButton nextDateBtn;
     private javax.swing.JPanel panel_danhmuc;
-    private javax.swing.JButton showTransacs;
+    private javax.swing.JPanel panel_title;
     private javax.swing.JTextField text_ghichu;
     private javax.swing.JTextField text_tienthu;
     private javax.swing.JComboBox<String> timeType;

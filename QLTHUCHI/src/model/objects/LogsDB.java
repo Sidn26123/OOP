@@ -690,7 +690,7 @@ public class LogsDB {
         "FROM Log T " +
         "INNER JOIN Type C ON C.ID_Type = T.ID_Type " +
         "WHERE T.Date >= ? AND T.Date <= ? " + 
-        "GROUP BY C.Receipts_Or_Expanses, T.Date " + 
+        "GROUP BY C.Receipts_Or_Expenses, T.Date " + 
         "ORDER BY T.Date";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
