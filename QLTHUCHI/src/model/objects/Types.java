@@ -31,11 +31,11 @@ public class Types {
         String createTableSQL = "CREATE TABLE Type (" +
                                 "ID_Type INT " + (isMySQL ? "AUTO_INCREMENT" : "IDENTITY(1,1)") + " PRIMARY KEY, " +
                                 "Receipts_Or_Expanses INT, " +
-                                "Name_Type INT " +
+                                "Name_Type NVARCHAR(255), " +
                                 "Color NVARCHAR(255), " + 
                                 "Icon_Path NVARCHAR(255), " +
-                                "ID_User INT, " + 
-                                "type INT)";
+                                "ID_User INT) ";
+                                // "type INT)";
 
         try (PreparedStatement ps = con.prepareStatement(createTableSQL)) {
             ps.executeUpdate();
@@ -92,9 +92,9 @@ public class Types {
     public void insertData(Object[][] dataToInsert){
         String sql;
         if (isMySQL) {
-            sql = "INSERT INTO Type (Name_Type, Color, Icon_Path, ID_Type) VALUES (?, ?, ?, ?)";
+            sql = "INSERT INTO Type (Name_Type, Color, Icon_Path, Receipts_Or_Expanses) VALUES (?, ?, ?, ?)";
         } else {
-            sql = "INSERT INTO Type (Name_Type, Color, Icon_Path, ID_Type) VALUES (@Name_Type, @Color, @Icon_Path, @ID_Type)";
+            sql = "INSERT INTO Type (Name_Type, Color, Icon_Path, Receipts_Or_Expanses) VALUES (?, ?, ?, ?)";
         }
         Connection con = getConnection();
 
@@ -142,15 +142,14 @@ public class Types {
         Object[][] ans = null;
         String sql;
         if (isMySQL) {
-            sql = "SELECT * FROM Log WHERE category_id = ?";
+            sql = "SELECT * FROM Log WHERE ID_Type = '"+ idToGet +"'";
         } else {
-            sql = "SELECT * FROM Log WHERE category_id = @category_id";
+            sql = "SELECT * FROM Log WHERE ID_Type = '"+ idToGet +"'";
         }
 
         Connection con = getConnection();
         try{
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1,idToGet);
             try (ResultSet resultSet = ps.executeQuery(sql)){
                 List<Integer> idList = new ArrayList<>();
                 List<String> nameList = new ArrayList<>();
