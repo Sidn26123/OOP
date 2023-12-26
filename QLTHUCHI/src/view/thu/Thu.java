@@ -1,8 +1,11 @@
 package view.thu;
 
+import Utils.Utils;
 import com.formdev.flatlaf.FlatLightLaf;
+import controller.ActionStoreController;
 import controller.DanhMucThu;
 import controller.LogController;
+import controller.LogsController;
 import controller.TypeController;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,13 +18,19 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Vector;
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
+import javax.swing.table.DefaultTableModel;
+import model.objects.ActionStore;
+import model.objects.ActionStores;
 import model.objects.LogO;
+import model.objects.Logs;
+import model.objects.LogsDB;
 import model.objects.TypeO;
 import view.calculator.Calculator;
 import view.danhmuc.ThuJPanel;
@@ -40,6 +49,7 @@ public class Thu extends javax.swing.JFrame {
         this.id_user = id_user;
         FlatLightLaf.setup();
         initComponents();
+        this.initValue();
         setDefaultThings();
         setPanelDanhMuc();
         
@@ -113,15 +123,19 @@ public class Thu extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         detailsLogFrame = new javax.swing.JFrame();
-        transactionTableWrapper = new javax.swing.JScrollPane();
-        transactionTable = new javax.swing.JTable();
-        deleteBtn = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jToggleButton2 = new javax.swing.JToggleButton();
-        dateValue = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        showTransacs = new javax.swing.JButton();
+        curDate = new javax.swing.JLabel();
         nextDateBtn = new javax.swing.JButton();
-        preDateBtn = new javax.swing.JButton();
+        beforeDateBtn = new javax.swing.JButton();
+        timeType = new javax.swing.JComboBox<>();
+        transactionScrollPane = new javax.swing.JScrollPane();
+        transactionTable = new javax.swing.JTable();
+        backActionBtn = new javax.swing.JButton();
+        nextActionBtn = new javax.swing.JButton();
+        totalOfTypeInDay = new javax.swing.JLabel();
+        totalInDayValue = new javax.swing.JLabel();
+        deleteAllBtn = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -139,6 +153,7 @@ public class Thu extends javax.swing.JFrame {
         button_chinhsua1 = new javax.swing.JButton();
         button_danh_sach_thu = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        addDataBtn = new javax.swing.JButton();
 
         dialog_dsThu.setModal(true);
 
@@ -195,82 +210,170 @@ public class Thu extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        showTransacs.setText("Xem");
+
+        curDate.setText("jLabel2");
+
+        nextDateBtn.setText("jButton3");
+        nextDateBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextDateBtnActionPerformed(evt);
+            }
+        });
+
+        beforeDateBtn.setText("jButton4");
+        beforeDateBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                beforeDateBtnActionPerformed(evt);
+            }
+        });
+
+        timeType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ngày", "Tháng" }));
+        timeType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                timeTypeActionPerformed(evt);
+            }
+        });
+
         transactionTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Mục", "Số tiền", "Ghi chú", "Thời gian", "Chọn"
             }
-        ));
-        transactionTableWrapper.setViewportView(transactionTable);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, true, true, false, true
+            };
 
-        deleteBtn.setText("jButton3");
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
-        jButton4.setText("jButton4");
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        transactionTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                transactionTableMouseClicked(evt);
+            }
+        });
+        transactionScrollPane.setViewportView(transactionTable);
 
-        jToggleButton1.setText("jToggleButton1");
+        backActionBtn.setText("jButton3");
+        backActionBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backActionBtnActionPerformed(evt);
+            }
+        });
 
-        jToggleButton2.setText("jToggleButton1");
+        nextActionBtn.setText("jButton4");
+        nextActionBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextActionBtnActionPerformed(evt);
+            }
+        });
 
-        dateValue.setText("jLabel2");
+        totalOfTypeInDay.setText("Tổng:");
 
-        nextDateBtn.setText("jButton5");
+        totalInDayValue.setText("jLabel3");
 
-        preDateBtn.setText("jButton5");
+        deleteAllBtn.setText("jButton3");
+        deleteAllBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteAllBtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(transactionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGap(22, 22, 22))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(0, 25, Short.MAX_VALUE)
+                                .addComponent(timeType, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(backActionBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(nextActionBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(curDate, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(beforeDateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                    .addComponent(nextDateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(36, 36, 36)
+                                .addComponent(showTransacs))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(totalOfTypeInDay)
+                                .addGap(18, 18, 18)
+                                .addComponent(totalInDayValue)
+                                .addGap(18, 18, 18)
+                                .addComponent(deleteAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18))))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(showTransacs)
+                            .addComponent(nextDateBtn))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(beforeDateBtn))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(curDate, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(timeType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(backActionBtn)
+                    .addComponent(nextActionBtn)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(totalOfTypeInDay)
+                        .addComponent(totalInDayValue)
+                        .addComponent(deleteAllBtn)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(transactionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout detailsLogFrameLayout = new javax.swing.GroupLayout(detailsLogFrame.getContentPane());
         detailsLogFrame.getContentPane().setLayout(detailsLogFrameLayout);
         detailsLogFrameLayout.setHorizontalGroup(
             detailsLogFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(detailsLogFrameLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(detailsLogFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(detailsLogFrameLayout.createSequentialGroup()
-                        .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(deleteBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4))
-                    .addGroup(detailsLogFrameLayout.createSequentialGroup()
-                        .addGroup(detailsLogFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(transactionTableWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(detailsLogFrameLayout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(dateValue, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(detailsLogFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(preDateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(nextDateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 15, Short.MAX_VALUE)))
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         detailsLogFrameLayout.setVerticalGroup(
             detailsLogFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(detailsLogFrameLayout.createSequentialGroup()
-                .addGroup(detailsLogFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(detailsLogFrameLayout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(dateValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(detailsLogFrameLayout.createSequentialGroup()
-                        .addComponent(nextDateBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(preDateBtn)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
-                .addGroup(detailsLogFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(detailsLogFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(deleteBtn)
-                        .addComponent(jButton4))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, detailsLogFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jToggleButton1)
-                        .addComponent(jToggleButton2)))
-                .addGap(18, 18, 18)
-                .addComponent(transactionTableWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -380,6 +483,13 @@ public class Thu extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(0, 255, 255));
         jLabel1.setText("Thu");
 
+        addDataBtn.setText("Thêm");
+        addDataBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addDataBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -418,6 +528,10 @@ public class Thu extends javax.swing.JFrame {
                                 .addComponent(button_calculator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(27, 27, 27))))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(265, 265, 265)
+                .addComponent(addDataBtn)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -448,7 +562,9 @@ public class Thu extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(button_calculator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(51, 51, 51)
+                .addGap(10, 10, 10)
+                .addComponent(addDataBtn)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(button_danh_sach_thu))
@@ -550,7 +666,7 @@ public class Thu extends javax.swing.JFrame {
             log.setID_Type(Integer.parseInt(id_Type));
             log.setNote(ghichu);
             log.setPrice(tienthu);
-            log.setDateString(Utils.Utils.converDateToString(date, "dd/MM/yyyy"));
+            log.setDateString(Utils.converDateToString(date, "dd/MM/yyyy"));
             try {
                 logController.addLog(log);
                 JOptionPane.showMessageDialog(Thu.this, "Thành Công","Thông báo", JOptionPane.OK_OPTION);
@@ -571,43 +687,268 @@ public class Thu extends javax.swing.JFrame {
 
     private void button_danh_sach_thuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_danh_sach_thuActionPerformed
 //        dialog_dsThu.setVisible(true);
-        showDetailsLogFrame();
-    }//GEN-LAST:event_button_danh_sach_thuActionPerformed
-    private void showDetailsLogFrame(){
-        transactionTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-            },
-            new String [] {
-                "ID", "Má»¥c", "Sá»‘ tiá»�n","Ghi chú", "Thời gian", "Chọn"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, true, true, false, true
-            };
-            @Override
-            public Class<?> getColumnClass(int columnIndex) {
-                // Ä�áº·t kiá»ƒu dá»¯ liá»‡u cá»§a cá»™t kiá»ƒu boolean lÃ  Boolean
-                return columnIndex == 5 ? Boolean.class : super.getColumnClass(columnIndex);
-            }
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        transactionTableWrapper.setViewportView(transactionTable);
-        
-        
+//        showDetailsLogFrame();
         detailsLogFrame.setVisible(true);
-        detailsLogFrame.setSize(400, 400);
-        detailsLogFrame.setLocationRelativeTo(null);
-        detailsLogFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        detailsLogFrame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosed(WindowEvent e) {
-                // Gọi phương thức để xử lý lại request hoặc làm mới trang
-                // DanhMucThu.updateDanhMucThuPanel(id_user, panel_danhmuc, buttonGroup1, button_chinhsua1);
+        this.logsController.filter(conditionsForFilter, conditionsForSort);
+        DefaultTableModel model = (DefaultTableModel) transactionTable.getModel();
+        model.setRowCount(0);
+        Object[][] tableData = logsController.logDataToTable(rowLogTableStructure);
+        for (Object[] item : tableData) {
+            model.addRow(item);
+        }
+    }//GEN-LAST:event_button_danh_sach_thuActionPerformed
+
+    private void timeTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timeTypeActionPerformed
+        if (this.timeType.getSelectedItem() == "Ngày"){
+            this.curTypeOfTime = "d";
+        }
+        else if (this.timeType.getSelectedItem() == "Tuần"){
+            this.curTypeOfTime = "w";
+        }
+        else if (this.timeType.getSelectedItem() == "Tháng"){
+            this.curTypeOfTime = "m";
+        }
+    }//GEN-LAST:event_timeTypeActionPerformed
+
+    private void nextDateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextDateBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nextDateBtnActionPerformed
+
+    private void beforeDateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_beforeDateBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_beforeDateBtnActionPerformed
+
+    private void backActionBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionBtnActionPerformed
+        
+        this.backupContextActionTransactionTable("back");
+        
+    }//GEN-LAST:event_backActionBtnActionPerformed
+
+    private void nextActionBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextActionBtnActionPerformed
+
+        this.backupContextActionTransactionTable("next");
+        
+    }//GEN-LAST:event_nextActionBtnActionPerformed
+
+    private void transactionTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transactionTableMouseClicked
+        DefaultTableModel model = (DefaultTableModel) transactionTable.getModel();
+        int row = transactionTable.getSelectedRow();
+        int id = (int)model.getValueAt(row, 0);
+        this.changeList.add(id);
+        if (this.contextBeforeAction.size() == 0){
+            this.contextBeforeAction.add(new Object[]{model.getValueAt(row, 0), model.getValueAt(row, 1), model.getValueAt(row, 2), model.getValueAt(row, 3), model.getValueAt(row, 4), row});
+        }
+        else if ((int)this.contextBeforeAction.get(0)[0] == (int)model.getValueAt(row, 0)){
+            int tmpRow = row;
+            //Nếu 2 ptu khác nhau:
+            //Tạo 1 hàm check 2 ptu cùng object type
+            if (this.contextBeforeAction.get(0)[1] != model.getValueAt(row, 1) || this.contextBeforeAction.get(0)[2] != model.getValueAt(row, 2) || this.contextBeforeAction.get(0)[3] != model.getValueAt(row, 3) || this.contextBeforeAction.get(0)[4] != model.getValueAt(row, 4)){
+
+                row = (int)this.contextBeforeAction.get(0)[5];
+                Object[] tmp = this.contextBeforeAction.get(0);
+                // this.actionStore.add(new Object[]{tmp[0], tmp[1], tmp[2], tmp[3], tmp[4], "update", row});
+                // this.actionStore.add(new Object[]{model.getValueAt(row, 0), model.getValueAt(row, 1), model.getValueAt(row, 2), model.getValueAt(row, 3), model.getValueAt(row, 4), "update", row});
+                // this.indexOfActionStore+=2;
             }
-        });
+            row = tmpRow;
+            this.contextBeforeAction.clear();
+            this.contextBeforeAction.add(new Object[]{model.getValueAt(row, 0), model.getValueAt(row, 1), model.getValueAt(row, 2), model.getValueAt(row, 3), model.getValueAt(row, 4), row});
+        }
+        // for (Object[] item:this.actionStore){
+        //     System.out.println("id: " + item[0] + " idOfItemInCategory: " + item[1] + " amount: " + item[2] + " note: " + item[3] + " action: " + item[4] + " index: " + item[5] + " cur: " + this.indexOfActionStore);
+        // }
+    }//GEN-LAST:event_transactionTableMouseClicked
+
+    private void deleteAllBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAllBtnActionPerformed
+                //lap hang
+        Vector<Integer> idList = new Vector<Integer>();
+        int idex = this.actionStoreController.getActionStore().getSize();
+        try{
+            for (int i  =0; i < transactionTable.getRowCount(); i++){
+                // Chọn các hàng được chọn
+                if (transactionTable.getValueAt(i, 5) != null && (boolean)transactionTable.getValueAt(i, 5) == true){
+                    int id = (int)transactionTable.getValueAt(i, 0);
+                    //Lấy index trong table
+                    int indexInTable = 0;
+                    for (int j = 0; j < transactionTable.getRowCount(); j++){
+                        if (id == (int)transactionTable.getValueAt(j, 0)){
+                            indexInTable = j;
+                            break;
+                        }
+                    }
+                    idList.add(id);
+                    ActionStore actionStoreItem = new ActionStore(this.logsController.getLogs().getLog(id), "delete", idex, indexInTable);
+                    this.actionStoreController.addActionStore(actionStoreItem);
+                    // this.actionStoreController.getActionStore().decreaseIndexOfActionStore();
+                }
+            }
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+
+        LogsDB logs = new LogsDB();
+        logs.deleteDatas(idList);
+        // this.logsController.setLogs(logs.getData(this.curDate.getText(), this.curIdOfItemInCategory));
+        this.fillTransactionTable();
+        
+    }//GEN-LAST:event_deleteAllBtnActionPerformed
+
+    private void addDataBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDataBtnActionPerformed
+        int amount = 0;
+        try {
+            // Chuyển đổi chuỗi thành số nguyên
+            amount = Integer.parseInt(this.text_tienthu.getText().trim());
+
+            // In ra giá trị số nguyên đã chuyển đổi
+        } catch (NumberFormatException e) {
+            // Xử lý nếu chuỗi không thể chuyển đổi thành số nguyên
+            System.out.println("Lỗi chuyển đổi: " + e.getMessage());
+        }
+
+        String note = this.text_ghichu.getText();
+        String date = this.curDateValue;
+        int idOfItemInCategory = this.curIdOfItemInCategory;
+        LogsDB log = new LogsDB();
+        
+        log.insertData(new Object[]{idOfItemInCategory, amount, note, date});
+        
+        // this.transactions.add(new Object[]{log.getLastId(), idOfItemInCategory, amount, note, date});
+        this.logsController.addLog(new LogO(log.getLastId(), idOfItemInCategory, amount, note, date));
+        
+        this.totalInDayValue.setText("" + log.getSpecSum(this.curDate.getText(), this.curIdOfMode));
+
+        this.logData = new LogO(log.getLastId(), this.curIdOfItemInCategory, amount, note, date);
+        
+        if (this.actionStore.getLastAction() == null){
+            this.actionStoreItem = new ActionStore(this.logData, "add", 0, this.logsController.getLogs().getSize()-1);
+        }
+        else{
+            this.actionStoreItem = new ActionStore(this.logData, "add", this.actionStore.getLastAction().getIndex()+1, this.logsController.getLogs().getSize()-1);
+        }
+
+        this.actionStoreController.addActionStore(actionStoreItem);
+
+    }//GEN-LAST:event_addDataBtnActionPerformed
+
+    public void updateData(){
+        LogsDB log = new LogsDB();
+        Object[][] te = log.getData(this.curDate.getText(), this.curIdOfItemInCategory);
+        Vector<Object[]> data = new Vector<Object[]>();
+        int rowCount = transactionTable.getRowCount();
+        for (int i =0; i< this.changeList.size(); i++){
+            for (int j =0; j < rowCount; j++){
+                if (changeList.get(i) == (int)transactionTable.getValueAt(j, 0)){
+                    data.add(new Object[]{transactionTable.getValueAt(j, 0), transactionTable.getValueAt(j, 1),transactionTable.getValueAt(j, 2), transactionTable.getValueAt(j, 3), transactionTable.getValueAt(j, 4)});
+                    break;
+                }
+                
+            }
+        }
+        this.changeList.clear(); // clear change list
+ 
+        log.updateData(data);
+        this.fillTransactionTable();
     }
+    private void backupContextActionTransactionTable(String action){
+        if (action == "back"){
+            this.logsController.setLogs(this.actionStoreController.backupPreviousAction(this.logsController.getLogs()));
+
+        }
+        else if (action == "next"){
+            this.logsController.setLogs(this.actionStoreController.backupNextAction(this.logsController.getLogs()));
+
+        }
+        this.fillTransactionTable();
+
+    }
+    
+    private void fillTransactionTable(){
+        DefaultTableModel model = (DefaultTableModel) transactionTable.getModel();
+        model.setRowCount(0);
+        Object[][] tableData = logsController.logDataToTable(rowLogTableStructure);
+        for (Object[] item : tableData) {
+            model.addRow(item);
+        }
+    }  
+        private void initValue(){
+        this.curIdOfMode = 0;
+        this.curDateValue = Utils.getCurrentDateFormatted();
+        this.curDate.setText(this.curDateValue);
+        this.conditionsForFilter = new Vector<Object[]>();
+        // this.conditionsForFilter.add(new Object[]{"date", "'2023-12-01'", "from"});
+        // this.conditionsForFilter.add(new Object[]{"date", "'2023-12-02'", "to"});
+        
+        //Thêm điều kiện ngày hôm nay
+        this.conditionsForFilter.add(new Object[]{"date",Utils.getCurrentDateFormatted(), "from"});
+        this.conditionsForFilter.add(new Object[]{"date",Utils.getCurrentDateFormatted(), "to"});
+
+        this.conditionsForSort = new Vector<Object[]>();
+        this.logData = new LogO();
+        LogsDB log = new LogsDB();
+        // for (Object[] item : log.getData(this.curDate.getText(), this.curIdOfItemInCategory)){
+        //     LogO tran = new LogO((int)item[0], (int)item[1], (int)item[2], (String)item[3], (String)item[4]);
+        //     this.logs.addLog(tran);
+        // }; 
+        // this.logs = new Logs(log.getDataV(curDateValue, this.curIdOfMode));
+        this.logsController = new LogsController();
+        
+        this.logsController.filter(conditionsForFilter, conditionsForSort);
+
+        this.totalInDayValue.setText("" + log.getSpecSum(this.curDate.getText(), curIdOfMode));
+        
+        this.curIdOfItemInCategory = (int)log.getFirstItemInCateWithTypeSum("1/12/2023", curIdOfMode)[1];
+        
+        this.totalInDayValue.setText("" + log.getSpecSum(this.curDate.getText(), this.curIdOfMode));
+        
+        this.changeList = new Vector<Integer>();
+
+        this.actionStore = new ActionStores();
+
+        this.actionStoreController = new ActionStoreController(this.actionStore);
+        // this.indexOfActionStore = -1;
+
+        // this.conditionsForSort.add(new Object[]{"date", "ASC"});
+        // this.conditionsForSort.add(new Object[]{"amount", "DESC"});
+
+        this.contextBeforeAction = new Vector<Object[]>();
+        // System.out.println(log.getFirstItemInCateWithTypeSum("1/12/2023", 1)[0]);
+    }
+//    private void showDetailsLogFrame(){
+//        transactionTable.setModel(new javax.swing.table.DefaultTableModel(
+//            new Object [][] {
+//            },
+//            new String [] {
+//                "ID", "Má»¥c", "Sá»‘ tiá»�n","Ghi chú", "Thời gian", "Chọn"
+//            }
+//        ) {
+//            boolean[] canEdit = new boolean [] {
+//                false, false, true, true, false, true
+//            };
+//            @Override
+//            public Class<?> getColumnClass(int columnIndex) {
+//                // Ä�áº·t kiá»ƒu dá»¯ liá»‡u cá»§a cá»™t kiá»ƒu boolean lÃ  Boolean
+//                return columnIndex == 5 ? Boolean.class : super.getColumnClass(columnIndex);
+//            }
+//            public boolean isCellEditable(int rowIndex, int columnIndex) {
+//                return canEdit [columnIndex];
+//            }
+//        });
+//        transactionTableWrapper.setViewportView(transactionTable);
+//        
+//        
+//        detailsLogFrame.setVisible(true);
+//        detailsLogFrame.setSize(400, 400);
+//        detailsLogFrame.setLocationRelativeTo(null);
+//        detailsLogFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//        detailsLogFrame.addWindowListener(new WindowAdapter() {
+//            @Override
+//            public void windowClosed(WindowEvent e) {
+//                // Gọi phương thức để xử lý lại request hoặc làm mới trang
+//                // DanhMucThu.updateDanhMucThuPanel(id_user, panel_danhmuc, buttonGroup1, button_chinhsua1);
+//            }
+//        });
+//    }
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -617,18 +958,20 @@ public class Thu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addDataBtn;
+    private javax.swing.JButton backActionBtn;
+    private javax.swing.JButton beforeDateBtn;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton button_calculator;
     private javax.swing.JButton button_chinhsua1;
     private javax.swing.JButton button_danh_sach_thu;
     private javax.swing.JButton button_save;
-    private javax.swing.JLabel dateValue;
-    private javax.swing.JButton deleteBtn;
+    private javax.swing.JLabel curDate;
+    private javax.swing.JButton deleteAllBtn;
     private javax.swing.JFrame detailsLogFrame;
     private javax.swing.JDialog dialog_dsThu;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -637,20 +980,39 @@ public class Thu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
+    private javax.swing.JButton nextActionBtn;
     private javax.swing.JButton nextDateBtn;
     private javax.swing.JPanel panel_danhmuc;
-    private javax.swing.JButton preDateBtn;
+    private javax.swing.JButton showTransacs;
     private javax.swing.JTextField text_ghichu;
     private javax.swing.JTextField text_tienthu;
+    private javax.swing.JComboBox<String> timeType;
+    private javax.swing.JLabel totalInDayValue;
+    private javax.swing.JLabel totalOfTypeInDay;
+    private javax.swing.JScrollPane transactionScrollPane;
     private javax.swing.JTable transactionTable;
-    private javax.swing.JScrollPane transactionTableWrapper;
     // End of variables declaration//GEN-END:variables
-    
+    private int curIdOfItemInCategory; //id của item trong category
+    private int curIdOfMode; //Thu chi
+    private String curDateValue; //Ngày hiêện tại
+    private String curTypeOfTime;
+    private LogsDB logsDB = new LogsDB();
+    private Vector<Integer> changeList;
+    private Vector<Object[]> conditionsForFilter;
+    private Vector<Object[]> conditionsForSort;
+    private Vector<Object[]> contextBeforeAction;
+    private ActionStores actionStore;
+    private ActionStore actionStoreItem;
+    private LogO logData;
+    private ActionStoreController actionStoreController;
+    // private Logs logs;
+    private Logs logs;
+    private LogsController logsController;
+    private String[] rowLogTableStructure = new String[]{"id", "idOfItemInCategory", "price", "note", "date"};
 }
