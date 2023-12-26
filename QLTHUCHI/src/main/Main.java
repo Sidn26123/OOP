@@ -5,7 +5,7 @@ public class Main {
         java.awt.EventQueue.invokeLater(() -> {
             Login LoginFrame = new Login();
             LoginFrame.setVisible(true);
-            LoginFrame.pack();
+            LoginFrame.pack(); 
             LoginFrame.setLocationRelativeTo(null);
         });
     }
