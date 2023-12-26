@@ -8,8 +8,11 @@
             <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/model/objects/LogO.java</file>
             <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/model/objects/Budget.java</file>
             <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/model/objects/ActionStores.java</file>
+            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/model/objects/Transaction.java</file>
             <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/controller/LogsController.java</file>
             <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/model/objects/Types.java</file>
+            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/Utils/ConfigFile.java</file>
+            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/Utils/MyJDBCFuncLib.java</file>
             <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/model/objects/User.java</file>
             <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/controller/LogController.java</file>
             <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/view/thu/Thu.java</file>
@@ -18,6 +21,7 @@
             <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/model/objects/DebtDB.java</file>
             <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/controller/TypeController.java</file>
             <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/controller/DanhMucChi.java</file>
+            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/model/connection/JDBCConnection.java</file>
             <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/model/objects/ActionStore.java</file>
             <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/view/debt/debtView.java</file>
             <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/model/objects/Logs.java</file>

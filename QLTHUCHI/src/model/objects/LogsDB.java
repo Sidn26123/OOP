@@ -26,13 +26,15 @@ public class LogsDB {
     public void createTable(){
         Connection con = getConnection();
         String createTableSQL = "CREATE TABLE Log (" +
-            "id INT PRIMARY KEY " + (isMySQL ? "AUTO_INCREMENT" : "IDENTITY(1,1)") + "," +
-            "category_id INT," +
-            "FOREIGN KEY (category_id) REFERENCES Type(ID_Type)," +
-            "amount INT," +
-            "note NVARCHAR(255)," +
-            "date " + (isMySQL ? "DATE" : "DATETIME") + "," +
-            "date_created " + (isMySQL ? "DATETIME DEFAULT CURRENT_TIMESTAMP" : "DATETIME DEFAULT GETDATE()") + ");";
+            "ID_Log INT PRIMARY KEY " + (isMySQL ? "AUTO_INCREMENT" : "IDENTITY(1,1)") + "," +
+            "ID_Type INT," +
+            "FOREIGN KEY (ID_type) REFERENCES Type(ID_Type)," +
+            "Money INT," +
+            "Note NVARCHAR(255)," +
+            "Date " + (isMySQL ? "DATE" : "DATETIME") + "," +
+            "date_created " + (isMySQL ? "DATETIME DEFAULT CURRENT_TIMESTAMP" : "DATETIME DEFAULT GETDATE()") + ", " +
+            "User_ID INT, "+
+            "Groupd_ID INT)";
 
         try(PreparedStatement ps = con.prepareStatement(createTableSQL)){
             ps.executeUpdate();
@@ -66,12 +68,12 @@ public class LogsDB {
         try(PreparedStatement ps = con.prepareStatement(sql)){
             try (ResultSet rs = ps.executeQuery()){
                 while (rs.next()){
-                    // s += "ID: " + rs.getInt("id") +", cateID: " + rs.getInt("category_id") + ", Amount: " + rs.getInt("amount") +
-                    //                     ", Note: " + rs.getString("note") + ", Date Created: " + rs.getString("date_created") + "\n";
-                    ans[i][0] = rs.getInt("id");
-                    ans[i][1] = rs.getInt("category_id");
-                    ans[i][2] = rs.getInt("amount");
-                    ans[i][3] = rs.getString("note");
+                    // s += "ID: " + rs.getInt("ID_Log") +", cateID: " + rs.getInt("ID_Type") + ", Amount: " + rs.getInt("Money") +
+                    //                     ", Note: " + rs.getString("Note") + ", Date Created: " + rs.getString("date_created") + "\n";
+                    ans[i][0] = rs.getInt("ID_Log");
+                    ans[i][1] = rs.getInt("ID_Type");
+                    ans[i][2] = rs.getInt("Money");
+                    ans[i][3] = rs.getString("Note");
                     ans[i][4] = rs.getString("date_created");
                     ans[i][5] = rs.getString("date");
                     i++;
@@ -127,12 +129,12 @@ public class LogsDB {
         try(PreparedStatement ps = con.prepareStatement(sql)){
             try (ResultSet rs = ps.executeQuery()){
                 while (rs.next()){
-                    // s += "ID: " + rs.getInt("id") +", cateID: " + rs.getInt("category_id") + ", Amount: " + rs.getInt("amount") +
-                    //                     ", Note: " + rs.getString("note") + ", Date Created: " + rs.getString("date_created") + "\n";
-                    ans[i][0] = rs.getInt("id");
-                    ans[i][1] = rs.getInt("category_id");
-                    ans[i][2] = rs.getInt("amount");
-                    ans[i][3] = rs.getString("note");
+                    // s += "ID: " + rs.getInt("ID_Log") +", cateID: " + rs.getInt("ID_Type") + ", Amount: " + rs.getInt("Money") +
+                    //                     ", Note: " + rs.getString("Note") + ", Date Created: " + rs.getString("date_created") + "\n";
+                    ans[i][0] = rs.getInt("ID_Log");
+                    ans[i][1] = rs.getInt("ID_Type");
+                    ans[i][2] = rs.getInt("Money");
+                    ans[i][3] = rs.getString("Note");
                     ans[i][4] = rs.getString("date_created");
                     i++;
                 }
@@ -158,7 +160,7 @@ public class LogsDB {
         else{
             countSql = "SELECT COUNT(*) AS row_count FROM Log "+
                         "WHERE date = '"+Utils.convertToSqlDate(date)+"' " +
-                        "AND category_id = " + id;
+                        "AND ID_Type = " + id;
         }
 
         int rowCount = 0;
@@ -175,17 +177,17 @@ public class LogsDB {
         Object[][] ans = new Object[rowCount][5];
         String sql = "SELECT * FROM Log "+
                         "WHERE date = '"+Utils.convertToSqlDate(date)+"' " +
-                        "AND category_id = " + id;
+                        "AND ID_Type = " + id;
         int i = 0;
         try(PreparedStatement ps = con.prepareStatement(sql)){
             try (ResultSet rs = ps.executeQuery()){
                 while (rs.next()){
-                    // s += "ID: " + rs.getInt("id") +", cateID: " + rs.getInt("category_id") + ", Amount: " + rs.getInt("amount") +
-                    //                     ", Note: " + rs.getString("note") + ", Date Created: " + rs.getString("date_created") + "\n";
-                    ans[i][0] = rs.getInt("id");
-                    ans[i][1] = rs.getInt("category_id");
-                    ans[i][2] = rs.getInt("amount");
-                    ans[i][3] = rs.getString("note");
+                    // s += "ID: " + rs.getInt("ID_Log") +", cateID: " + rs.getInt("ID_Type") + ", Amount: " + rs.getInt("Money") +
+                    //                     ", Note: " + rs.getString("Note") + ", Date Created: " + rs.getString("date_created") + "\n";
+                    ans[i][0] = rs.getInt("ID_Log");
+                    ans[i][1] = rs.getInt("ID_Type");
+                    ans[i][2] = rs.getInt("Money");
+                    ans[i][3] = rs.getString("Note");
                     ans[i][4] = rs.getString("date_created");
                     i++;
                 }
@@ -205,12 +207,12 @@ public class LogsDB {
         Connection con = getConnection();
         String countSql = "SELECT COUNT(*) AS row_count FROM Log "+
                         "WHERE date = '"+Utils.convertToSqlDate(date)+"' " +
-                        "AND category_id = ?";
+                        "AND ID_Type = ?";
         //countSql cho sqlserver
         if (!isMySQL){
             countSql = "SELECT COUNT(*) AS row_count FROM Log "+
                         "WHERE date = '"+Utils.convertToSqlDate(date)+"' " +
-                        "AND category_id = ?";
+                        "AND ID_Type = ?";
         }
 
         int rowCount = 0;
@@ -229,22 +231,22 @@ public class LogsDB {
         Vector<LogO> ans = new Vector<LogO>();
         String sql = "SELECT * FROM Log "+
                         "WHERE date = '"+Utils.convertToSqlDate(date)+"' " +
-                        "AND category_id = ?";
+                        "AND ID_Type = ?";
         int i = 0;
         try(PreparedStatement ps = con.prepareStatement(sql)){
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()){
                 while (rs.next()){
-                    // s += "ID: " + rs.getInt("id") +", cateID: " + rs.getInt("category_id") + ", Amount: " + rs.getInt("amount") +
-                    //                     ", Note: " + rs.getString("note") + ", Date Created: " + rs.getString("date_created") + "\n";
-                    // ans[i][0] = rs.getInt("id");
-                    // ans[i][1] = rs.getInt("category_id");
-                    // ans[i][2] = rs.getInt("amount");
-                    // ans[i][3] = rs.getString("note");
+                    // s += "ID: " + rs.getInt("ID_Log") +", cateID: " + rs.getInt("ID_Type") + ", Amount: " + rs.getInt("Money") +
+                    //                     ", Note: " + rs.getString("Note") + ", Date Created: " + rs.getString("date_created") + "\n";
+                    // ans[i][0] = rs.getInt("ID_Log");
+                    // ans[i][1] = rs.getInt("ID_Type");
+                    // ans[i][2] = rs.getInt("Money");
+                    // ans[i][3] = rs.getString("Note");
                     // ans[i][4] = rs.getString("date_created");
 
                     // i++;
-                    ans.add(new LogO(rs.getInt("id"), rs.getInt("category_id"), rs.getInt("amount"), rs.getString("note"), rs.getString("date")));
+                    ans.add(new LogO(rs.getInt("ID_Log"), rs.getInt("ID_Type"), rs.getInt("Money"), rs.getString("Note"), rs.getString("date")));
                 }
             }
         }
@@ -282,16 +284,16 @@ public class LogsDB {
         try(PreparedStatement ps = con.prepareStatement(sql)){
             try (ResultSet rs = ps.executeQuery()){
                 while (rs.next()){
-                    // s += "ID: " + rs.getInt("id") +", cateID: " + rs.getInt("category_id") + ", Amount: " + rs.getInt("amount") +
-                    //                     ", Note: " + rs.getString("note") + ", Date Created: " + rs.getString("date_created") + "\n";
-                    // ans[i][0] = rs.getInt("id");
-                    // ans[i][1] = rs.getInt("category_id");
-                    // ans[i][2] = rs.getInt("amount");
-                    // ans[i][3] = rs.getString("note");
+                    // s += "ID: " + rs.getInt("ID_Log") +", cateID: " + rs.getInt("ID_Type") + ", Amount: " + rs.getInt("Money") +
+                    //                     ", Note: " + rs.getString("Note") + ", Date Created: " + rs.getString("date_created") + "\n";
+                    // ans[i][0] = rs.getInt("ID_Log");
+                    // ans[i][1] = rs.getInt("ID_Type");
+                    // ans[i][2] = rs.getInt("Money");
+                    // ans[i][3] = rs.getString("Note");
                     // ans[i][4] = rs.getString("date_created");
 
                     // i++;
-                    ans.add(new LogO(rs.getInt("id"), rs.getInt("category_id"), rs.getInt("amount"), rs.getString("note"), rs.getString("date")));
+                    ans.add(new LogO(rs.getInt("ID_Log"), rs.getInt("ID_Type"), rs.getInt("Money"), rs.getString("Note"), rs.getString("date")));
                 }
             }
         }
@@ -344,10 +346,10 @@ public class LogsDB {
                 ans = new Vector<Object[]>();
                 while (rs.next()){
                     Object[] item = new Object[6];
-                    item[0] = rs.getInt("id");
-                    item[1] = rs.getInt("category_id");
-                    item[2] = rs.getInt("amount");
-                    item[3] = rs.getString("note");
+                    item[0] = rs.getInt("ID_Log");
+                    item[1] = rs.getInt("ID_Type");
+                    item[2] = rs.getInt("Money");
+                    item[3] = rs.getString("Note");
                     item[4] = rs.getString("date_created");
                     ans.add(item);
                 }
@@ -360,7 +362,7 @@ public class LogsDB {
     }
 
     public void insertData(Object[] dataToInsert){
-        String sql = "INSERT INTO Log (category_id, amount, note, date) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Log (ID_Type, Money, Note, date) VALUES (?, ?, ?, ?)";
         Connection con = getConnection();
         try (PreparedStatement ps = con.prepareStatement(sql)){
             if (dataToInsert[3] == null || dataToInsert[3] == "" || dataToInsert.length == 3){
@@ -382,7 +384,7 @@ public class LogsDB {
  
     //insert data
     public void insertData(Object[][] dataToInsert){
-        String sql = "INSERT INTO Log (category_id, amount, note, date) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Log (ID_Type, Money, Note, date) VALUES (?, ?, ?, ?)";
         Connection con = getConnection();
         try (PreparedStatement ps = con.prepareStatement(sql)){
             for (Object[] rowData : dataToInsert) {
@@ -435,14 +437,14 @@ public class LogsDB {
         Connection con = getConnection();
         String sql;
         if (isMySQL) {
-            sql = "SELECT SUM(amount) FROM Log " +
-                  "WHERE amount > 0 AND date = ? " +
-                  "AND category_id = ? " +
+            sql = "SELECT SUM(Money) FROM Log " +
+                  "WHERE Money > 0 AND date = ? " +
+                  "AND ID_Type = ? " +
                   "GROUP BY DATE(date)";
         } else {
-            sql = "SELECT SUM(amount) AS total_amount " +
+            sql = "SELECT SUM(Money) AS total_Money " +
                   "FROM Log " +
-                  "WHERE amount > 0 AND date = @date AND category_id = @category_id " +
+                  "WHERE Money > 0 AND date = @date AND ID_Type = @ID_Type " +
                   "GROUP BY CAST(date AS DATE)";
         }
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -451,7 +453,7 @@ public class LogsDB {
             try (ResultSet rs = ps.executeQuery()) {
                 // Lặp qua kết quả nếu có
                 while (rs.next()) {
-                    // Lấy giá trị từ cột đầu tiên (trong trường hợp này, SUM(amount))
+                    // Lấy giá trị từ cột đầu tiên (trong trường hợp này, SUM(Money))
                     double sumAmount = rs.getInt(1);
                     return (int) sumAmount;
                 }
@@ -494,7 +496,7 @@ public class LogsDB {
             try (ResultSet rs = ps.executeQuery()) {
                 // Lặp qua kết quả nếu có
                 while (rs.next()) {
-                    // Lấy giá trị từ cột đầu tiên (trong trường hợp này, SUM(amount))
+                    // Lấy giá trị từ cột đầu tiên (trong trường hợp này, SUM(Money))
                     firstCateID = rs.getInt(1);
                 }
             }
@@ -504,13 +506,13 @@ public class LogsDB {
 
         String sql;
         if (isMySQL) {
-            sql = "SELECT SUM(amount) AS total_amount, category_id, type FROM Log " +
-                  "INNER JOIN Type AS C ON Log.category_id = C.ID_Type " +
+            sql = "SELECT SUM(Money) AS total_Money, ID_Type, type FROM Log " +
+                  "INNER JOIN Type AS C ON Log.ID_Type = C.ID_Type " +
                   "WHERE C.id = '"+ firstCateID+"' AND date = '"+sqlDate +"' "+
                   "GROUP BY DATE(date)";
         } else {
-            sql = "SELECT SUM(amount) AS total_amount, category_id, type FROM Log " +
-                  "INNER JOIN Type AS C ON Log.category_id = C.ID_Type " +
+            sql = "SELECT SUM(Money) AS total_Money, ID_Type, type FROM Log " +
+                  "INNER JOIN Type AS C ON Log.ID_Type = C.ID_Type " +
                   "WHERE C.id = @firstCateID AND date = @sqlDate " +
                   "GROUP BY CAST(date AS DATE)";
         }
@@ -519,7 +521,7 @@ public class LogsDB {
             try (ResultSet rs = ps.executeQuery()) {
                 // Lặp qua kết quả nếu có
                 while (rs.next()) {
-                    // Lấy giá trị từ cột đầu tiên (trong trường hợp này, SUM(amount))
+                    // Lấy giá trị từ cột đầu tiên (trong trường hợp này, SUM(Money))
                     int sumAmount = rs.getInt(1);
                     int cateID = rs.getInt(2);
                     ans = new Object[]{sumAmount, cateID};
@@ -537,15 +539,15 @@ public class LogsDB {
     public int getTypeSum(String date, int type){
         String sqlDate = Utils.convertToSqlDate(date);
         Connection con = getConnection();
-        String sql = "SELECT SUM(amount) FROM Log " +
-                    "WHERE amount > 0 AND date = '"+sqlDate +"' " +
+        String sql = "SELECT SUM(Money) FROM Log " +
+                    "WHERE Money > 0 AND date = '"+sqlDate +"' " +
                     "AND type = " + type +
                     " GROUP BY DATE(date)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             try (ResultSet rs = ps.executeQuery()) {
                 // Lặp qua kết quả nếu có
                 while (rs.next()) {
-                    // Lấy giá trị từ cột đầu tiên (trong trường hợp này, SUM(amount))
+                    // Lấy giá trị từ cột đầu tiên (trong trường hợp này, SUM(Money))
                     double sumAmount = rs.getInt(1);
                     return (int) sumAmount;
                 }
@@ -564,14 +566,14 @@ public class LogsDB {
         endDate = Utils.convertToSqlDate(endDate);
         String sql = "";
         if (isMySQL){
-            sql = "SELECT COALESCE(SUM(amount), 0) AS total_amount, C.type FROM Log " +
-            "RIGHT JOIN Type AS C ON Log.category_id = C.ID_Type " +
+            sql = "SELECT COALESCE(SUM(Money), 0) AS total_Money, C.type FROM Log " +
+            "RIGHT JOIN Type AS C ON Log.ID_Type = C.ID_Type " +
             "WHERE C.type IN (0,1) AND date >= ? AND date <= ? " +
             "GROUP BY C.type";
 
         }
         else{
-            sql = "SELECT SUM(amount), C.Name_Type FROM Log " +
+            sql = "SELECT SUM(Money), C.Name_Type FROM Log " +
                     "INNER JOIN Type AS C ON Log.ID_Type = C.ID_Type " +
                     "WHERE C.type = ? AND date >= ? AND date <= ? " +
                     "GROUP BY type";
@@ -591,7 +593,7 @@ public class LogsDB {
 
                 ans = new Object[numRows][3];
                 while (rs.next()) {
-                    // Lấy giá trị từ cột đầu tiên (trong trường hợp này, SUM(amount))
+                    // Lấy giá trị từ cột đầu tiên (trong trường hợp này, SUM(Money))
                     int sumAmount = rs.getInt(1);
                     // System.out.println("sum: " + sumAmount + " type: " + rs.getString(3));
                     ans[i][2] = sumAmount;
@@ -628,13 +630,13 @@ public class LogsDB {
         endDate = Utils.convertToSqlDate(endDate);
         String sql = "";
         if (isMySQL) {
-            sql = "SELECT COALESCE(SUM(amount), 0) AS total_amount, C.ID_Type AS id, C.name FROM Log " +
-                  "RIGHT JOIN Type AS C ON Log.category_id = C.ID_Type " +
+            sql = "SELECT COALESCE(SUM(Money), 0) AS total_Money, C.ID_Type AS id, C.name FROM Log " +
+                  "RIGHT JOIN Type AS C ON Log.ID_Type = C.ID_Type " +
                   "WHERE C.type = ? AND date >= ? AND date <= ? " +
                   "GROUP BY C.ID_Type, C.name";
         } else {
-            sql = "SELECT COALESCE(SUM(amount), 0) AS total_amount, C.ID_Type AS id, C.name FROM Log " +
-                  "RIGHT JOIN Type AS C ON Log.category_id = C.ID_Type " +
+            sql = "SELECT COALESCE(SUM(Money), 0) AS total_Money, C.ID_Type AS id, C.name FROM Log " +
+                  "RIGHT JOIN Type AS C ON Log.ID_Type = C.ID_Type " +
                   "WHERE C.type = @type AND date >= @startDate AND date <= @endDate " +
                   "GROUP BY C.ID_Type, C.name";
         }
@@ -653,8 +655,8 @@ public class LogsDB {
                 ans = new Object[numRows][3];
                 // Lặp qua kết quả nếu có
                 while (rs.next()) {
-                    // Lấy giá trị từ cột đầu tiên (trong trường hợp này, SUM(amount))
-                    int sumAmount = rs.getInt("total_amount");
+                    // Lấy giá trị từ cột đầu tiên (trong trường hợp này, SUM(Money))
+                    int sumAmount = rs.getInt("total_Money");
                     ans[i][0] = rs.getInt(2);
                     ans[i][1] = rs.getString(3);
                     ans[i][2] = sumAmount;
@@ -684,9 +686,9 @@ public class LogsDB {
         int i = 0;
         String endRawDataDate = "";
 
-        String sql = "SELECT SUM(T.amount), C.type, T.date " +
+        String sql = "SELECT SUM(T.Money), C.type, T.date " +
         "FROM Log T " +
-        "INNER JOIN Type C ON C.id = T.category_id " +
+        "INNER JOIN Type C ON C.id = T.ID_Type " +
         "WHERE T.date >= ? AND T.date <= ? " + 
         "GROUP BY C.type, T.date" + 
         " ORDER BY T.date";
@@ -808,7 +810,7 @@ public class LogsDB {
     }
     public void updateData(int id, Object[] dataToUpdate){
         Connection con = getConnection();
-        String sql = "UPDATE Log SET category_id = ?, amount = ?, note = ? WHERE id = " + id;
+        String sql = "UPDATE Log SET ID_Type = ?, Money = ?, Note = ? WHERE id = " + id;
         try(PreparedStatement ps = con.prepareStatement(sql)){
             // if (dataToUpdate[3] == null || dataToUpdate[3] == "" || dataToUpdate.length == 3){
             //     dataToUpdate[3] = Utils.getCurrentDateFormatted();
@@ -828,7 +830,7 @@ public class LogsDB {
     }
     public void updateData(Vector<Object[]> datas){
         Connection con = getConnection();
-        String sql = "UPDATE Log SET category_id = ?, amount = ?, note = ? WHERE id = ?";
+        String sql = "UPDATE Log SET ID_Type = ?, Money = ?, Note = ? WHERE id = ?";
 
         try(PreparedStatement ps = con.prepareStatement(sql)){
             for (Object[] data : datas) {
@@ -847,7 +849,7 @@ public class LogsDB {
                 //     System.out.println("i" + i + " " + data[i]);
                 // }
                 ps.addBatch();
-                // System.out.println("id: " + data[0] + " cate: " + data[1] + " amount: " + data[2] + " note: " + data[3]);
+                // System.out.println("id: " + data[0] + " cate: " + data[1] + " Money: " + data[2] + " Note: " + data[3]);
             }
             ps.executeBatch();
         }
@@ -857,7 +859,7 @@ public class LogsDB {
     }
     public void updateData(Object[] data){
         Connection con = getConnection();
-        String sql = "UPDATE Log SET category_id = ?, amount = ?, note = ? WHERE id = ?";
+        String sql = "UPDATE Log SET ID_Type = ?, Money = ?, Note = ? WHERE id = ?";
         try(PreparedStatement ps = con.prepareStatement(sql)){
             // if (data[3] == null || data[3] == "" || data.length == 3){
             //     data[3] = Utils.getCurrentDateFormatted();
@@ -919,8 +921,8 @@ public class LogsDB {
         ConfigFile config = new ConfigFile();
         String[][] timeRange = Utils.allocateTimeIntervals(dateStart, dateEnd, divideNum);
         if (config.getDB() == "MySQL"){
-            sql = "SELECT SUM(amount), category_id, type FROM Log " +
-                    "INNER JOIN Type AS C ON Log.category_id = C.ID_Type " +
+            sql = "SELECT SUM(Money), ID_Type, type FROM Log " +
+                    "INNER JOIN Type AS C ON Log.ID_Type = C.ID_Type " +
                     "WHERE C.id = ? AND date >= ? AND date <= ? "+
                     "GROUP BY DATE(date)";
         }
@@ -931,9 +933,9 @@ public class LogsDB {
             }
             caseString += " ELSE " + (timeRange.length + 1) + " END AS Nhom";
             
-            sql = "SELECT Nhom AS GroupNumber, COALESCE(SUM(amount), 0) AS TongAmount " +
+            sql = "SELECT Nhom AS GroupNumber, COALESCE(SUM(Money), 0) AS TongAmount " +
                     "FROM (" +
-                    "    SELECT date, amount, " +
+                    "    SELECT date, Money, " +
                     caseString +
                     "    FROM Logs " +
                     "    WHERE date BETWEEN ? AND ? " +
@@ -967,29 +969,29 @@ public class LogsDB {
         //type = -1 là lấy tỉ trọng của type, còn khác -1 tức lấy tỉ trọng các item trong đó
         if (type != -1){
             if (configFile.getDB() == "SQLServer"){
-                sql = "SELECT SUM(amount), category_id FROM Log " +
-                        "INNER JOIN Type AS C ON Log.category_id = C.ID_Type " +
+                sql = "SELECT SUM(Money), ID_Type FROM Log " +
+                        "INNER JOIN Type AS C ON Log.ID_Type = C.ID_Type " +
                         "WHERE date >= ? AND date <= ?  C.type = ?"+
-                        "GROUP BY category_id";
+                        "GROUP BY ID_Type";
             }
             else if (configFile.getDB() == "MySQL"){
-                sql = "SELECT SUM(amount), category_id FROM Log " +
-                        "INNER JOIN Type AS C ON Log.category_id = C.ID_Type " +
+                sql = "SELECT SUM(Money), ID_Type FROM Log " +
+                        "INNER JOIN Type AS C ON Log.ID_Type = C.ID_Type " +
                         "WHERE date >= ? AND date <= ?  C.type = ?"+
-                        "GROUP BY category_id";
+                        "GROUP BY ID_Type";
             }
         
         }
         else{
             if (configFile.getDB() == "SQLServer"){
-                sql = "SELECT SUM(amount), type FROM Log " +
-                        "INNER JOIN Type AS C ON Log.category_id = C.ID_Type " +
+                sql = "SELECT SUM(Money), type FROM Log " +
+                        "INNER JOIN Type AS C ON Log.ID_Type = C.ID_Type " +
                         "WHERE date >= ? AND date <= ? "+
                         "GROUP BY type";
             }
             else if (configFile.getDB() == "MySQL"){
-                sql = "SELECT type, SUM(amount) FROM Log " +
-                        "INNER JOIN Type AS C ON Log.category_id = C.ID_Type " +
+                sql = "SELECT type, SUM(Money) FROM Log " +
+                        "INNER JOIN Type AS C ON Log.ID_Type = C.ID_Type " +
                         "WHERE date >= ? AND date <= ? "+
                         "GROUP BY type";
             }
