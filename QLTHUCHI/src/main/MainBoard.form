@@ -171,6 +171,9 @@
               <Dimension value="[48, 48]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_dottedActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="button_family">
           <Properties>

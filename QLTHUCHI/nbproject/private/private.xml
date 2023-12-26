@@ -3,26 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/view/thu/TestFr.java</file>
-            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/model/objects/LogsDB.java</file>
-            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/model/objects/LogO.java</file>
-            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/model/objects/Budget.java</file>
-            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/model/objects/ActionStores.java</file>
-            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/controller/LogsController.java</file>
-            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/model/objects/Types.java</file>
-            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/model/objects/User.java</file>
-            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/controller/LogController.java</file>
-            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/view/thu/Thu.java</file>
-            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/view/thu/TestD.java</file>
-            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/controller/ActionStoreController.java</file>
-            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/model/objects/DebtDB.java</file>
-            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/controller/TypeController.java</file>
-            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/controller/DanhMucChi.java</file>
-            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/model/objects/ActionStore.java</file>
-            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/view/debt/debtView.java</file>
-            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/model/objects/Logs.java</file>
-            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/model/objects/TypeO.java</file>
-            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder/QLTHUCHI/src/view/thu/Test.java</file>
+            <file>file:/D:/JAVA/hau/OOP/QLTHUCHI/src/model/objects/Transaction.java</file>
+            <file>file:/D:/JAVA/hau/OOP/QLTHUCHI/src/view/XuatBC/XuatBC.java</file>
         </group>
     </open-files>
 </project-private>

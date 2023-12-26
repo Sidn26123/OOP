@@ -112,16 +112,6 @@ public class Thu extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        detailsLogFrame = new javax.swing.JFrame();
-        transactionTableWrapper = new javax.swing.JScrollPane();
-        transactionTable = new javax.swing.JTable();
-        deleteBtn = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jToggleButton2 = new javax.swing.JToggleButton();
-        dateValue = new javax.swing.JLabel();
-        nextDateBtn = new javax.swing.JButton();
-        preDateBtn = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -193,85 +183,6 @@ public class Thu extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        transactionTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        transactionTableWrapper.setViewportView(transactionTable);
-
-        deleteBtn.setText("jButton3");
-
-        jButton4.setText("jButton4");
-
-        jToggleButton1.setText("jToggleButton1");
-
-        jToggleButton2.setText("jToggleButton1");
-
-        dateValue.setText("jLabel2");
-
-        nextDateBtn.setText("jButton5");
-
-        preDateBtn.setText("jButton5");
-
-        javax.swing.GroupLayout detailsLogFrameLayout = new javax.swing.GroupLayout(detailsLogFrame.getContentPane());
-        detailsLogFrame.getContentPane().setLayout(detailsLogFrameLayout);
-        detailsLogFrameLayout.setHorizontalGroup(
-            detailsLogFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(detailsLogFrameLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(detailsLogFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(detailsLogFrameLayout.createSequentialGroup()
-                        .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(deleteBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4))
-                    .addGroup(detailsLogFrameLayout.createSequentialGroup()
-                        .addGroup(detailsLogFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(transactionTableWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(detailsLogFrameLayout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(dateValue, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(detailsLogFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(preDateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(nextDateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 15, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        detailsLogFrameLayout.setVerticalGroup(
-            detailsLogFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(detailsLogFrameLayout.createSequentialGroup()
-                .addGroup(detailsLogFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(detailsLogFrameLayout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(dateValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(detailsLogFrameLayout.createSequentialGroup()
-                        .addComponent(nextDateBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(preDateBtn)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
-                .addGroup(detailsLogFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(detailsLogFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(deleteBtn)
-                        .addComponent(jButton4))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, detailsLogFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jToggleButton1)
-                        .addComponent(jToggleButton2)))
-                .addGap(18, 18, 18)
-                .addComponent(transactionTableWrapper, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -570,44 +481,9 @@ public class Thu extends javax.swing.JFrame {
     }//GEN-LAST:event_button_calculatorActionPerformed
 
     private void button_danh_sach_thuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_danh_sach_thuActionPerformed
-//        dialog_dsThu.setVisible(true);
-        showDetailsLogFrame();
+        dialog_dsThu.setVisible(true);
     }//GEN-LAST:event_button_danh_sach_thuActionPerformed
-    private void showDetailsLogFrame(){
-        transactionTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-            },
-            new String [] {
-                "ID", "Má»¥c", "Sá»‘ tiá»�n","Ghi chú", "Thời gian", "Chọn"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, true, true, false, true
-            };
-            @Override
-            public Class<?> getColumnClass(int columnIndex) {
-                // Ä�áº·t kiá»ƒu dá»¯ liá»‡u cá»§a cá»™t kiá»ƒu boolean lÃ  Boolean
-                return columnIndex == 5 ? Boolean.class : super.getColumnClass(columnIndex);
-            }
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        transactionTableWrapper.setViewportView(transactionTable);
-        
-        
-        detailsLogFrame.setVisible(true);
-        detailsLogFrame.setSize(400, 400);
-        detailsLogFrame.setLocationRelativeTo(null);
-        detailsLogFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        detailsLogFrame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosed(WindowEvent e) {
-                // Gọi phương thức để xử lý lại request hoặc làm mới trang
-                // DanhMucThu.updateDanhMucThuPanel(id_user, panel_danhmuc, buttonGroup1, button_chinhsua1);
-            }
-        });
-    }
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -622,13 +498,9 @@ public class Thu extends javax.swing.JFrame {
     private javax.swing.JButton button_chinhsua1;
     private javax.swing.JButton button_danh_sach_thu;
     private javax.swing.JButton button_save;
-    private javax.swing.JLabel dateValue;
-    private javax.swing.JButton deleteBtn;
-    private javax.swing.JFrame detailsLogFrame;
     private javax.swing.JDialog dialog_dsThu;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -642,15 +514,8 @@ public class Thu extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
-    private javax.swing.JButton nextDateBtn;
     private javax.swing.JPanel panel_danhmuc;
-    private javax.swing.JButton preDateBtn;
     private javax.swing.JTextField text_ghichu;
     private javax.swing.JTextField text_tienthu;
-    private javax.swing.JTable transactionTable;
-    private javax.swing.JScrollPane transactionTableWrapper;
     // End of variables declaration//GEN-END:variables
-    
 }

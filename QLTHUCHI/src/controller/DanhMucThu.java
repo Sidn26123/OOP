@@ -69,17 +69,13 @@ public class DanhMucThu {
     
      // lấy danh mục trong cơ sở dữ liệu để đưa ra jcombobox
     public static void populateDanhmucComboBox(JComboBox<String> Danhmuc,int ID_User) {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        //
+        String sql = "SELECT Name_Type FROM Type WHERE (ID_User = ? OR ID_User = -1) and (Receipts_Or_expenses = 0)";
         try {
-            connection = JDBCConnection.getJDBCConnection();
-            String sql = "SELECT Name_Type FROM Type WHERE (ID_User = ? OR ID_User = -1) and (Receipts_Or_expenses = 0)";
-            preparedStatement = connection.prepareStatement(sql);
+            Connection connection = JDBCConnection.getJDBCConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, ID_User);  // Thiết lập giá trị tham số
 
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             Danhmuc.removeAllItems();
 
@@ -89,21 +85,7 @@ public class DanhMucThu {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+        } 
     }
     
      //Thêm mục 
@@ -126,38 +108,24 @@ public class DanhMucThu {
     
     // lưu danh mục khi thêm vào cơ sở dữ liệu
     private static void saveCategoryToDatabase(String newCategory, JComboBox<String> Danhmuc,int ID_User) {
-    Connection connection = null;
-    PreparedStatement preparedStatement = null;
-
-    try {
-        connection = JDBCConnection.getJDBCConnection();
         String sql = "INSERT INTO Type (Name_Type, ID_User, Receipts_Or_expenses) VALUES (?, ?, 0)";
-        preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setString(1, newCategory);
-        preparedStatement.setInt(2, ID_User);
-
-        int rowsAffected = preparedStatement.executeUpdate();
-
-        if (rowsAffected > 0) {
-            JOptionPane.showMessageDialog(Danhmuc, "Danh mục đã được thêm", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(Danhmuc, "Lỗi khi thêm danh mục", "Lỗi", JOptionPane.ERROR_MESSAGE);
-        }
-    } catch (SQLException e) {      
-        e.printStackTrace();
-    } finally {  
         try {
-            if (preparedStatement != null) {
-                preparedStatement.close();
+            Connection connection = JDBCConnection.getJDBCConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, newCategory);
+            preparedStatement.setInt(2, ID_User);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(Danhmuc, "Danh mục đã được thêm", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(Danhmuc, "Lỗi khi thêm danh mục", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
-            if (connection != null) {
-                connection.close();
-            }
-        } catch (SQLException e) {
+        } catch (SQLException e) {      
             e.printStackTrace();
-        }
+        } 
     }
-}
 
      // Ràng buộc kiểm tra khi thêm và sửa danh mục có trùng trong cơ sở dữ liêu hay không
     private static boolean isCategoryAlreadyExists(String newCategory, JComboBox<String> Danhmuc,int ID_User) {
@@ -167,39 +135,21 @@ public class DanhMucThu {
                 return true; 
             }
         }
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
+        //Receipts_Or_expenses = 1 Tương ứng với danh mục thu, ID_User = -1 để lấy danh mục thu có sẵn lưu trong db
+        String sql = "SELECT COUNT(*) FROM Type WHERE UPPER(Name_Type) = UPPER(?)and ((ID_User = ? OR ID_User = -1) and (Receipts_Or_expenses = 0))"; 
         try {
-            connection = JDBCConnection.getJDBCConnection();
-            //Receipts_Or_expenses = 1 Tương ứng với danh mục thu, ID_User = -1 để lấy danh mục thu có sẵn lưu trong db
-            String sql = "SELECT COUNT(*) FROM Type WHERE UPPER(Name_Type) = UPPER(?)and ((ID_User = ? OR ID_User = -1) and (Receipts_Or_expenses = 0))";
-            preparedStatement = connection.prepareStatement(sql);
+            Connection connection = JDBCConnection.getJDBCConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, newCategory.trim());
             preparedStatement.setInt(2, ID_User); 
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next() && resultSet.getInt(1) > 0) {
                 return true;
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
+        } 
         return false;
     }
     
@@ -219,111 +169,85 @@ public class DanhMucThu {
      // Xóa mục
     public static void XoaMucActionPerformed(JComboBox<String> Danhmuc) {                                       
             
-    String[] categories = getCategories(Danhmuc);
-    String selectedCategory = (String) JOptionPane.showInputDialog(
-            Danhmuc,
-            "Chọn danh mục để xóa:",
-            "Xóa mục",
-            JOptionPane.QUESTION_MESSAGE,
-            null,
-            categories,
-            categories.length > 0 ? categories[0] : null
-    );
-    if (selectedCategory != null) {
-        Danhmuc.removeItem(selectedCategory);
-        deleteCategoryFromDatabase(selectedCategory,Danhmuc );
-    }
+        String[] categories = getCategories(Danhmuc);
+        String selectedCategory = (String) JOptionPane.showInputDialog(
+                Danhmuc,
+                "Chọn danh mục để xóa:",
+                "Xóa mục",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                categories,
+                categories.length > 0 ? categories[0] : null
+        );
+        if (selectedCategory != null) {
+            Danhmuc.removeItem(selectedCategory);
+            deleteCategoryFromDatabase(selectedCategory,Danhmuc );
+        }
     }                                      
 
                                 
     // hàm để xóa danh mục khỏi cơ sở dữ liệu
     private static void deleteCategoryFromDatabase(String selectedCategory,JComboBox<String> Danhmuc) {
-    Connection connection = null;
-    PreparedStatement preparedStatement = null;
-
-    try {
-        connection = JDBCConnection.getJDBCConnection();
         String sql = "DELETE FROM Type WHERE Name_Type=?";
-        preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setString(1, selectedCategory);
-        int rowsAffected = preparedStatement.executeUpdate();
-
-        if (rowsAffected > 0) {
-            JOptionPane.showMessageDialog(Danhmuc, "Danh mục đã được xóa", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(Danhmuc, "Lỗi khi xóa danh mục", "Lỗi", JOptionPane.ERROR_MESSAGE);
-        }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    } finally {
         try {
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-            if (connection != null) {
-                connection.close();
+            Connection connection = JDBCConnection.getJDBCConnection();
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, selectedCategory);
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(Danhmuc, "Danh mục đã được xóa", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(Danhmuc, "Lỗi khi xóa danh mục", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        } 
     }
-}
 
     //Sửa mục
     public static void SuaMucActionPerformed(JComboBox<String> Danhmuc,int ID_User) {                                       
 
-    String selectedCategory = (String) Danhmuc.getSelectedItem();
-    if (selectedCategory == null || selectedCategory.trim().isEmpty()) {
-        JOptionPane.showMessageDialog(Danhmuc, "Vui lòng chọn một danh mục để sửa.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    String newCategory = JOptionPane.showInputDialog(Danhmuc, "Nhập tên danh mục mới:", selectedCategory);
-    if (newCategory != null && !newCategory.trim().isEmpty()) {
-        if (!isCategoryAlreadyExists(newCategory,Danhmuc,ID_User)) {
-            Danhmuc.removeItem(selectedCategory);
-            Danhmuc.addItem(newCategory);
-            Danhmuc.setSelectedItem(newCategory);
-            updateCategoryInDatabase(selectedCategory, newCategory,Danhmuc);
-        } else{
-            JOptionPane.showMessageDialog(Danhmuc, "Danh mục đã tồn tại.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        String selectedCategory = (String) Danhmuc.getSelectedItem();
+        if (selectedCategory == null || selectedCategory.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(Danhmuc, "Vui lòng chọn một danh mục để sửa.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
         }
-    } else {
-        Danhmuc.setSelectedItem(" "); 
+        String newCategory = JOptionPane.showInputDialog(Danhmuc, "Nhập tên danh mục mới:", selectedCategory);
+        if (newCategory != null && !newCategory.trim().isEmpty()) {
+            if (!isCategoryAlreadyExists(newCategory,Danhmuc,ID_User)) {
+                Danhmuc.removeItem(selectedCategory);
+                Danhmuc.addItem(newCategory);
+                Danhmuc.setSelectedItem(newCategory);
+                updateCategoryInDatabase(selectedCategory, newCategory,Danhmuc);
+            } 
+            else{
+                JOptionPane.showMessageDialog(Danhmuc, "Danh mục đã tồn tại.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
+        } 
+        else {
+            Danhmuc.setSelectedItem(" "); 
         }
     }                                      
     
     // Cập nhật lại cơ sở dữ liệu khi sửa mục
     private static void updateCategoryInDatabase(String oldCategory, String newCategory,JComboBox<String> Danhmuc) {
-    Connection connection = null;
-    PreparedStatement preparedStatement = null;
-
-    try {
-        connection = JDBCConnection.getJDBCConnection();
         String sql = "UPDATE Type SET Name_Type=? WHERE Name_Type=?";
-        preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setString(1, newCategory);
-        preparedStatement.setString(2, oldCategory);
-        int rowsAffected = preparedStatement.executeUpdate();
-
-        if (rowsAffected > 0) {
-            JOptionPane.showMessageDialog(Danhmuc, "Danh mục đã được cập nhật", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(Danhmuc, "Lỗi khi cập nhật danh mục", "Lỗi", JOptionPane.ERROR_MESSAGE);
-        }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    } finally {
-        // Đóng tài nguyên
         try {
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-            if (connection != null) {
-                connection.close();
+            Connection connection = JDBCConnection.getJDBCConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, newCategory);
+            preparedStatement.setString(2, oldCategory);
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(Danhmuc, "Danh mục đã được cập nhật", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(Danhmuc, "Lỗi khi cập nhật danh mục", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-    }
-}  
+        } 
+    }  
 }

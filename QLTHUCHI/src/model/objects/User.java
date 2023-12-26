@@ -1,4 +1,4 @@
-package model.objects;
+package models;
 
 public class User {
     
