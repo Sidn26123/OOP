@@ -857,6 +857,15 @@ public class LogsDB {
             e.printStackTrace();
         }   
     }
+    
+    public void updateData(Object[][] data){
+        Vector<Object[]> datas = new Vector<Object[]>();
+        for (Object[] item : data) {
+            datas.add(item);
+        }
+        updateData(datas);
+    }
+
     public void updateData(Object[] data){
         Connection con = getConnection();
         String sql = "UPDATE Log SET ID_Type = ?, Price = ?, Note = ? WHERE ID_Log = ?";

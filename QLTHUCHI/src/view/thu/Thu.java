@@ -754,7 +754,16 @@ public class Thu extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) transactionTable.getModel();
         int row = transactionTable.getSelectedRow();
         int id = (int)model.getValueAt(row, 0);
+        System.out.println(model.getValueAt(row, 2));
+        int a = 0;
+        try {
+            a = (int) model.getValueAt(row, 2);
+        }
+        catch(Exception e){
+            a = Integer.parseInt((String)model.getValueAt(row, 2));
+        }
         this.changeList.add(id);
+        this.logsController.updateDataRow(id, (String)model.getValueAt(row, 3), a);
         if (this.contextBeforeAction.size() == 0){
             this.contextBeforeAction.add(new Object[]{model.getValueAt(row, 0), model.getValueAt(row, 1), model.getValueAt(row, 2), model.getValueAt(row, 3), model.getValueAt(row, 4), row});
         }
@@ -774,9 +783,7 @@ public class Thu extends javax.swing.JFrame {
             this.contextBeforeAction.clear();
             this.contextBeforeAction.add(new Object[]{model.getValueAt(row, 0), model.getValueAt(row, 1), model.getValueAt(row, 2), model.getValueAt(row, 3), model.getValueAt(row, 4), row});
         }
-        // for (Object[] item:this.actionStore){
-        //     System.out.println("id: " + item[0] + " idOfItemInCategory: " + item[1] + " amount: " + item[2] + " note: " + item[3] + " action: " + item[4] + " index: " + item[5] + " cur: " + this.indexOfActionStore);
-        // }
+        this.logsController.updateData();
     }//GEN-LAST:event_transactionTableMouseClicked
 
     private void deleteAllBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAllBtnActionPerformed

@@ -146,4 +146,18 @@ public class LogsController {
         this.logs = logs;
 
     }
+    public void updateData(){
+        LogsDB logsDB = new LogsDB();
+        logsDB.updateData(logDataToTable(new String[]{"id", "idOfItemInCategory", "price", "note"}));
+    }
+    public void updateDataRow(int id, String note, int amountS){
+        // int amount = Integer.parseInt("100");
+        for (int i = 0; i < this.logs.getSize(); i++) {
+            if(this.logs.getLogAt(i).getID() == id){
+                this.logs.getLogAt(i).setNote(note);
+                this.logs.getLogAt(i).setPrice(amountS);
+                break;
+            }
+        }
+    }
 }
