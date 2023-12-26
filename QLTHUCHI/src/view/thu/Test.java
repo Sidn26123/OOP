@@ -80,7 +80,6 @@ public class Test extends javax.swing.JFrame {
         jToggleButton2 = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(20, 20));
 
         javax.swing.GroupLayout panel_danhmucLayout = new javax.swing.GroupLayout(panel_danhmuc);
         panel_danhmuc.setLayout(panel_danhmucLayout);

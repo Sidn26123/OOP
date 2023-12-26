@@ -4,15 +4,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.swing.plaf.nimbus.State;
+// import javax.swing.plaf.nimbus.State;
 import Utils.Utils;
-import java.sql.Date;
+// import java.sql.Date;
 
 import Utils.ConfigFile;
 import Utils.MyJDBCFuncLib;
-import java.sql.Statement;
+// import java.sql.Statement;
 import java.time.LocalDate;
-import java.util.List;
+// import java.util.List;
 import java.util.Vector;
 public class LogsDB {
     private ConfigFile configFile = new ConfigFile();
@@ -537,19 +537,10 @@ public class LogsDB {
     public int getTypeSum(String date, int type){
         String sqlDate = Utils.convertToSqlDate(date);
         Connection con = getConnection();
-        String sql;
-        if (isMySQL) {
-            sql = "SELECT SUM(amount) AS total_amount FROM Log " +
-                  "WHERE amount > 0 AND date = '"+sqlDate +"' " +
-                  "AND type = '" + type + "' " +
-                  "GROUP BY DATE(date)";
-        } else {
-            sql = "SELECT SUM(amount) AS total_amount FROM Log " +
-                  "WHERE amount > 0 AND date = @sqlDate " +
-                  "AND type = @type " +
-                  "GROUP BY CAST(date AS DATE)";
-        }
-
+        String sql = "SELECT SUM(amount) FROM Log " +
+                    "WHERE amount > 0 AND date = '"+sqlDate +"' " +
+                    "AND type = " + type +
+                    " GROUP BY DATE(date)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             try (ResultSet rs = ps.executeQuery()) {
                 // Lặp qua kết quả nếu có
@@ -565,8 +556,120 @@ public class LogsDB {
 
         return 0;
     }
+    public Object[][] getTotalTypeSumInMonth(int month, int year){
+        String startDate = ("01/"+month+"/"+year);
+        LocalDate curDate = LocalDate.now();
+        String endDate = (Utils.getLastDateOfMonth(month, year));
+        startDate = Utils.convertToSqlDate(startDate);
+        endDate = Utils.convertToSqlDate(endDate);
+        String sql = "";
+        if (isMySQL){
+            sql = "SELECT COALESCE(SUM(amount), 0) AS total_amount, C.type FROM Log " +
+            "RIGHT JOIN Category AS C ON Log.category_id = C.id " +
+            "WHERE C.type IN (0,1) AND date >= ? AND date <= ? " +
+            "GROUP BY C.type";
 
+        }
+        else{
+            sql = "SELECT SUM(amount), C.Name_Type FROM Log " +
+                    "INNER JOIN Category AS C ON Log.ID_Type = C.id " +
+                    "WHERE C.type = ? AND date >= ? AND date <= ? " +
+                    "GROUP BY type";
+        }
 
+        Object[][] ans = new Object[1][2];
+        Connection con = getConnection();
+        try (PreparedStatement ps = con.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            ps.setString(1,startDate);
+            ps.setString(2,endDate);
+            try (ResultSet rs = ps.executeQuery()) {
+                // Lặp qua kết quả nếu có
+                int i = 0;
+                rs.last();
+                int numRows = rs.getRow();
+                rs.beforeFirst();
+
+                ans = new Object[numRows][3];
+                while (rs.next()) {
+                    // Lấy giá trị từ cột đầu tiên (trong trường hợp này, SUM(amount))
+                    int sumAmount = rs.getInt(1);
+                    // System.out.println("sum: " + sumAmount + " type: " + rs.getString(3));
+                    ans[i][2] = sumAmount;
+                    ans[i][0] = rs.getInt(2);
+                    if (rs.getInt(2) == 0){
+                        ans[i][1] = "Thu";
+                        
+                    }
+                    else{
+                        ans[i][1] = "Chi";
+                    }
+                    i++;
+                    // return (int) sumAmount;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        // for (Object[] item : ans) {
+        //     System.out.println(item[0].toString() + " " + item[1].toString());
+        // }
+        if (ans != null){
+            return ans;
+        }
+        return null;
+    }
+
+    public Object[][] getTypeSumInMonth(int month, int year, int mode){
+        //Tính tổng các loại trong 1 tháng
+        String startDate = ("01/"+month+"/"+year);
+        LocalDate curDate = LocalDate.now();
+        String endDate = (Utils.getLastDateOfMonth(month, year));
+        startDate = Utils.convertToSqlDate(startDate);
+        endDate = Utils.convertToSqlDate(endDate);
+        String sql = "";
+        if (isMySQL) {
+            sql = "SELECT COALESCE(SUM(amount), 0) AS total_amount, C.ID_Type AS id, C.name FROM Log " +
+                  "RIGHT JOIN Category AS C ON Log.category_id = C.ID_Type " +
+                  "WHERE C.type = ? AND date >= ? AND date <= ? " +
+                  "GROUP BY C.ID_Type, C.name";
+        } else {
+            sql = "SELECT COALESCE(SUM(amount), 0) AS total_amount, C.ID_Type AS id, C.name FROM Log " +
+                  "RIGHT JOIN Category AS C ON Log.category_id = C.ID_Type " +
+                  "WHERE C.type = @type AND date >= @startDate AND date <= @endDate " +
+                  "GROUP BY C.ID_Type, C.name";
+        }
+        
+        Object[][] ans = new Object[2][2];
+        Connection con = getConnection();
+        try (PreparedStatement ps = con.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            ps.setInt(1, mode);
+            ps.setString(2,startDate);
+            ps.setString(3,endDate);
+            try (ResultSet rs = ps.executeQuery()) {
+                int i = 0;
+                rs.last();
+                int numRows = rs.getRow();
+                rs.beforeFirst();
+                ans = new Object[numRows][3];
+                // Lặp qua kết quả nếu có
+                while (rs.next()) {
+                    // Lấy giá trị từ cột đầu tiên (trong trường hợp này, SUM(amount))
+                    int sumAmount = rs.getInt("total_amount");
+                    ans[i][0] = rs.getInt(2);
+                    ans[i][1] = rs.getString(3);
+                    ans[i][2] = sumAmount;
+                    // System.out.println("sum: " + sumAmount + " type: " + rs.getInt(2));
+                    // return (int) sumAmount;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        // for (Object[] item : ans) {
+        //     System.out.println(item[0].toString() + " " + item[1].toString() + " " + item[2].toString());
+        // }
+        return ans;
+    }
 
     public Object[][] getGeneralInfoOfDates(String dateStartInput, String dateEndInput){
         int n = Utils.calDateDiffBetweenToDate(dateStartInput, dateEndInput, "dd/MM/yyyy")+1; //Số ngày giữa 2 ngày
@@ -581,23 +684,12 @@ public class LogsDB {
         int i = 0;
         String endRawDataDate = "";
 
-        String sql;
-        if (isMySQL) {
-            sql = "SELECT SUM(T.amount) AS total_amount, C.type, T.date " +
-                  "FROM Log T " +
-                  "INNER JOIN Category C ON C.id = T.category_id " +
-                  "WHERE T.date >= ? AND T.date <= ? " + 
-                  "GROUP BY C.type, T.date " + 
-                  "ORDER BY T.date";
-        } else {
-            sql = "SELECT SUM(T.amount) AS total_amount, C.type, T.date " +
-                  "FROM Log T " +
-                  "INNER JOIN Category C ON C.id = T.category_id " +
-                  "WHERE T.date >= @startDate AND T.date <= @endDate " + 
-                  "GROUP BY C.type, T.date " + 
-                  "ORDER BY T.date";
-}
-
+        String sql = "SELECT SUM(T.amount), C.type, T.date " +
+        "FROM Log T " +
+        "INNER JOIN Category C ON C.id = T.category_id " +
+        "WHERE T.date >= ? AND T.date <= ? " + 
+        "GROUP BY C.type, T.date" + 
+        " ORDER BY T.date";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, startDate);
@@ -676,6 +768,8 @@ public class LogsDB {
         return this.getGeneralInfoOfDates(startDate, endDate);
     }
 
+
+
     public void deleteData(int id){
         Connection con = getConnection();
         String sql = "DELETE FROM Log WHERE id = " + id;
@@ -703,12 +797,7 @@ public class LogsDB {
                 deleteStringId += ", ";
             }
         }
-        String sql;
-        if (isMySQL) {
-            sql = "DELETE FROM Log WHERE id IN ( " + deleteStringId + " )";
-        } else {
-            sql = "DELETE FROM Log WHERE id IN ( SELECT CAST(value AS INT) FROM STRING_SPLIT(@deleteStringId, ','))";
-        }
+        String sql = "DELETE FROM Log WHERE id IN ( " + deleteStringId + " )";
         try(PreparedStatement ps = con.prepareStatement(sql)){
             ps.executeUpdate();
         }
@@ -719,12 +808,7 @@ public class LogsDB {
     }
     public void updateData(int id, Object[] dataToUpdate){
         Connection con = getConnection();
-        String sql;
-        if (isMySQL) {
-            sql = "UPDATE Log SET category_id = ?, amount = ?, note = ? WHERE id = ?";
-        } else {
-            sql = "UPDATE Log SET category_id = @category_id, amount = @amount, note = @note WHERE id = @id";
-        }
+        String sql = "UPDATE Log SET category_id = ?, amount = ?, note = ? WHERE id = " + id;
         try(PreparedStatement ps = con.prepareStatement(sql)){
             // if (dataToUpdate[3] == null || dataToUpdate[3] == "" || dataToUpdate.length == 3){
             //     dataToUpdate[3] = Utils.getCurrentDateFormatted();
@@ -744,12 +828,7 @@ public class LogsDB {
     }
     public void updateData(Vector<Object[]> datas){
         Connection con = getConnection();
-        String sql;
-        if (isMySQL) {
-            sql = "UPDATE Log SET category_id = ?, amount = ?, note = ? WHERE id = ?";
-        } else {
-            sql = "UPDATE Log SET category_id = @category_id, amount = @amount, note = @note WHERE id = @id";
-        }
+        String sql = "UPDATE Log SET category_id = ?, amount = ?, note = ? WHERE id = ?";
 
         try(PreparedStatement ps = con.prepareStatement(sql)){
             for (Object[] data : datas) {
@@ -778,12 +857,7 @@ public class LogsDB {
     }
     public void updateData(Object[] data){
         Connection con = getConnection();
-        String sql;
-        if (isMySQL) {
-            sql = "UPDATE Log SET category_id = ?, amount = ?, note = ? WHERE id = ?";
-        } else {
-            sql = "UPDATE Log SET category_id = @category_id, amount = @amount, note = @note WHERE id = @id";
-        }
+        String sql = "UPDATE Log SET category_id = ?, amount = ?, note = ? WHERE id = ?";
         try(PreparedStatement ps = con.prepareStatement(sql)){
             // if (data[3] == null || data[3] == "" || data.length == 3){
             //     data[3] = Utils.getCurrentDateFormatted();
