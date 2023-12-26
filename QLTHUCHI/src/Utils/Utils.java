@@ -1,10 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Utils;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.text.ParseException;
@@ -44,7 +38,6 @@ public class Utils {
 
     /**
      * Format lại String theo định dạng "dd/MM/yyyy", dịch chuyển theo offset và trả về 1 String
-
      * @param date String "dd/MM/yyyy"
      * @param type d: day, m: month, y: year
      * @param offset int
@@ -53,6 +46,17 @@ public class Utils {
     public static String getDateFormattedWithOffset(String date, String type, int offset){
         // Date dateF = convertStringToDate(date, "dd/MM/yyyy");
         // String currentDate = converDateToString(dateF, "dd/MM/yyyy");
+        String[] test = date.split("/");
+        if (test.length != 3){
+            return "";
+        }
+        if (test[0].length() != 2){
+            test[0] = "0" + test[0];
+        }
+        if (test[1].length() != 2){
+            test[1] = "0" + test[1];
+        }
+        date = test[0] + "/" + test[1] + "/" + test[2];
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate currentDate = LocalDate.parse(date, formatter);
         if (type == "d"){

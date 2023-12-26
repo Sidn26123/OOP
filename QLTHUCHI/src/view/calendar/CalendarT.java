@@ -319,10 +319,10 @@ public class CalendarT extends javax.swing.JPanel {
         // }
         calendarShowPanel = drawTable(data);
         calendarWrapper.add(calendarShowPanel);
-        calendarShowPanel.setBounds(10, 10, 560, 270);
+        calendarShowPanel.setBounds(10, 10, 780, 480);
 
         add(calendarWrapper);
-        calendarWrapper.setBounds(10, 60, 580, 290);
+        calendarWrapper.setBounds(10, 60, 800, 500);
     }// </editor-fold>                        
     private JPanel drawTable(Object[][] data){
         for (int i = 0; i< rowNum*colNum; i++){
@@ -444,7 +444,8 @@ public class CalendarT extends javax.swing.JPanel {
             testFrame.dispose();
 
         }
-        testFrame = new JFrame("Mouse Clicked Frame");
+        testFrame = new JFrame("Chi tiết");
+        testFrame.setType(javax.swing.JFrame.Type.UTILITY);
         KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK);
         AbstractAction action = new AbstractAction() {
             @Override
@@ -454,7 +455,7 @@ public class CalendarT extends javax.swing.JPanel {
         };
 
         testFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        testFrame.setUndecorated(true);
+//        testFrame.setUndecorated(true);
         testFrame.setAlwaysOnTop(true);
         int frameWidth = 200;
         int frameHeight = 150;

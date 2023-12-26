@@ -1,24 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
-import java.util.Vector;
-import model.objects.ActionStore;
-import model.objects.LogO;
-import model.objects.Logs;
-import model.objects.LogsDB;
-/**
- *
- * @author sidac
- */
 import java.util.Vector;
 
 //import com.mysql.cj.util.Util;
 
 import Utils.Utils;
-
+import model.objects.ActionStore;
+import model.objects.LogO;
+import model.objects.Logs;
+import model.objects.LogsDB;
 public class LogsController {
     private Logs logs;
     public LogsController(){
@@ -146,7 +135,7 @@ public class LogsController {
             }
         }
         Vector<Object[]> data = new Vector<Object[]>();
-            data = new LogsDB().getDataWithCondition(conditionForFilter, conditionForSort);
+        data = new LogsDB().getDataWithCondition(conditionForFilter, conditionForSort);
         for (Object[] item : data){
             logs.addLog(new LogO((int)item[0], (int)item[1], (int)item[2], (String)item[3], (String)item[4]));
         }
@@ -156,5 +145,19 @@ public class LogsController {
 
         this.logs = logs;
 
+    }
+    public void updateData(){
+        LogsDB logsDB = new LogsDB();
+        logsDB.updateData(logDataToTable(new String[]{"id", "idOfItemInCategory", "price", "note"}));
+    }
+    public void updateDataRow(int id, String note, int amountS){
+        // int amount = Integer.parseInt("100");
+        for (int i = 0; i < this.logs.getSize(); i++) {
+            if(this.logs.getLogAt(i).getID() == id){
+                this.logs.getLogAt(i).setNote(note);
+                this.logs.getLogAt(i).setPrice(amountS);
+                break;
+            }
+        }
     }
 }

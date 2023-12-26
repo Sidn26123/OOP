@@ -1,5 +1,5 @@
-package models;
-import models.Transaction;
+package model.objects;
+import model.objects.Transaction;
 import java.util.Vector;
 
 public class Transactions {
