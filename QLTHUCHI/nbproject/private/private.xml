@@ -3,31 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/view/family/Family.java</file>
-=======
-<<<<<<< HEAD
-            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/controller/FamilyController.java</file>
-            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/view/family/AddLogGroup.java</file>
-            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/view/thu/Thu.java</file>
-            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/main/Main.java</file>
-            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/model/connection/FamilyModel.java</file>
-            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/view/family/Family.java</file>
-            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/model/connection/LogModel.java</file>
-=======
-            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/view/family/Family_Chart.java</file>
->>>>>>> 7f4838adc2ed5a23d9c14125a0acebb86b4197d9
-            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/view/thu/Thu.java</file>
-            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/view/family/AddLogGroup.java</file>
-            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/main/MainBoard.java</file>
-            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/model/connection/JDBCConnection.java</file>
-            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/view/calendar/CalendarT.java</file>
-            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/view/danhmuc/ThuJPanel.java</file>
-            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/controller/FamilyController.java</file>
-            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/model/connection/FamilyModel.java</file>
-            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/view/danhmuc/ChiJPanel.java</file>
-            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/main/Main.java</file>
->>>>>>> br_Trung
+            <file>file:/D:/JAVA%20QLCT/OOP/QLTHUCHI/src/LoginSignup/View/SignUp.java</file>
+            <file>file:/D:/JAVA%20QLCT/OOP/QLTHUCHI/src/LoginSignup/View/ForgetPass.java</file>
+            <file>file:/D:/JAVA%20QLCT/OOP/QLTHUCHI/src/main/MainBoard.java</file>
+            <file>file:/D:/JAVA%20QLCT/OOP/QLTHUCHI/src/LoginSignup/View/Login.java</file>
         </group>
     </open-files>
 </project-private>

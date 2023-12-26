@@ -54,13 +54,14 @@ public class MainBoard extends javax.swing.JFrame {
         button_logout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Budget Management");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(730, 588));
 
         panel_parent.setAutoscrolls(true);
         panel_parent.setPreferredSize(new java.awt.Dimension(800, 650));
-        panel_parent.setLayout(new java.awt.CardLayout());
+        panel_parent.setLayout(new javax.swing.OverlayLayout(panel_parent));
 
         button_thu.setPreferredSize(new java.awt.Dimension(48, 48));
         button_thu.addActionListener(new java.awt.event.ActionListener() {
