@@ -30,7 +30,7 @@ public class Types {
         Connection con = getConnection();
         String createTableSQL = "CREATE TABLE Type (" +
                                 "ID_Type INT " + (isMySQL ? "AUTO_INCREMENT" : "IDENTITY(1,1)") + " PRIMARY KEY, " +
-                                "Receipts_Or_Expanses NVARCHAR(255), " +
+                                "Receipts_Or_Expanses INT, " +
                                 "Name_Type INT " +
                                 "Color NVARCHAR(255), " + 
                                 "Icon_Path NVARCHAR(255), " +
@@ -128,7 +128,7 @@ public class Types {
                     String name = resultSet.getString("Name_Type");
                     String color = resultSet.getString("Color");
                     String iconPath = resultSet.getString("Icon_Path");
-                    int type = resultSet.getInt("type");
+                    int type = resultSet.getInt("Receipts_Or_Expanses");
                     dataVector.add(new Object[]{id, name, color, iconPath, type});
                 }
             }
@@ -164,7 +164,7 @@ public class Types {
                     String name = resultSet.getString("Name_Type");
                     String color = resultSet.getString("Color");
                     String iconPath = resultSet.getString("Icon_Path");
-                    int type = resultSet.getInt("type");
+                    int type = resultSet.getInt("Receipts_Or_Expanses");
                     idList.add(id);
                     nameList.add(name);
                     colorList.add(color);
@@ -200,7 +200,7 @@ public class Types {
                     String name = resultSet.getString("Name_Type");
                     String color = resultSet.getString("Color");
                     String iconPath = resultSet.getString("Icon_Path");
-                    int type = resultSet.getInt("type");
+                    int type = resultSet.getInt("Receipts_Or_Expanses");
                     System.out.println("ID: " + id + ", Name: " + name + ", Color: " + color +
                                        ", type: " + type);
                 }
