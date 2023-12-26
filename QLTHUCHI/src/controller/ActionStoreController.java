@@ -6,7 +6,7 @@ import model.objects.ActionStores;
 import model.objects.LogO;
 import model.objects.Logs;
 import model.objects.LogsDB;
-//import model.objects.Transactions;
+import model.objects.Transactions;
 
 public class ActionStoreController {
     private ActionStores actionStore;
