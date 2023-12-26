@@ -28,7 +28,7 @@ public class LogsDB {
         String createTableSQL = "CREATE TABLE Log (" +
             "id INT PRIMARY KEY " + (isMySQL ? "AUTO_INCREMENT" : "IDENTITY(1,1)") + "," +
             "category_id INT," +
-            "FOREIGN KEY (category_id) REFERENCES Category(id)," +
+            "FOREIGN KEY (category_id) REFERENCES Type(ID_Type)," +
             "amount INT," +
             "note NVARCHAR(255)," +
             "date " + (isMySQL ? "DATE" : "DATETIME") + "," +
@@ -474,9 +474,9 @@ public class LogsDB {
         Connection con = getConnection();
         String preSql;
         if (isMySQL) {
-            preSql = "SELECT id FROM Category WHERE type = ? LIMIT 1";
+            preSql = "SELECT id FROM Type WHERE type = ? LIMIT 1";
         } else {
-            preSql = "SELECT TOP 1 id FROM Category WHERE type = ?";
+            preSql = "SELECT TOP 1 id FROM Type WHERE type = ?";
         }
         ResultSet rs1 = null;
         int firstCateID = 0;
@@ -505,12 +505,12 @@ public class LogsDB {
         String sql;
         if (isMySQL) {
             sql = "SELECT SUM(amount) AS total_amount, category_id, type FROM Log " +
-                  "INNER JOIN Category AS C ON Log.category_id = C.id " +
+                  "INNER JOIN Type AS C ON Log.category_id = C.ID_Type " +
                   "WHERE C.id = '"+ firstCateID+"' AND date = '"+sqlDate +"' "+
                   "GROUP BY DATE(date)";
         } else {
             sql = "SELECT SUM(amount) AS total_amount, category_id, type FROM Log " +
-                  "INNER JOIN Category AS C ON Log.category_id = C.id " +
+                  "INNER JOIN Type AS C ON Log.category_id = C.ID_Type " +
                   "WHERE C.id = @firstCateID AND date = @sqlDate " +
                   "GROUP BY CAST(date AS DATE)";
         }
@@ -565,14 +565,14 @@ public class LogsDB {
         String sql = "";
         if (isMySQL){
             sql = "SELECT COALESCE(SUM(amount), 0) AS total_amount, C.type FROM Log " +
-            "RIGHT JOIN Category AS C ON Log.category_id = C.id " +
+            "RIGHT JOIN Type AS C ON Log.category_id = C.ID_Type " +
             "WHERE C.type IN (0,1) AND date >= ? AND date <= ? " +
             "GROUP BY C.type";
 
         }
         else{
             sql = "SELECT SUM(amount), C.Name_Type FROM Log " +
-                    "INNER JOIN Category AS C ON Log.ID_Type = C.id " +
+                    "INNER JOIN Type AS C ON Log.ID_Type = C.ID_Type " +
                     "WHERE C.type = ? AND date >= ? AND date <= ? " +
                     "GROUP BY type";
         }
@@ -629,12 +629,12 @@ public class LogsDB {
         String sql = "";
         if (isMySQL) {
             sql = "SELECT COALESCE(SUM(amount), 0) AS total_amount, C.ID_Type AS id, C.name FROM Log " +
-                  "RIGHT JOIN Category AS C ON Log.category_id = C.ID_Type " +
+                  "RIGHT JOIN Type AS C ON Log.category_id = C.ID_Type " +
                   "WHERE C.type = ? AND date >= ? AND date <= ? " +
                   "GROUP BY C.ID_Type, C.name";
         } else {
             sql = "SELECT COALESCE(SUM(amount), 0) AS total_amount, C.ID_Type AS id, C.name FROM Log " +
-                  "RIGHT JOIN Category AS C ON Log.category_id = C.ID_Type " +
+                  "RIGHT JOIN Type AS C ON Log.category_id = C.ID_Type " +
                   "WHERE C.type = @type AND date >= @startDate AND date <= @endDate " +
                   "GROUP BY C.ID_Type, C.name";
         }
@@ -686,7 +686,7 @@ public class LogsDB {
 
         String sql = "SELECT SUM(T.amount), C.type, T.date " +
         "FROM Log T " +
-        "INNER JOIN Category C ON C.id = T.category_id " +
+        "INNER JOIN Type C ON C.id = T.category_id " +
         "WHERE T.date >= ? AND T.date <= ? " + 
         "GROUP BY C.type, T.date" + 
         " ORDER BY T.date";
@@ -920,7 +920,7 @@ public class LogsDB {
         String[][] timeRange = Utils.allocateTimeIntervals(dateStart, dateEnd, divideNum);
         if (config.getDB() == "MySQL"){
             sql = "SELECT SUM(amount), category_id, type FROM Log " +
-                    "INNER JOIN Category AS C ON Log.category_id = C.id " +
+                    "INNER JOIN Type AS C ON Log.category_id = C.ID_Type " +
                     "WHERE C.id = ? AND date >= ? AND date <= ? "+
                     "GROUP BY DATE(date)";
         }
@@ -968,13 +968,13 @@ public class LogsDB {
         if (type != -1){
             if (configFile.getDB() == "SQLServer"){
                 sql = "SELECT SUM(amount), category_id FROM Log " +
-                        "INNER JOIN Category AS C ON Log.category_id = C.id " +
+                        "INNER JOIN Type AS C ON Log.category_id = C.ID_Type " +
                         "WHERE date >= ? AND date <= ?  C.type = ?"+
                         "GROUP BY category_id";
             }
             else if (configFile.getDB() == "MySQL"){
                 sql = "SELECT SUM(amount), category_id FROM Log " +
-                        "INNER JOIN Category AS C ON Log.category_id = C.id " +
+                        "INNER JOIN Type AS C ON Log.category_id = C.ID_Type " +
                         "WHERE date >= ? AND date <= ?  C.type = ?"+
                         "GROUP BY category_id";
             }
@@ -983,13 +983,13 @@ public class LogsDB {
         else{
             if (configFile.getDB() == "SQLServer"){
                 sql = "SELECT SUM(amount), type FROM Log " +
-                        "INNER JOIN Category AS C ON Log.category_id = C.id " +
+                        "INNER JOIN Type AS C ON Log.category_id = C.ID_Type " +
                         "WHERE date >= ? AND date <= ? "+
                         "GROUP BY type";
             }
             else if (configFile.getDB() == "MySQL"){
                 sql = "SELECT type, SUM(amount) FROM Log " +
-                        "INNER JOIN Category AS C ON Log.category_id = C.id " +
+                        "INNER JOIN Type AS C ON Log.category_id = C.ID_Type " +
                         "WHERE date >= ? AND date <= ? "+
                         "GROUP BY type";
             }
