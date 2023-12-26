@@ -428,7 +428,6 @@ public class Editform extends javax.swing.JFrame {
             log.setDateString(Utils.Utils.converDateToString(date, "dd/MM/yyyy"));
             try {
                 logController.updateLogGroup(log);
-                System.out.println(log.getID()+" "+log.getUser_ID()+" "+ log.getNote()+" "+log.getPrice());
                 int id_log = logController.getID_Log();
                 familyController.updateLogGroup(UserChoce, id_log);
                 Calendar c = Calendar.getInstance();
