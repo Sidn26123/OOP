@@ -34,7 +34,8 @@ public class Types {
                                 "Name_Type INT " +
                                 "Color NVARCHAR(255), " + 
                                 "Icon_Path NVARCHAR(255), " +
-                                "ID_User INT)";
+                                "ID_User INT, " + 
+                                "type INT)";
 
         try (PreparedStatement ps = con.prepareStatement(createTableSQL)) {
             ps.executeUpdate();
@@ -89,7 +90,12 @@ public class Types {
     }
 
     public void insertData(Object[][] dataToInsert){
-        String sql = "INSERT INTO Type (Name_Type, Color, Icon_Path, ID_Type) VALUES (?, ?, ?, ?);";
+        String sql;
+        if (isMySQL) {
+            sql = "INSERT INTO Type (Name_Type, Color, Icon_Path, ID_Type) VALUES (?, ?, ?, ?)";
+        } else {
+            sql = "INSERT INTO Type (Name_Type, Color, Icon_Path, ID_Type) VALUES (@Name_Type, @Color, @Icon_Path, @ID_Type)";
+        }
         Connection con = getConnection();
 
         try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
@@ -122,7 +128,7 @@ public class Types {
                     String name = resultSet.getString("Name_Type");
                     String color = resultSet.getString("Color");
                     String iconPath = resultSet.getString("Icon_Path");
-                    int type = resultSet.getInt("ID_Type");
+                    int type = resultSet.getInt("type");
                     dataVector.add(new Object[]{id, name, color, iconPath, type});
                 }
             }
@@ -158,12 +164,12 @@ public class Types {
                     String name = resultSet.getString("Name_Type");
                     String color = resultSet.getString("Color");
                     String iconPath = resultSet.getString("Icon_Path");
-                    int Type = resultSet.getInt("ID_Type");
+                    int type = resultSet.getInt("type");
                     idList.add(id);
                     nameList.add(name);
                     colorList.add(color);
                     iconPathList.add(iconPath);
-                    TypeList.add(Type);
+                    TypeList.add(type);
                     // Xử lý dữ liệu theo ý muốn của bạn
                     // System.out.println("ID: " + id + ", Name: " + name + ", Color: " + color +
                                     //    ", Icon Path: " + iconPath + ", Type: " + Type);
@@ -194,7 +200,7 @@ public class Types {
                     String name = resultSet.getString("Name_Type");
                     String color = resultSet.getString("Color");
                     String iconPath = resultSet.getString("Icon_Path");
-                    int type = resultSet.getInt("ID_Type");
+                    int type = resultSet.getInt("type");
                     System.out.println("ID: " + id + ", Name: " + name + ", Color: " + color +
                                        ", type: " + type);
                 }
