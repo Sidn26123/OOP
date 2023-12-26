@@ -714,7 +714,14 @@ public class Thu extends javax.swing.JFrame {
         this.curDateValue = Utils.getDateFormattedWithOffset(curDateValue, "d", 1);
         this.curDate.setText(this.curDateValue);
         LogsDB log =  new LogsDB();
+        this.conditionsForFilter.removeAllElements();
+        this.conditionsForFilter.add(new Object[]{"date", this.curDate.getText(), "from"});
+        this.conditionsForFilter.add(new Object[]{"date", this.curDate.getText(), "to"});
         this.totalInDayValue.setText("" + log.getSpecSum(this.curDate.getText(), this.curIdOfMode));
+        logsController.filter(conditionsForFilter, conditionsForSort);
+        this.fillTransactionTable();
+        // this.totalInDayValue.setText("" + log.getSpecSum(this.curDate.getText(), this.curIdOfMode));
+        // this.updateData();
     }//GEN-LAST:event_nextDateBtnActionPerformed
 
     private void beforeDateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_beforeDateBtnActionPerformed
@@ -722,8 +729,13 @@ public class Thu extends javax.swing.JFrame {
         this.curDateValue = Utils.getDateFormattedWithOffset(curDateValue, "d", -1);
         this.curDate.setText(this.curDateValue);
         this.totalInDayValue.setText("" + log.getSpecSum(this.curDate.getText(), this.curIdOfMode));
-
-        this.totalInDayValue.setText("" + log.getSpecSum(this.curDate.getText(), this.curIdOfMode)); 
+        this.conditionsForFilter.removeAllElements();
+        this.conditionsForFilter.add(new Object[]{"date", this.curDate.getText(), "from"});
+        this.conditionsForFilter.add(new Object[]{"date", this.curDate.getText(), "to"});
+        // this.totalInDayValue.setText("" + log.getSpecSum(this.curDate.getText(), this.curIdOfMode));
+        logsController.filter(conditionsForFilter, conditionsForSort);
+        this.fillTransactionTable();
+        // this.updateData();
     }//GEN-LAST:event_beforeDateBtnActionPerformed
 
     private void backActionBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionBtnActionPerformed
@@ -879,7 +891,8 @@ public class Thu extends javax.swing.JFrame {
             model.addRow(item);
         }
     }  
-        private void initValue(){
+    
+    private void initValue(){
         this.curIdOfMode = 0;
         this.curDateValue = Utils.getCurrentDateFormatted();
         this.curDate.setText(this.curDateValue);

@@ -81,7 +81,7 @@ public class ActionStoreController {
                 // System.out.println(this.actionStore.getIndexOfActionStores() == this.actionStore.getSize());
                 curActionStoreItem = this.actionStore.getCurActionStoreItem();
             }
-            else if (curActionStoreItem == null){
+            if (curActionStoreItem == null){
                 return logs;
             }
         }
