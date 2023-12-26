@@ -25,4 +25,10 @@ public class LogController {
     public User getInfoUserById_log(int id_log){
         return logDao.getInfoUserbyLog(id_log);
     }
+    public boolean deleteLog(int id_log) {
+        return logDao.deleteLog(id_log);
+    }
+    public void updateLogGroup(LogO log) {
+        logDao.updateLogGroup(log);
+    }
 }

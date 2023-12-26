@@ -3,11 +3,21 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
+            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/controller/FamilyController.java</file>
+            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/view/family/AddLogGroup.java</file>
+            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/view/thu/Thu.java</file>
+            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/main/Main.java</file>
+            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/model/connection/FamilyModel.java</file>
+            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/view/family/Family.java</file>
+            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/model/connection/LogModel.java</file>
+=======
             <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/view/family/Family_Chart.java</file>
             <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/view/thu/Thu.java</file>
             <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/view/family/AddLogGroup.java</file>
             <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/controller/FamilyController.java</file>
             <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/main/Main.java</file>
+>>>>>>> br_Trung
         </group>
     </open-files>
 </project-private>

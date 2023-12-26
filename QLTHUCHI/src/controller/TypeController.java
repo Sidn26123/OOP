@@ -21,4 +21,7 @@ public class TypeController {
     public TypeO findTypeByID_Type(int id_type){
         return typeDao.findTypebyID(id_type);
     }
+    public TypeO findId_typeByName(String Name_Type){
+        return typeDao.findId_typeByName(Name_Type);
+    }
 }

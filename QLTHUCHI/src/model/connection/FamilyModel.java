@@ -78,6 +78,23 @@ public class FamilyModel {
             e.printStackTrace();
         }
     }
+    public void updateTypeGroup(int id_user, int id_log){
+        Connection connection = JDBCConnection.getJDBCConnection();
+        String deleteGroupLogSQL = "DELETE FROM Group_Log WHERE ID_Log = ?";
+        String sql = "insert into Group_Log (ID_Log, ID_User_Expenses) values (?,?)";
+        try {
+            PreparedStatement deleteGroupLogStatement = connection.prepareStatement(deleteGroupLogSQL);
+            deleteGroupLogStatement.setInt(1, id_log);
+            int rowsAffectedGroupLog = deleteGroupLogStatement.executeUpdate();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id_log);
+            preparedStatement.setInt(2, id_user);
+            int rs = preparedStatement.executeUpdate();
+            System.out.println(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     public List<List<String>> getNameUserChoice(int id_log){
         List<List<String>> ls_userChoice = new ArrayList<>();
         Connection connection = JDBCConnection.getJDBCConnection();

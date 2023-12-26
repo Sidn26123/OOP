@@ -20,8 +20,7 @@ import view.chart.ChartView;
 import view.family.Family;
 import view.family.None_Family;
 import view.thu.Thu;
-import views.CalendarT;
-
+import view.calendar.CalendarT;
 public class MainBoard extends javax.swing.JFrame {
     JDBCConnection connect = new JDBCConnection();
     private int id_user;

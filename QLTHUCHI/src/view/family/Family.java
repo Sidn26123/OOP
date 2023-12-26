@@ -13,11 +13,14 @@ import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -29,6 +32,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import main.MainBoard;
 import model.objects.LogO;
+import org.apache.logging.log4j.core.pattern.IntegerPatternConverter;
+
 
 
 public class Family extends javax.swing.JFrame {
@@ -304,9 +309,7 @@ public class Family extends javax.swing.JFrame {
             }
         }
         return name_usersChoice + "</html>";
-    }
-    
-    
+    }  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -341,7 +344,6 @@ public class Family extends javax.swing.JFrame {
         button_pre = new javax.swing.JButton();
         button_next = new javax.swing.JButton();
         button_more = new javax.swing.JButton();
-
         popupMenu_more.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
         popupMenu_more.setFocusable(false);
 
@@ -432,7 +434,6 @@ public class Family extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 605));
         setResizable(false);
 
         label_name_group.setFont(new java.awt.Font("Segoe Script", 0, 26)); // NOI18N
@@ -524,11 +525,21 @@ public class Family extends javax.swing.JFrame {
         button_delete.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
         button_delete.setForeground(new java.awt.Color(255, 255, 255));
         button_delete.setText("Xóa");
+        button_delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_deleteActionPerformed(evt);
+            }
+        });
 
         button_update.setBackground(new java.awt.Color(51, 255, 0));
         button_update.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
         button_update.setForeground(new java.awt.Color(255, 255, 255));
         button_update.setText("Sửa");
+        button_update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_updateActionPerformed(evt);
+            }
+        });
 
         jPanel3.setBackground(new java.awt.Color(0, 255, 204));
         jPanel3.setPreferredSize(new java.awt.Dimension(320, 24));
@@ -673,6 +684,56 @@ public class Family extends javax.swing.JFrame {
         popupMenu_more.show(mainBoard, WIDTH + 910, WIDTH+120);
     }//GEN-LAST:event_button_moreActionPerformed
 
+    private void button_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_updateActionPerformed
+        int selectedRowIndex = table_chi.getSelectedRow();
+            if (selectedRowIndex != -1) {
+            Editform editform;
+            try {
+                editform = new Editform(id_user,Family.this);
+                editform.setVisible(true);
+            } catch (ParseException ex) {
+                System.out.println("Loi"+ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Vui lòng chọn một dòng để sửa");
+        }
+    }//GEN-LAST:event_button_updateActionPerformed
+    public LogO getlogselect(){
+        LogO log = new LogO();
+        int selectedRowIndex = table_chi.getSelectedRow();
+        if (selectedRowIndex != -1) {
+               log.setID_Log(Integer.parseInt(String.valueOf(table_chi.getValueAt(selectedRowIndex, 0))));
+               log.setNote(String.valueOf(table_chi.getValueAt(selectedRowIndex, 3)));
+               log.setPrice(Double.parseDouble(String.valueOf(table_chi.getValueAt(selectedRowIndex, 6))));
+               log.setDateString(String.valueOf(table_chi.getValueAt(selectedRowIndex, 5)));
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Vui lòng chọn một dòng để sửa");
+        }
+        return log;
+    }
+    private void button_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_deleteActionPerformed
+        LogO log = getlogselect();
+            try {
+                int selectedRowIndex = table_chi.getSelectedRow();
+                if (selectedRowIndex != -1) {
+                    int id_log = log.getID();
+                    boolean success = logController.deleteLog(id_log);
+                    if (success) {
+                        JOptionPane.showMessageDialog(rootPane, "Đã xóa dòng thành công");
+                        Calendar c = getMonthYear();
+                        fillTable(c);
+                    } else {
+                        JOptionPane.showMessageDialog(rootPane, "Lỗi khi xóa dòng");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Vui lòng chọn một dòng để xóa");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(rootPane, "Đã xảy ra lỗi");
+            }
+    }//GEN-LAST:event_button_deleteActionPerformed
+
     private void menu_outGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_outGroupActionPerformed
         int is_outGroup = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn rời khỏi nhóm không?", "Thông báo", JOptionPane.YES_NO_OPTION);
         if(is_outGroup == JOptionPane.YES_OPTION){
@@ -730,7 +791,7 @@ public class Family extends javax.swing.JFrame {
         }
         label_sum.setText(String.valueOf(price));
     }
-    
+
     public void getLsNguoiChi(List<List<String>> UserChoce){
         this.UserChoce = UserChoce;
     }
