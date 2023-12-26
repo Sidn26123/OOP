@@ -7,8 +7,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import model.objects.FamilyChartO;
 import model.objects.Price_Group;
+import view.family.Family_Chart;
 
 public class FamilyModel {
     public List<User> getUsersGroup(int id_user){
@@ -259,7 +263,33 @@ public class FamilyModel {
         }
         return lsPrice_Group;
     }
-    private void test(){
-        System.out.println("Hello world");
+    public Map<Integer,FamilyChartO> getPricePerMonth(int id_group, int year){
+        Map<Integer,FamilyChartO> lsFamily_Charts = new HashMap<>();
+        Connection connection = JDBCConnection.getJDBCConnection();
+        String sql = """
+                     select SUM(l.Price) as sum_price, Group_ID, MONTH(l.Date) as [month], YEAR(l.Date) as [year]
+                     from Log as l
+                     where l.Group_ID = ? and YEAR(l.Date) = ?
+                     group by Group_ID, MONTH(l.Date), YEAR(l.Date)
+                     """;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id_group);
+            preparedStatement.setInt(2, year);
+            ResultSet rs = preparedStatement.executeQuery();
+            while(rs.next()){
+                FamilyChartO familyChartO = new FamilyChartO();
+                familyChartO.setGroup_ID(id_group);
+                familyChartO.setMonth(rs.getInt("month"));
+                familyChartO.setYear(rs.getInt("year"));
+                familyChartO.setSum_price(rs.getDouble("sum_price"));
+                
+                lsFamily_Charts.put(familyChartO.getMonth(), familyChartO);
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lsFamily_Charts;
     }
 }

@@ -207,7 +207,7 @@ public class None_Family extends javax.swing.JFrame {
         if (input == null) {
             return;
         }
-        if (check_number(input)) {
+        if (!check_number(input)) {
             JOptionPane.showMessageDialog(this, "ID Group không hợp lệ.", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return;}
         groupid = Integer.parseInt(input);
@@ -224,6 +224,7 @@ public class None_Family extends javax.swing.JFrame {
             System.out.println(n);
             if (n > 0) {
                     JOptionPane.showMessageDialog(this, "Cập nhật thông tin nhóm thành công Với Group_ID: " + groupid);
+                    mainBoard.appear_panel_family();
                 } else {
                     JOptionPane.showMessageDialog(this, "Không thành công khi cập nhật Group_User.", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }

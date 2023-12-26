@@ -45,6 +45,21 @@
             <Property name="text" type="java.lang.String" value="X&#xf3;a th&#xe0;nh vi&#xea;n"/>
           </Properties>
         </Menu>
+        <Menu class="javax.swing.JMenu" name="menu_chart">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Bi&#x1ec3;u &#x111;&#x1ed3;"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="menu_sub_chart">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Th&#x1ed1;ng k&#xea; trong n&#x103;m"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menu_sub_chartActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JDialog" name="dialog_addMember">

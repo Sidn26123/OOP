@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Vector;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -189,22 +190,24 @@ public class Family extends javax.swing.JFrame {
     
     private void setingUITable(){
         TableColumn column1 = table_chi.getColumnModel().getColumn(0);
-        column1.setPreferredWidth(120);
+        column1.setPreferredWidth(10);
         TableColumn column2 = table_chi.getColumnModel().getColumn(1);
-        column2.setPreferredWidth(250);
+        column2.setPreferredWidth(120);
         TableColumn column3 = table_chi.getColumnModel().getColumn(2);
-        column3.setPreferredWidth(90);
+        column3.setPreferredWidth(250);
         TableColumn column4 = table_chi.getColumnModel().getColumn(3);
         column4.setPreferredWidth(50);
         TableColumn column5 = table_chi.getColumnModel().getColumn(4);
         column5.setPreferredWidth(50);
         TableColumn column6 = table_chi.getColumnModel().getColumn(5);
         column6.setPreferredWidth(50);
+        TableColumn column7 = table_chi.getColumnModel().getColumn(6);
+        column6.setPreferredWidth(50);
         table_chi.setGridColor(new Color(0xFFFF33));
     }
 
     private void initTable() {
-        String[] header = new String[]{"Người tạo", "Người chi", "Tên", "Loại", "Ngày", "Số tiền"};
+        String[] header = new String[]{"ID","Người tạo", "Người chi", "Tên", "Loại", "Ngày", "Số tiền"};
         tblModel.setColumnIdentifiers(header);
         table_chi.setModel(tblModel);
         table_chi.getTableHeader().setFont(new Font("Times New Roman",Font.PLAIN, 18));
@@ -234,7 +237,7 @@ public class Family extends javax.swing.JFrame {
         tblModel.setRowCount(0);
         for (LogO log : LogsGroup) {
             User user = logController.getInfoUserById_log(log.getID());
-            tblModel.addRow(new String[]{user.getName(),getNguoiKhac(log.getID()),
+            tblModel.addRow(new String[]{String.valueOf(log.getID()),user.getName(),getNguoiKhac(log.getID()),
                 log.getNote(), typeController.findTypeByID_Type(log.getID_Type()).getName_Type(),
                 log.getDateString(), String.valueOf(log.getPrice())});
         }
@@ -314,6 +317,8 @@ public class Family extends javax.swing.JFrame {
         menu_uy_quyen = new javax.swing.JMenu();
         menu_add_member = new javax.swing.JMenuItem();
         menu_remove_member = new javax.swing.JMenu();
+        menu_chart = new javax.swing.JMenu();
+        menu_sub_chart = new javax.swing.JMenuItem();
         dialog_addMember = new javax.swing.JDialog();
         text_input_addMember = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
@@ -364,6 +369,18 @@ public class Family extends javax.swing.JFrame {
 
         menu_remove_member.setText("Xóa thành viên");
         popupMenu_more.add(menu_remove_member);
+
+        menu_chart.setText("Biểu đồ");
+
+        menu_sub_chart.setText("Thống kê trong năm");
+        menu_sub_chart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_sub_chartActionPerformed(evt);
+            }
+        });
+        menu_chart.add(menu_sub_chart);
+
+        popupMenu_more.add(menu_chart);
 
         dialog_addMember.setTitle("Thêm thành viên");
 
@@ -694,6 +711,14 @@ public class Family extends javax.swing.JFrame {
         
     }//GEN-LAST:event_button_tongketActionPerformed
 
+    private void menu_sub_chartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_sub_chartActionPerformed
+       Family_Chart family_Chart = new Family_Chart(id_user);
+       family_Chart.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+       family_Chart.setLocationRelativeTo(null);
+       family_Chart.setVisible(true);
+       
+    }//GEN-LAST:event_menu_sub_chartActionPerformed
+
     public void sum_price_per_month(){
         Calendar calendar = getMonthYear();
         int month = calendar.get(Calendar.MONTH)+1;
@@ -739,9 +764,11 @@ public class Family extends javax.swing.JFrame {
     private javax.swing.JLabel label_name_group;
     private javax.swing.JLabel label_sum;
     private javax.swing.JMenuItem menu_add_member;
+    private javax.swing.JMenu menu_chart;
     private javax.swing.JMenu menu_lsMember;
     private javax.swing.JMenuItem menu_outGroup;
     private javax.swing.JMenu menu_remove_member;
+    private javax.swing.JMenuItem menu_sub_chart;
     private javax.swing.JMenu menu_uy_quyen;
     private javax.swing.JPopupMenu popupMenu_more;
     private javax.swing.JTable table_chi;

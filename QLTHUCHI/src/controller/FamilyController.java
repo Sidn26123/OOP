@@ -2,11 +2,19 @@
 package controller;
 
 import LoginSignup.Model.User;
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import model.connection.FamilyModel;
+import model.objects.FamilyChartO;
 import model.objects.Price_Group;
+import view.family.Family_Chart;
+import view.family.chart.Chart;
+import view.family.chart.ModelChart;
 
 public class FamilyController {
     FamilyModel familyModel;
@@ -108,5 +116,39 @@ public class FamilyController {
             }
         }
         return price_per_member;
+    }
+    public void getPricePerMonth(int id_group, int year, Chart chart){
+        Map<Integer,FamilyChartO> lsFamilyChartO = familyModel.getPricePerMonth(id_group, year);
+        List<Integer> lsmonth = new ArrayList<>(lsFamilyChartO.keySet());
+        int month = 1;
+        
+        while(month <= 12){
+            switch (month) {
+                case 1 -> setMonthChart(lsFamilyChartO, month, lsmonth, "1", chart);
+                case 2 -> setMonthChart(lsFamilyChartO, month, lsmonth, "2", chart);
+                case 3 -> setMonthChart(lsFamilyChartO, month, lsmonth, "3", chart);
+                case 4 -> setMonthChart(lsFamilyChartO, month, lsmonth, "4", chart);
+                case 5 -> setMonthChart(lsFamilyChartO, month, lsmonth, "5", chart);
+                case 6 -> setMonthChart(lsFamilyChartO, month, lsmonth, "6", chart);
+                case 7 -> setMonthChart(lsFamilyChartO, month, lsmonth, "7", chart);
+                case 8 -> setMonthChart(lsFamilyChartO, month, lsmonth, "8", chart);
+                case 9 -> setMonthChart(lsFamilyChartO, month, lsmonth, "9", chart);
+                case 10 -> setMonthChart(lsFamilyChartO, month, lsmonth, "10", chart);
+                case 11 -> setMonthChart(lsFamilyChartO, month, lsmonth, "11", chart);
+                case 12 -> setMonthChart(lsFamilyChartO, month, lsmonth, "12", chart);
+                default -> throw new AssertionError();
+            }
+            month += 1;
+        }
+        chart.start();
+    }
+    private void setMonthChart(Map<Integer,FamilyChartO> lsFamilyChartO,int month, List<Integer> lsmonth, String montString, Chart chart){
+        if(lsmonth.contains(month)){
+                System.out.println(month);
+                chart.addData(new ModelChart(montString, new double[]{lsFamilyChartO.get(month).getSum_price()}));
+        }
+        else{
+            chart.addData(new ModelChart(montString, new double[]{0}));
+        }
     }
 }
