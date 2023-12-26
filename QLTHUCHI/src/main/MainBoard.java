@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import LoginSignup.View.Login;
 import charts.chart.BarChart.chartTest;
+import charts.graph.Graph;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -311,11 +312,10 @@ public class MainBoard extends javax.swing.JFrame {
         panel_None_family.add(none_family.getContentPane());       
         
         panel_parent.add(panel_thu);
-        
-//        ChartView chartView = new ChartView();
-        chartTest chTest = new chartTest();
+       
+        Graph graph = new Graph();
         panel_char = new JPanel();
-        panel_char.add(chTest.getContentPane());
+        panel_char.add(graph.getContentPane());
         
 
         
