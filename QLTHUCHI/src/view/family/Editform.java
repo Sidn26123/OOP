@@ -22,6 +22,8 @@ import java.awt.Font;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JTable;
@@ -39,7 +41,7 @@ public class Editform extends javax.swing.JFrame {
     
     JDBCConnection connect = new JDBCConnection();
     
-    public Editform( int id_user, Family family) {
+    public Editform( int id_user, Family family) throws ParseException {
         this.family = family;
         this.id_user = id_user;
         initComponents();
@@ -48,7 +50,7 @@ public class Editform extends javax.swing.JFrame {
         initTable();
         fillTableDs_NguoiChi();
         loadCategories();
-
+        Filltoupdate();
     }
     @SuppressWarnings("unchecked")
 
@@ -342,7 +344,14 @@ public class Editform extends javax.swing.JFrame {
         tblModel.fireTableDataChanged();
         table_ds_nguoiChi.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
     }
-        private void setDefaultThings(){
+    private void Filltoupdate() throws ParseException{
+        LogO log = family.getlogselect();
+        txtghichu.setText(log.getNote());
+        txttien.setText(String.valueOf(log.getPrice()));
+        Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(log.getDateString());
+        jDateChooser1.setDate(date1);
+    }
+    private void setDefaultThings(){
         dialog_dsNguoiChi.setSize(500,500);
         dialog_dsNguoiChi.setLocationRelativeTo(null);
         dialog_dsNguoiChi.setTitle("Danh sách người chi");
@@ -389,7 +398,7 @@ public class Editform extends javax.swing.JFrame {
 //    box_loai.setSelectedItem(past);
     }
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-
+        
         Date date = jDateChooser1.getDate();
         
             if(date == null){

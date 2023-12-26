@@ -13,11 +13,14 @@ import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -29,6 +32,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import main.MainBoard;
 import model.objects.LogO;
+import org.apache.logging.log4j.core.pattern.IntegerPatternConverter;
 
 
 
@@ -683,20 +687,36 @@ public class Family extends javax.swing.JFrame {
     private void button_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_updateActionPerformed
         int selectedRowIndex = table_chi.getSelectedRow();
             if (selectedRowIndex != -1) {
-            Editform editform = new Editform(id_user,Family.this);
-            editform.setVisible(true);
-//            updateDatabase(selectedRowIndex, updatedNguoiTao, updatedNguoiChi, updatedTen, updatedLoai, updatedNgay, updatedSoTien);
+            Editform editform;
+            try {
+                editform = new Editform(id_user,Family.this);
+                editform.setVisible(true);
+            } catch (ParseException ex) {
+                System.out.println("Loi"+ex);
+            }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Vui lòng chọn một dòng để sửa");
         }
     }//GEN-LAST:event_button_updateActionPerformed
-
-    private void button_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_deleteActionPerformed
+    public LogO getlogselect(){
         LogO log = new LogO();
+        int selectedRowIndex = table_chi.getSelectedRow();
+        if (selectedRowIndex != -1) {
+               log.setID_Log(Integer.parseInt(String.valueOf(table_chi.getValueAt(selectedRowIndex, 0))));
+               log.setNote(String.valueOf(table_chi.getValueAt(selectedRowIndex, 3)));
+               log.setPrice(Double.parseDouble(String.valueOf(table_chi.getValueAt(selectedRowIndex, 6))));
+               log.setDateString(String.valueOf(table_chi.getValueAt(selectedRowIndex, 5)));
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Vui lòng chọn một dòng để sửa");
+        }
+        return log;
+    }
+    private void button_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_deleteActionPerformed
+        LogO log = getlogselect();
             try {
                 int selectedRowIndex = table_chi.getSelectedRow();
                 if (selectedRowIndex != -1) {
-                    int id_log = logController.getID_Log();
+                    int id_log = log.getID();
                     boolean success = logController.deleteLog(id_log);
                     if (success) {
                         JOptionPane.showMessageDialog(rootPane, "Đã xóa dòng thành công");

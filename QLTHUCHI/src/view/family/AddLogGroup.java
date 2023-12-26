@@ -494,6 +494,7 @@ public class AddLogGroup extends javax.swing.JFrame {
                 tienthu = Integer.parseInt(String.valueOf(text_tienthu.getText()));
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(AddLogGroup.this, "Vụi lòng nhập đúng số tiền!", "Thông báo",JOptionPane.OK_OPTION);
+                return;
             }
             String id_Type = "";
 
