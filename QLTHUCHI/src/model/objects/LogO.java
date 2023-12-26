@@ -9,6 +9,7 @@ import java.util.Date;
  *
  * @author LENOVO
  */
+
 public class LogO {
     private int ID_Log;
     private int ID_Type;
@@ -66,8 +67,7 @@ public class LogO {
         return DateString;
     }
 
-    
-    
+
     public void setDateString(String DateString) {
         this.DateString = DateString;
     }
@@ -87,16 +87,38 @@ public class LogO {
     public void setGroup_ID(int Group_ID) {
         this.Group_ID = Group_ID;
     }
-    
+
     public Object[] toArray() {
         return new Object[] {ID_Log, ID_Type, Price, Note, DateString};
+        
     }
+
+
 
     public Object[] toRowTable(Object[] structureString){
         Object[] row = new Object[structureString.length];
         for (int i = 0; i < structureString.length; i++) {
             switch (structureString[i].toString()) {
-
+                // case "id":
+                //     row[i] = this.id;
+                //     break;
+                // case "date":
+                //     row[i] = this.date;
+                //     break;
+                // case "note":
+                //     row[i] = this.note;
+                //     break;
+                // case "amount":
+                //     row[i] = this.amount;
+                //     break;
+                // case "categoryId":
+                //     row[i] = this.categoryId;
+                //     break;
+                // case "accountId":
+                //     row[i] = this.accountId;
+                //     break;
+                // default:
+                //     break;
                 case "ID_Log":
                     row[i] = this.ID_Log;
                     break;

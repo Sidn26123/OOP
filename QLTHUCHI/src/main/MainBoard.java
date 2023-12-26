@@ -9,14 +9,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import LoginSignup.View.Login;
+import charts.chart.BarChart.chartTest;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import view.Chi.Chi;
 import view.calendar.Calendars;
+import view.chart.ChartView;
 import view.family.Family;
 import view.family.None_Family;
 import view.thu.Thu;
-
+import view.calendar.CalendarT;
 public class MainBoard extends javax.swing.JFrame {
     JDBCConnection connect = new JDBCConnection();
     private int id_user;
@@ -24,6 +28,8 @@ public class MainBoard extends javax.swing.JFrame {
     JPanel panel_calendar;
     JPanel panel_None_family;
     JPanel panel_family;
+    JPanel panel_chi;
+    JPanel panel_char;
     
     public MainBoard(int id_user) {
         this.id_user = id_user;
@@ -176,12 +182,19 @@ public class MainBoard extends javax.swing.JFrame {
     }//GEN-LAST:event_button_thuActionPerformed
 
     private void button_chiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_chiActionPerformed
-        
+        panel_parent.removeAll();
+        panel_parent.add(panel_chi);
+        panel_parent.repaint();
+        panel_parent.revalidate();
     }//GEN-LAST:event_button_chiActionPerformed
 
     private void button_chartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_chartActionPerformed
-        // TODO add your handling code here:
+        panel_parent.removeAll();
+        panel_parent.add(panel_char);
+        panel_parent.repaint();
+        panel_parent.revalidate();
     }//GEN-LAST:event_button_chartActionPerformed
+
     
     public JPanel getPanel_parent(){
         return this.panel_parent;
@@ -190,11 +203,30 @@ public class MainBoard extends javax.swing.JFrame {
         return this.panel_family;
     }
     public void appear_panel_family(){
-        Family family = new Family(id_user);
+        Family family = new Family(id_user, this);
         panel_family.removeAll();
         panel_family.add(family.getContentPane());
         panel_parent.removeAll();
         panel_parent.add(panel_family);
+        panel_parent.repaint();
+        panel_parent.revalidate();
+    }
+    public void appear_panel_none_family(){
+        panel_None_family = new JPanel();
+        None_Family none_family = new None_Family(id_user, this);
+        panel_None_family.add(none_family.getContentPane());
+        panel_parent.removeAll();
+        panel_parent.add(panel_None_family);
+        panel_parent.repaint();
+        panel_parent.revalidate();
+    }
+    
+    public void appear_panel_thu(){
+        panel_thu = new JPanel();
+        Thu thu = new Thu(id_user);
+        panel_thu.add(thu.getContentPane());
+        panel_parent.removeAll();
+        panel_parent.add(panel_thu);
         panel_parent.repaint();
         panel_parent.revalidate();
     }
@@ -205,6 +237,7 @@ public class MainBoard extends javax.swing.JFrame {
         panel_parent.repaint();
         panel_parent.revalidate();
     }//GEN-LAST:event_button_calendarActionPerformed
+
     public void check_Group_ID(int ID){       
         String sql = "SELECT Group_ID FROM [User] WHERE ID = ?";
         try (Connection con = connect.getJDBCConnection();
@@ -231,25 +264,37 @@ public class MainBoard extends javax.swing.JFrame {
         
         check_Group_ID(id_user);
     }//GEN-LAST:event_button_familyActionPerformed
+
     
     private void setDefaultThings(){
         panel_thu = new JPanel();
         Thu thu = new Thu(id_user);
         panel_thu.add(thu.getContentPane());
         
-        panel_calendar = new JPanel();
-        Calendars calendar = new Calendars(id_user);
-        panel_calendar.add(calendar);
+        panel_chi = new JPanel();
+        Chi chi = new Chi(id_user);
+        panel_chi.add(chi.getContentPane());
         
+        panel_calendar = new JPanel();
+//        Calendars calendar = new Calendars(id_user);
+//        panel_calendar.add(calendar);
+        CalendarT calendarT = new CalendarT(id_user);
+        panel_calendar.add(calendarT);
         panel_family = new JPanel();
-        Family family = new Family(id_user);
+        Family family = new Family(id_user, this);
         panel_family.add(family.getContentPane());
         
         panel_None_family = new JPanel();
-        None_Family none_family = new None_Family(id_user);
+        None_Family none_family = new None_Family(id_user, this);
         panel_None_family.add(none_family.getContentPane());       
         
         panel_parent.add(panel_thu);
+        
+//        ChartView chartView = new ChartView();
+        chartTest chTest = new chartTest();
+        panel_char = new JPanel();
+        panel_char.add(chTest.getContentPane());
+        
 
         
         button_thu.setIcon(new ImageIcon("src\\source\\img\\Thu_Chi\\icons8-coin-wallet-48.png"));
@@ -261,6 +306,11 @@ public class MainBoard extends javax.swing.JFrame {
         button_dotted.setIcon(new ImageIcon("src\\source\\img\\Thu_Chi\\icons8-more-48.png"));
         button_family.setIcon(new ImageIcon("src\\source\\img\\Thu_Chi\\icons8-house-48.png"));
     }
+  
+    public static void main(String[] args) {
+        new MainBoard(13).setVisible(true);
+    }
+    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button_calendar;

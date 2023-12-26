@@ -1,13 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package model.objects;
 
-/**
- *
- * @author LENOVO
- */
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
+
+
 public class TypeO {
     private int ID_Type;
     private int ID_User;
@@ -17,6 +19,19 @@ public class TypeO {
     private String Color;
     private int ID_Budget;
 
+    public TypeO() {
+        this.ID_Type = -1;
+    }
+
+    public TypeO(int ID_Type, int Receipts_Or_Expenses, String Name_Type, String Icon_Path, String Color) {
+        this.ID_Type = ID_Type;
+        // this.ID_User = ID_User;
+        this.Receipts_Or_Expenses = Receipts_Or_Expenses;
+        this.Name_Type = Name_Type;
+        this.Icon_Path = Icon_Path;
+        this.Color = Color;
+        // this.ID_Budget = ID_Budget;
+    }
     public int getID_Type() {
         return ID_Type;
     }
@@ -72,6 +87,5 @@ public class TypeO {
     public void setID_Budget(int ID_Budget) {
         this.ID_Budget = ID_Budget;
     }
-    
-    
+
 }

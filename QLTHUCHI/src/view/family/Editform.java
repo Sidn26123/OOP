@@ -375,7 +375,7 @@ public class Editform extends javax.swing.JFrame {
     }
     private void loadCategories() {
         typeController = new TypeController();
-        List<TypeO> types = typeController.getAllTypeReceipt();
+        List<TypeO> types = typeController.getAllTypeReceipt(id_user);
         // Thêm tên danh mục vào box_loai
         for (TypeO type : types) {
             String categoryName = type.getName_Type();

@@ -101,7 +101,7 @@ public class AddLogGroup extends javax.swing.JFrame {
     private void setPanelDanhMuc(){
 
         typeController = new TypeController();
-        List<TypeO> types = typeController.getAllTypeReceipt();
+        List<TypeO> types = typeController.getAllTypeReceipt(id_user);
         int length = types.size();
         int rows = (int)length/3 + 1;
         panel_danhmuc.setLayout(new GridLayout(rows,3));
@@ -470,7 +470,7 @@ public class AddLogGroup extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void button_chinhsua1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_chinhsua1ActionPerformed
-        new ThuJPanel().setVisible(true);
+        new ThuJPanel(id_user).setVisible(true);
     }//GEN-LAST:event_button_chinhsua1ActionPerformed
 
     private void text_ghichuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_ghichuActionPerformed
@@ -491,7 +491,7 @@ public class AddLogGroup extends javax.swing.JFrame {
 
             int tienthu = 0;
             try {
-                tienthu = Integer.valueOf(String.valueOf(text_tienthu.getText()));
+                tienthu = Integer.parseInt(String.valueOf(text_tienthu.getText()));
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(AddLogGroup.this, "Vụi lòng nhập đúng số tiền!", "Thông báo",JOptionPane.OK_OPTION);
             }
@@ -529,9 +529,10 @@ public class AddLogGroup extends javax.swing.JFrame {
                 String stringDate = Utils.Utils.converDateToString(date, "dd/MM/yyyy");
                 c.set(Calendar.MONTH, Integer.parseInt(stringDate.split("/")[1])-1);
                 c.set(Calendar.YEAR, Integer.parseInt(stringDate.split("/")[2]));
-                System.out.println(( "add log"+stringDate.split("/")[1]) + " " + (stringDate.split("/")[2]));
                 family.setTextLabelDate(c);
                 family.fillTable(c);
+                family.sum_price_per_month();
+                family.initTablePrice();
                 JOptionPane.showMessageDialog(AddLogGroup.this, "Thành Công","Thông báo", JOptionPane.OK_OPTION);
             } catch (HeadlessException e) {
                 JOptionPane.showMessageDialog(AddLogGroup.this, "Thất bại","Thông báo", JOptionPane.OK_OPTION);

@@ -17,8 +17,9 @@ public class TestDanhMuc extends javax.swing.JFrame {
      */
     public TestDanhMuc() {
         initComponents();
-        showPanel(new ChiJPanel());
-        showPanel1(new ThuJPanel());
+        int userID=0;
+        showPanel(new ChiJPanel(userID));
+        showPanel1(new ThuJPanel(userID));
     }
 
     /**

@@ -308,6 +308,7 @@ public class SignUp extends javax.swing.JFrame {
             }
             String fullName = txtName.getText().trim();
             if (check_number(fullName)) {
+
                 JOptionPane.showMessageDialog(this, "Họ và tên không được chứa chữ số !", "Thử lại !", JOptionPane.ERROR_MESSAGE);
                 return;
             }
