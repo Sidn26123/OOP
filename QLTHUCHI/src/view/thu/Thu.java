@@ -768,6 +768,13 @@ public class Thu extends javax.swing.JFrame {
         detailsLogFrame.setSize(850, 450);
         detailsLogFrame.setVisible(true);
         detailsLogFrame.setLocationRelativeTo(null);
+        detailsLogFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // Gọi hàm khi frame đóng
+                actionStoreController.saveHistory();
+            }
+        });
         this.logsController.filter(conditionsForFilter, conditionsForSort);
         DefaultTableModel model = (DefaultTableModel) transactionTable.getModel();
         model.setRowCount(0);

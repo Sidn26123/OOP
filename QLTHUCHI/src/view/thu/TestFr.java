@@ -5,6 +5,9 @@
  */
 package view.thu;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 /**
  *
  * @author sidac
@@ -16,6 +19,13 @@ public class TestFr extends javax.swing.JFrame {
      */
     public TestFr() {
         initComponents();
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // Gọi hàm khi frame đóng
+                System.out.println("A");
+            }
+        });
     }
 
     /**
