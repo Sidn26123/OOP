@@ -3,13 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder%20(2)/QLTHUCHI/src/charts/graph/Graph.java</file>
-            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder%20(2)/QLTHUCHI/src/charts/chart/BarChart/Chart.java</file>
-            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder%20(2)/QLTHUCHI/src/view/debt/debtView.java</file>
-            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder%20(2)/QLTHUCHI/src/view/calendar/CalendarT.java</file>
-            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder%20(2)/QLTHUCHI/src/model/objects/LogsDB.java</file>
-            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder%20(2)/QLTHUCHI/src/controller/ActionStoreController.java</file>
-            <file>file:/C:/Users/sidac/OneDrive/Documents/NetBeansProjects/New%20folder%20(2)/QLTHUCHI/src/model/objects/LogO.java</file>
+            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/view/family/Family.java</file>
+            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/view/thu/Thu.java</file>
+            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/charts/graph/Graph.java</file>
+            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/charts/chart/BarChart/Chart.java</file>
+            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/model/objects/LogsDB.java</file>
+            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/main/MainBoard.java</file>
+            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/model/connection/JDBCConnection.java</file>
+            <file>file:/D:/code/Java/project_quanlythuchi/OOP/QLTHUCHI/src/main/Main.java</file>
         </group>
     </open-files>
 </project-private>

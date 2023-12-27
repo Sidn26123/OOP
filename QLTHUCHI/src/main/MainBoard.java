@@ -58,7 +58,6 @@ public class MainBoard extends javax.swing.JFrame {
         setPreferredSize(null);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setPreferredSize(null);
 
         panel_parent.setAutoscrolls(true);
         panel_parent.setPreferredSize(new java.awt.Dimension(1000, 650));

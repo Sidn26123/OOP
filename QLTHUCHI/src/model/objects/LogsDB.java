@@ -650,7 +650,7 @@ public class LogsDB {
             sql = "SELECT COALESCE(SUM(Log.Price), 0) AS TotalPrice, Type.ID_Type, Type.Name_Type " +
             "FROM Type " +
             "LEFT JOIN Log ON Type.ID_Type = Log.ID_Type " +
-            "WHERE Type.Receipts_Or_Expanses = ? AND Log.Date >= ? AND Log.Date <= ? " +
+            "WHERE Type.Receipts_Or_Expenses = ? AND Log.Date >= ? AND Log.Date <= ? " +
             "GROUP BY Type.ID_Type, Type.Name_Type;";
         }
 
