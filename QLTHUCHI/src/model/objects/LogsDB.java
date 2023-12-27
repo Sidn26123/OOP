@@ -647,11 +647,10 @@ public class LogsDB {
             "WHERE Type.Receipts_Or_Expanses = ? AND Log.Date >= ? AND Log.Date <= ? " +
             "GROUP BY Type.ID_Type, Type.Name_Type;";
         } else {
-            sql = "SELECT COALESCE(SUM(Log.Price), 0) AS TotalPrice, Type.ID_Type, Type.Name_Type " +
-            "FROM Type " +
-            "LEFT JOIN Log ON Type.ID_Type = Log.ID_Type " +
-            "WHERE Type.Receipts_Or_Expenses = ? AND Log.Date >= ? AND Log.Date <= ? " +
-            "GROUP BY Type.ID_Type, Type.Name_Type;";
+            sql = "SELECT C.Receipts_Or_Expenses, C.Name_Type, COALESCE(SUM(T.price), 0) AS TotalPrice " +
+                    "FROM Type AS C " +
+                    "LEFT JOIN Log AS T ON T.ID_Type = C.ID_Type Where C.Receipts_Or_Expenses = ? AND T.date BETWEEN ? AND ? " +
+                    "GROUP BY C.Receipts_Or_Expenses, C.Name_Type";
         }
 
 
@@ -674,18 +673,14 @@ public class LogsDB {
                 while (rs.next()) {
                     // Lấy giá trị từ cột đầu tiên (trong trường hợp này, SUM(Price))
                     double sumAmount = rs.getDouble("TotalPrice");
-                    ans[i][0] = rs.getInt(2);
-                    ans[i][1] = rs.getString(3);
+                    ans[i][0] = rs.getInt(1);
+                    ans[i][1] = rs.getString(2);
                     ans[i][2] = sumAmount;
-                    System.out.println("sum: " + sumAmount + " type: " + rs.getInt(2));
                     // return (int) sumAmount;
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-        for (Object[] item : ans) {
-            System.out.println(item[0].toString() + " " + item[1].toString() + " " + item[2].toString());
         }
         return ans;
     }

@@ -54,10 +54,15 @@ public class MainBoard extends javax.swing.JFrame {
         button_family = new javax.swing.JButton();
         button_dotted = new javax.swing.JButton();
         button_logout = new javax.swing.JButton();
+        button_thu1 = new javax.swing.JButton();
+        button_chi1 = new javax.swing.JButton();
+        button_chart1 = new javax.swing.JButton();
+        button_calendar1 = new javax.swing.JButton();
+        button_dotted1 = new javax.swing.JButton();
+        button_family1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Budget Management");
-        setPreferredSize(null);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -90,14 +95,6 @@ public class MainBoard extends javax.swing.JFrame {
         button_calendar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 button_calendarActionPerformed(evt);
-            }
-        });
-
-
-        button_dotted.setPreferredSize(new java.awt.Dimension(48, 48));
-        button_dotted.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_dottedActionPerformed(evt);
             }
         });
 
@@ -161,6 +158,48 @@ public class MainBoard extends javax.swing.JFrame {
                 .addComponent(button_logout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
         );
+
+        button_thu1.setPreferredSize(new java.awt.Dimension(48, 48));
+        button_thu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_thuActionPerformed(evt);
+            }
+        });
+
+        button_chi1.setPreferredSize(new java.awt.Dimension(48, 48));
+        button_chi1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_chiActionPerformed(evt);
+            }
+        });
+
+        button_chart1.setPreferredSize(new java.awt.Dimension(48, 48));
+        button_chart1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_chartActionPerformed(evt);
+            }
+        });
+
+        button_calendar1.setPreferredSize(new java.awt.Dimension(48, 48));
+        button_calendar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_calendarActionPerformed(evt);
+            }
+        });
+
+        button_dotted1.setPreferredSize(new java.awt.Dimension(48, 48));
+        button_dotted1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_dottedActionPerformed(evt);
+            }
+        });
+
+        button_family1.setPreferredSize(new java.awt.Dimension(48, 48));
+        button_family1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_familyActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -358,12 +397,18 @@ public class MainBoard extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button_calendar;
+    private javax.swing.JButton button_calendar1;
     private javax.swing.JButton button_chart;
+    private javax.swing.JButton button_chart1;
     private javax.swing.JButton button_chi;
+    private javax.swing.JButton button_chi1;
     private javax.swing.JButton button_dotted;
+    private javax.swing.JButton button_dotted1;
     private javax.swing.JButton button_family;
+    private javax.swing.JButton button_family1;
     private javax.swing.JButton button_logout;
     private javax.swing.JButton button_thu;
+    private javax.swing.JButton button_thu1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel panel_parent;

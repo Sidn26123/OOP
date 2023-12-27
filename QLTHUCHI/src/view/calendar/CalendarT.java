@@ -175,8 +175,6 @@ public class CalendarT extends javax.swing.JPanel {
                 dateChooseBtnActionPerformed(evt);
             }
         });
-        add(dateChooseBtn);
-        dateChooseBtn.setBounds(380, 10, 20, 20);
 
         label_date.setText("jTextField1");
         label_date.addActionListener(new java.awt.event.ActionListener() {
@@ -319,10 +317,10 @@ public class CalendarT extends javax.swing.JPanel {
         // }
         calendarShowPanel = drawTable(data);
         calendarWrapper.add(calendarShowPanel);
-        calendarShowPanel.setBounds(10, 10, 700, 400);
+        calendarShowPanel.setBounds(10, 10, 580, 580);
 
         add(calendarWrapper);
-        calendarWrapper.setBounds(10, 60, 720, 420);
+        calendarWrapper.setBounds(10, 60, 600, 600);
     }// </editor-fold>                        
     private JPanel drawTable(Object[][] data){
         for (int i = 0; i< rowNum*colNum; i++){

@@ -54,7 +54,7 @@ public class Graph extends javax.swing.JFrame {
             if (i == colors.size()){
                 i = 0;
             }
-            pieChart1.addData(new ModelPieChart((String)item[1], (double)item[2], colors.get(i)));
+//            pieChart1.addData(new ModelPieChart((String)item[1], (double)item[2], colors.get(i)));
             i++;
         }
         

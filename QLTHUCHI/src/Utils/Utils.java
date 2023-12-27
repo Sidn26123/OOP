@@ -99,8 +99,8 @@ public class Utils {
             return outputFormat.format(date);
         } catch (ParseException e) {
             // Xử lý nếu có lỗi xảy ra khi chuyển đổi
-            e.printStackTrace();
-            return null;
+//            e.printStackTrace();
+            return inputDate;
         }
     }
     //convert ngược lại từ sqlDate sang string

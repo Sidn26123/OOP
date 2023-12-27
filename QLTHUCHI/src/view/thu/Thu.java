@@ -847,12 +847,13 @@ public class Thu extends javax.swing.JFrame {
         int row = transactionTable.getSelectedRow();
         int id = (int)model.getValueAt(row, 0);
         System.out.println(model.getValueAt(row, 2));
-        int a = 0;
+        double a = 0;
         try {
-            a = (int) model.getValueAt(row, 2);
+            a = Double.parseDouble(String.valueOf(model.getValueAt(row, 2)));
+//            a = (int) model.getValueAt(row, 2);
         }
         catch(Exception e){
-            a = Integer.parseInt((String)model.getValueAt(row, 2));
+            e.printStackTrace();
         }
         this.changeList.add(id);
         this.logsController.updateDataRow(id, (String)model.getValueAt(row, 3), a);
@@ -908,6 +909,9 @@ public class Thu extends javax.swing.JFrame {
 
         LogsDB logs = new LogsDB();
         logs.deleteDatas(idList);
+        logsController.filter(conditionsForFilter, conditionsForSort);
+        // this.logsController.setLogs(logs.getData(this.curDate.getText(), this.curIdOfItemInCategory));
+        this.fillTransactionTable();
         // this.logsController.setLogs(logs.getData(this.curDate.getText(), this.curIdOfItemInCategory));
         this.fillTransactionTable();
         
