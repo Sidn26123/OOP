@@ -478,9 +478,9 @@ public class LogsDB {
         Connection con = getConnection();
         String preSql;
         if (isMySQL) {
-            preSql = "SELECT ID_Type FROM Type WHERE Receipts_Or_Expanses = ? LIMIT 1";
+            preSql = "SELECT ID_Type FROM Type WHERE Receipts_Or_Expenses = ? LIMIT 1";
         } else {
-            preSql = "SELECT TOP 1 ID_Type FROM Type WHERE Receipts_Or_Expanses = ?";
+            preSql = "SELECT TOP 1 ID_Type FROM Type WHERE Receipts_Or_Expenses = ?";
         }
         ResultSet rs1 = null;
         int firstCateID = 0;
@@ -516,7 +516,7 @@ public class LogsDB {
             sql = "SELECT SUM(Price) AS total_Price, C.ID_Type FROM Log " +
                   "INNER JOIN Type AS C ON Log.ID_Type = C.ID_Type " +
                   "WHERE C.ID_Type = '"+ firstCateID + "' AND Log.Date = '" + sqlDate+"'" +
-                  "GROUP BY CAST(Date AS DATE)";
+                  "GROUP BY CAST(Date AS DATE),C.ID_Type";
         }
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -703,11 +703,11 @@ public class LogsDB {
         int i = 0;
         String endRawDataDate = "";
 
-        String sql = "SELECT SUM(T.Price), C.Receipts_Or_Expanses, T.Date " +
+        String sql = "SELECT SUM(T.Price), C.Receipts_Or_Expenses, T.Date " +
         "FROM Log T " +
         "INNER JOIN Type C ON C.ID_Type = T.ID_Type " +
         "WHERE T.Date >= ? AND T.Date <= ? " + 
-        "GROUP BY C.Receipts_Or_Expanses, T.Date " + 
+        "GROUP BY C.Receipts_Or_Expenses, T.Date " + 
         "ORDER BY T.Date";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
