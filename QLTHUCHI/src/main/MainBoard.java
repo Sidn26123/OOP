@@ -106,6 +106,11 @@ public class MainBoard extends javax.swing.JFrame {
         });
 
         button_dotted.setPreferredSize(new java.awt.Dimension(48, 48));
+        button_dotted.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_dottedActionPerformed1(evt);
+            }
+        });
 
         button_logout.setBackground(new java.awt.Color(0, 255, 255));
         button_logout.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
@@ -262,6 +267,9 @@ public class MainBoard extends javax.swing.JFrame {
     }//GEN-LAST:event_button_chiActionPerformed
 
     private void button_chartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_chartActionPerformed
+        Graph graph = new Graph();
+        panel_char = new JPanel();
+        panel_char.add(graph.getContentPane());
         panel_parent.removeAll();
         panel_parent.add(panel_char);
         panel_parent.repaint();
@@ -305,6 +313,11 @@ public class MainBoard extends javax.swing.JFrame {
     }
     
     private void button_calendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_calendarActionPerformed
+        panel_calendar = new JPanel();
+//        Calendars calendar = new Calendars(id_user);
+//        panel_calendar.add(calendar);
+        CalendarT calendarT = new CalendarT(id_user);
+        panel_calendar.add(calendarT);
         panel_parent.removeAll();
         panel_parent.add(panel_calendar);
         panel_parent.repaint();
@@ -344,6 +357,13 @@ public class MainBoard extends javax.swing.JFrame {
         panel_parent.repaint();
         panel_parent.revalidate();
     }//GEN-LAST:event_button_dottedActionPerformed
+
+    private void button_dottedActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_dottedActionPerformed1
+        panel_parent.removeAll();
+        panel_parent.add(panel_dotted);
+        panel_parent.repaint();
+        panel_parent.revalidate();
+    }//GEN-LAST:event_button_dottedActionPerformed1
 
     
     private void setDefaultThings(){
