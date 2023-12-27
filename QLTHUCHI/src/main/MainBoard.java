@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import view.Chi.Chi;
+import view.XuatBC.XuatBC;
 import view.calendar.Calendars;
 import view.chart.ChartView;
 import view.family.Family;
@@ -31,6 +32,7 @@ public class MainBoard extends javax.swing.JFrame {
     JPanel panel_family;
     JPanel panel_chi;
     JPanel panel_char;
+    JPanel panel_dotted;
     
     public MainBoard(int id_user) {
         this.id_user = id_user;
@@ -88,6 +90,14 @@ public class MainBoard extends javax.swing.JFrame {
         button_calendar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 button_calendarActionPerformed(evt);
+            }
+        });
+
+
+        button_dotted.setPreferredSize(new java.awt.Dimension(48, 48));
+        button_dotted.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_dottedActionPerformed(evt);
             }
         });
 
@@ -289,6 +299,13 @@ public class MainBoard extends javax.swing.JFrame {
         check_Group_ID(id_user);
     }//GEN-LAST:event_button_familyActionPerformed
 
+    private void button_dottedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_dottedActionPerformed
+        panel_parent.removeAll();
+        panel_parent.add(panel_dotted);
+        panel_parent.repaint();
+        panel_parent.revalidate();
+    }//GEN-LAST:event_button_dottedActionPerformed
+
     
     private void setDefaultThings(){
         panel_thu = new JPanel();
@@ -298,6 +315,10 @@ public class MainBoard extends javax.swing.JFrame {
         panel_chi = new JPanel();
         Chi chi = new Chi(id_user);
         panel_chi.add(chi.getContentPane());
+        
+        panel_dotted = new JPanel();
+        XuatBC xuatbc = new XuatBC();
+        panel_dotted.add(xuatbc.getContentPane());
         
         panel_calendar = new JPanel();
 //        Calendars calendar = new Calendars(id_user);

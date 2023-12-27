@@ -218,7 +218,6 @@ public class Thu extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
-
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setPreferredSize(new java.awt.Dimension(745, 400));
 
@@ -464,7 +463,6 @@ public class Thu extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
                 .addContainerGap())
         );
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 204, 204));
 
@@ -1103,4 +1101,6 @@ public class Thu extends javax.swing.JFrame {
     private Logs logs;
     private LogsController logsController;
     private String[] rowLogTableStructure = new String[]{"id", "idOfItemInCategory", "price", "note", "date"};
+
+
 }

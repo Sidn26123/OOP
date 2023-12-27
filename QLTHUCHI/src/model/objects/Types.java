@@ -28,6 +28,7 @@ public class Types {
 
     public void createTable() {
         Connection con = getConnection();
+<<<<<<< HEAD
         String createTableSQL = "CREATE TABLE Type (" +
                                 "ID_Type INT " + (isMySQL ? "AUTO_INCREMENT" : "IDENTITY(1,1)") + " PRIMARY KEY, " +
                                 "Receipts_Or_Expanses INT, " +
@@ -36,6 +37,14 @@ public class Types {
                                 "Icon_Path NVARCHAR(255), " +
                                 "ID_User INT) ";
                                 // "type INT)";
+=======
+        String createTableSQL = "CREATE TABLE Category (" +
+                                "id INT " + (isMySQL ? "AUTO_INCREMENT" : "IDENTITY(1,1)") + " PRIMARY KEY, " +
+                                "name NVARCHAR(255), " +
+                                "color NVARCHAR(255), " + 
+                                "icon_path NVARCHAR(255), " +
+                                "type INT)";
+>>>>>>> origin/test_product
 
         try (PreparedStatement ps = con.prepareStatement(createTableSQL)) {
             ps.executeUpdate();
@@ -61,7 +70,7 @@ public class Types {
     // }
     
     public void clearData(){
-        String sql = "DELETE FROM Type";
+        String sql = "DELETE FROM Category";
         Connection con = getConnection();
         try{
             PreparedStatement ps = con.prepareStatement(sql);
@@ -74,10 +83,10 @@ public class Types {
     public void deleteDataTable(String tableName, String condition){
         String sql = "";
         if (condition == null) {
-            sql = "DELETE FROM Type";
+            sql = "DELETE FROM Category";
         }
         else{
-            sql = "DELETE FROM Type" +
+            sql = "DELETE FROM Category" +
                  "WHERE " + condition;
         }
         Connection con = getConnection();
@@ -90,12 +99,16 @@ public class Types {
     }
 
     public void insertData(Object[][] dataToInsert){
+<<<<<<< HEAD
         String sql;
         if (isMySQL) {
             sql = "INSERT INTO Type (Name_Type, Color, Icon_Path, Receipts_Or_Expanses) VALUES (?, ?, ?, ?)";
         } else {
             sql = "INSERT INTO Type (Name_Type, Color, Icon_Path, Receipts_Or_Expanses) VALUES (?, ?, ?, ?)";
         }
+=======
+        String sql = "INSERT INTO Category (name, color, icon_path, type) VALUES (?, ?, ?, ?);";
+>>>>>>> origin/test_product
         Connection con = getConnection();
 
         try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
@@ -117,18 +130,26 @@ public class Types {
         }
     }
     public Vector<Object[]> getData(){
-        String sql = "SELECT * FROM Type";
+        String sql = "SELECT * FROM Category";
         Connection con = getConnection();
         Vector<Object[]> dataVector = new Vector<>();
         try{
             PreparedStatement ps = con.prepareStatement(sql);
             try (ResultSet resultSet = ps.executeQuery(sql)){
                 while (resultSet.next()){
+<<<<<<< HEAD
                     int id = resultSet.getInt("ID_Type");
                     String name = resultSet.getString("Name_Type");
                     String color = resultSet.getString("Color");
                     String iconPath = resultSet.getString("Icon_Path");
                     int type = resultSet.getInt("Receipts_Or_Expanses");
+=======
+                    int id = resultSet.getInt("id");
+                    String name = resultSet.getString("name");
+                    String color = resultSet.getString("color");
+                    String iconPath = resultSet.getString("icon_path");
+                    int type = resultSet.getInt("type");
+>>>>>>> origin/test_product
                     dataVector.add(new Object[]{id, name, color, iconPath, type});
                 }
             }
@@ -155,8 +176,9 @@ public class Types {
                 List<String> nameList = new ArrayList<>();
                 List<String> colorList = new ArrayList<>();
                 List<String> iconPathList = new ArrayList<>();
-                List<Integer> TypeList = new ArrayList<>();
+                List<Integer> CategoryList = new ArrayList<>();
                 while (resultSet.next()){
+<<<<<<< HEAD
                     // int id = resultSet.getInt("ID_Type");
                     // String name = resultSet.getString("Name_Type");
                     int id = resultSet.getInt("ID_Type");
@@ -164,14 +186,27 @@ public class Types {
                     String color = resultSet.getString("Color");
                     String iconPath = resultSet.getString("Icon_Path");
                     int type = resultSet.getInt("Receipts_Or_Expanses");
+=======
+                    // int id = resultSet.getInt("id");
+                    // String name = resultSet.getString("name");
+                    int id = resultSet.getInt("id");
+                    String name = resultSet.getString("name");
+                    String color = resultSet.getString("color");
+                    String iconPath = resultSet.getString("icon_path");
+                    int Category = resultSet.getInt("type");
+>>>>>>> origin/test_product
                     idList.add(id);
                     nameList.add(name);
                     colorList.add(color);
                     iconPathList.add(iconPath);
+<<<<<<< HEAD
                     TypeList.add(type);
+=======
+                    CategoryList.add(Category);
+>>>>>>> origin/test_product
                     // Xử lý dữ liệu theo ý muốn của bạn
                     // System.out.println("ID: " + id + ", Name: " + name + ", Color: " + color +
-                                    //    ", Icon Path: " + iconPath + ", Type: " + Type);
+                                    //    ", Icon Path: " + iconPath + ", Category: " + Category);
                 }
                 ans = new Object[idList.size()][5];
                 for (int i = 0; i < idList.size(); i++) {
@@ -189,17 +224,25 @@ public class Types {
     }
 
     public void printData(){
-        String sql = "SELECT * FROM Type";
+        String sql = "SELECT * FROM Category";
         Connection con = getConnection();
         try{
             PreparedStatement ps = con.prepareStatement(sql);
             try (ResultSet resultSet = ps.executeQuery(sql)){
                 while (resultSet.next()){
+<<<<<<< HEAD
                     int id = resultSet.getInt("ID_Type");
                     String name = resultSet.getString("Name_Type");
                     String color = resultSet.getString("Color");
                     String iconPath = resultSet.getString("Icon_Path");
                     int type = resultSet.getInt("Receipts_Or_Expanses");
+=======
+                    int id = resultSet.getInt("id");
+                    String name = resultSet.getString("name");
+                    String color = resultSet.getString("color");
+                    String iconPath = resultSet.getString("icon_path");
+                    int type = resultSet.getInt("type");
+>>>>>>> origin/test_product
                     System.out.println("ID: " + id + ", Name: " + name + ", Color: " + color +
                                        ", type: " + type);
                 }
@@ -211,7 +254,7 @@ public class Types {
     }
 
     public void dropTable(){
-        String sql = "DROP TABLE Type";
+        String sql = "DROP TABLE Category";
         Connection con = getConnection();
         try{
             PreparedStatement ps = con.prepareStatement(sql);

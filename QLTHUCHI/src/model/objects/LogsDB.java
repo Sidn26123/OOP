@@ -4,15 +4,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-// import javax.swing.plaf.nimbus.State;
+import javax.swing.plaf.nimbus.State;
 import Utils.Utils;
-// import java.sql.Date;
+import java.sql.Date;
 
 import Utils.ConfigFile;
 import Utils.MyJDBCFuncLib;
-// import java.sql.Statement;
+import java.sql.Statement;
 import java.time.LocalDate;
-// import java.util.List;
+import java.util.List;
 import java.util.Vector;
 public class LogsDB {
     private ConfigFile configFile = new ConfigFile();
@@ -787,8 +787,6 @@ public class LogsDB {
         return this.getGeneralInfoOfDates(startDate, endDate);
     }
 
-
-
     public void deleteData(int id){
         Connection con = getConnection();
         String sql = "DELETE FROM Log WHERE ID_Log = " + id;
@@ -823,6 +821,7 @@ public class LogsDB {
             }
         }
         String sql = "DELETE FROM Log WHERE ID_Log IN ( " + deleteStringId + " )";
+
         try(PreparedStatement ps = con.prepareStatement(sql)){
             ps.executeUpdate();
         }
@@ -854,6 +853,7 @@ public class LogsDB {
     public void updateData(Vector<Object[]> datas){
         Connection con = getConnection();
         String sql = "UPDATE Log SET ID_Type = ?, Price = ?, Note = ? WHERE ID_Log = ?";
+
 
         try(PreparedStatement ps = con.prepareStatement(sql)){
             for (Object[] data : datas) {
